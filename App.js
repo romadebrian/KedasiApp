@@ -13,6 +13,7 @@ import SplashScreen from './src/pages/SplashScreen';
 import Login from './src/pages/Login';
 import Register from './src/pages/Register';
 import ForgotPassword from './src/pages/ForgotPassword';
+import Dashboard from './src/pages/Dashboard';
 
 const App = () => {
   return (
@@ -20,7 +21,8 @@ const App = () => {
       {/* <SplashScreen /> */}
       {/* <Login /> */}
       {/* <Register /> */}
-      <ForgotPassword />
+      {/* <ForgotPassword /> */}
+      <Dashboard />
     </View>
   );
 };
