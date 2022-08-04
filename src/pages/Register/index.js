@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   BTNRegis: {
     marginTop: 13,
-    width: 310,
+    width: 300,
     height: 50,
     borderRadius: 5,
     backgroundColor: '#4592fa',

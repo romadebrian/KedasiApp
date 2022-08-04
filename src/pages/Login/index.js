@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
   },
   BTNLogin: {
-    width: 310,
+    width: 300,
     height: 50,
     borderRadius: 5,
     backgroundColor: '#4592fa',
