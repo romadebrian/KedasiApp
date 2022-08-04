@@ -10,11 +10,13 @@ import React, {Component} from 'react';
 
 import Bars from '../../assets/img/bars-solid.png';
 import Bel from '../../assets/img/bell-regular.png';
+import Header from '../../components/Header';
 
 export default class Dashboard extends Component {
   render() {
     return (
       <View style={{backgroundColor: '#FEF7EF', height: '100%', width: '100%'}}>
+        {/* Header */}
         <View style={styles.header}>
           <View style={styles.containerBtnMenu}>
             <TouchableOpacity>
@@ -32,6 +34,8 @@ export default class Dashboard extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* List Order */}
         <ScrollView>
           <View style={{alignItems: 'center'}}>
             <TouchableOpacity>
@@ -87,12 +91,17 @@ export default class Dashboard extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        {/* Side Nav */}
+        <Header />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  ////////////////////
+  // Header
+  ////////////////////
   header: {
     // width: '100%',
     // height: 50,
@@ -133,6 +142,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
     fontWeight: 'bold',
   },
+
+  ////////////////////
+  //   Item Order
+  ////////////////////
   ContainerItem: {
     width: 300,
     height: 150,
