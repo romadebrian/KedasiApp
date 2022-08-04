@@ -30,6 +30,7 @@ const Login = () => {
         />
         <TextInput
           placeholder="Password"
+          secureTextEntry={true}
           style={[styles.input, {marginTop: 7}]}
           //   value={email}
           //   onChangeText={}
@@ -37,7 +38,6 @@ const Login = () => {
         <TouchableOpacity style={{width: '100%'}}>
           <Text
             style={[
-              styles.textLink,
               {
                 marginTop: 15,
                 marginBottom: 15,
@@ -55,7 +55,6 @@ const Login = () => {
         <TouchableOpacity style={{width: '100%'}}>
           <Text
             style={[
-              styles.textLink,
               {
                 fontWeight: 'bold',
                 marginTop: 15,
@@ -100,8 +99,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
     lineHeight: 24,
-  },
-  textLink: {
-    fontSize: 12,
   },
 });

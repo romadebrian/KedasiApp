@@ -70,7 +70,9 @@
 		<string>Poppins-SemiBoldItalic.ttf</string>
 		<string>Poppins-Thin.ttf</string>
 		<string>Poppins-ThinItalic.ttf</string>
-		<string>poppinsregular.ttf</string>
+		<string>Poppins.ttf</string>
+		<string>PTSerifCaption-Italic.ttf</string>
+		<string>PTSerifCaption-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

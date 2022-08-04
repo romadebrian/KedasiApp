@@ -70,8 +70,16 @@
       "sha1": "fb8fccca21550e71135f92bbaf8a2e8a12c90465"
     },
     {
-      "path": "src/assets/font/poppinsregular.ttf",
+      "path": "src/assets/font/Poppins.ttf",
       "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
+    },
+    {
+      "path": "src/assets/font/PTSerifCaption-Italic.ttf",
+      "sha1": "ad91eb8a60ba07ca4908f516b6c0e3a86a161864"
+    },
+    {
+      "path": "src/assets/font/PTSerifCaption-Regular.ttf",
+      "sha1": "3a784f04b42eda0c9d24c927a551582452e03b76"
     }
   ]
 }
