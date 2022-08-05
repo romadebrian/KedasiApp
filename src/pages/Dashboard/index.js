@@ -13,7 +13,7 @@ import SideNav from '../../components/SideNav';
 
 export default class Dashboard extends Component {
   state = {
-    showMenu: true,
+    showMenu: false,
   };
 
   componentDidMount() {
