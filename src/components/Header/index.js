@@ -1,83 +1,27 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
 
-import LogoNama from '../../assets/img/logo-header-putih.png';
-import ExampleProfilePicture from '../../assets/img/romadebrian.png';
-import IconBook from '../../assets/icon/book.png';
-import IconList from '../../assets/icon/list-solid.png';
-import IconBel from '../../assets/icon/bell-solid-full.png';
-import IconChat from '../../assets/icon/chatting.png';
-import IconLogout from '../../assets/icon/SignOut.png';
+import Bars from '../../assets/img/bars-solid.png';
+import Bel from '../../assets/img/bell-regular.png';
 
-const Header = () => {
+const Header = props => {
   return (
-    <View style={styles.ContainerSideNav}>
-      <TouchableOpacity>
-        <Image
-          source={LogoNama}
-          style={{width: 250, height: 55, marginVertical: 20}}
-        />
-      </TouchableOpacity>
-
-      <View style={{backgroundColor: 'white', width: '100%', height: 1}} />
-
-      <TouchableOpacity style={styles.ContainerProfile}>
-        <Image
-          source={ExampleProfilePicture}
-          style={{width: 50, height: 50, borderRadius: 25}}
-        />
-        <Text style={styles.TxtProfile}>Roma Debrian</Text>
-      </TouchableOpacity>
-
-      <View
-        style={{
-          backgroundColor: 'white',
-          width: '100%',
-          height: 1,
-          marginBottom: 10,
-        }}
-      />
-
-      <TouchableOpacity
-        style={[styles.ContainerItemMenu, {backgroundColor: '#007BFF'}]}>
-        <Image
-          source={IconBook}
-          style={{width: 25, height: 25, marginLeft: 15, resizeMode: 'stretch'}}
-        />
-        <Text style={styles.TxtItemMenu}>Room Reservation</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.ContainerItemMenu}>
-        <Image
-          source={IconList}
-          style={{width: 25, height: 20, marginLeft: 15}}
-        />
-        <Text style={styles.TxtItemMenu}>Transaction List</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.ContainerItemMenu}>
-        <Image
-          source={IconBel}
-          style={{width: 25, height: 25, marginLeft: 15}}
-        />
-        <Text style={styles.TxtItemMenu}>Notification</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.ContainerItemMenu}>
-        <Image
-          source={IconChat}
-          style={{width: 30, height: 30, marginLeft: 15}}
-        />
-        <Text style={styles.TxtItemMenu}>Message</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.ContainerItemMenu}>
-        <Image
-          source={IconLogout}
-          style={{width: 30, height: 30, marginLeft: 15, resizeMode: 'stretch'}}
-        />
-        <Text style={styles.TxtItemMenu}>Logout</Text>
-      </TouchableOpacity>
+    <View style={styles.header}>
+      <View style={styles.containerBtnMenu}>
+        <TouchableOpacity onPress={props.showMenu}>
+          <Image
+            source={Bars}
+            style={{width: 20, height: 20, marginLeft: 12, marginRight: 10}}
+          />
+        </TouchableOpacity>
+        <Text style={{fontSize: 14, fontWeight: '500'}}>Dashboard</Text>
+      </View>
+      <View style={styles.containerBel}>
+        <TouchableOpacity style={{flexDirection: 'row-reverse'}}>
+          <Image source={Bel} style={styles.iconLonceng} />
+          <Text style={styles.TextLonceng}>99</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -85,43 +29,44 @@ const Header = () => {
 export default Header;
 
 const styles = StyleSheet.create({
-  ////////////////////
-  // Side Nav
-  ////////////////////
-  ContainerSideNav: {
-    backgroundColor: '#664130',
-    width: '80%',
-    height: '100%',
+  header: {
+    // width: '100%',
+    // height: 50,
+    // backgroundColor: 'white',
+    flexDirection: 'row',
+    // justifyContent: 'center',
+  },
+  containerBel: {
+    //   backgroundColor: 'blue',
+    flex: 1,
+    height: 50,
+    justifyContent: 'center',
+  },
+  containerBtnMenu: {
+    //   backgroundColor: 'green',
+    flex: 1,
+    height: 50,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  iconLonceng: {
+    width: 20,
+    height: 20,
+    marginEnd: 20,
+    resizeMode: 'stretch',
+  },
+  TextLonceng: {
+    width: 16,
+    height: 13,
+    fontSize: 10,
+    backgroundColor: 'rgba(255, 193, 7, 0.7)',
+    //   padding: 4,
+    textAlign: 'center',
+    borderRadius: 5,
     position: 'absolute',
-    alignItems: 'center',
-  },
-  ContainerProfile: {
-    flexDirection: 'row',
-    marginVertical: 13,
-    width: '100%',
-    marginLeft: 60,
-    alignItems: 'center',
-  },
-  TxtProfile: {
-    marginLeft: 12,
-    color: 'white',
+    bottom: 15,
+    left: 12,
     fontFamily: 'Poppins',
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  ContainerItemMenu: {
-    marginTop: 10,
-    width: 250,
-    height: 45,
-    borderRadius: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  TxtItemMenu: {
-    color: 'white',
-    marginLeft: 5,
-    fontFamily: 'Poppins',
-    fontSize: 16,
     fontWeight: 'bold',
   },
 });

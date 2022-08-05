@@ -8,35 +8,34 @@ import {
 } from 'react-native';
 import React, {Component} from 'react';
 
-import Bars from '../../assets/img/bars-solid.png';
-import Bel from '../../assets/img/bell-regular.png';
 import Header from '../../components/Header';
+import SideNav from '../../components/SideNav';
 
 export default class Dashboard extends Component {
+  state = {
+    showMenu: true,
+  };
+
+  componentDidMount() {
+    // console.log('trest');
+  }
+
+  handleShowMenu = () => {
+    this.setState({showMenu: true});
+  };
+
+  HandleHideMenu = () => {
+    this.setState({showMenu: false});
+  };
+
   render() {
     return (
       <View style={{backgroundColor: '#FEF7EF', height: '100%', width: '100%'}}>
         {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.containerBtnMenu}>
-            <TouchableOpacity>
-              <Image
-                source={Bars}
-                style={{width: 20, height: 20, marginLeft: 12, marginRight: 10}}
-              />
-            </TouchableOpacity>
-            <Text style={{fontSize: 14, fontWeight: '500'}}>Dashboard</Text>
-          </View>
-          <View style={styles.containerBel}>
-            <TouchableOpacity style={{flexDirection: 'row-reverse'}}>
-              <Image source={Bel} style={styles.iconLonceng} />
-              <Text style={styles.TextLonceng}>99</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Header showMenu={() => this.handleShowMenu()} />
 
         {/* List Order */}
-        <ScrollView>
+        <ScrollView style={{position: 'relative'}}>
           <View style={{alignItems: 'center'}}>
             <TouchableOpacity>
               <View
@@ -92,57 +91,16 @@ export default class Dashboard extends Component {
           </View>
         </ScrollView>
         {/* Side Nav */}
-        <Header />
+        {this.state.showMenu ? (
+          <SideNav hideMenu={() => this.HandleHideMenu()} />
+        ) : null}
+        {/* <SideNav /> */}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  ////////////////////
-  // Header
-  ////////////////////
-  header: {
-    // width: '100%',
-    // height: 50,
-    // backgroundColor: 'white',
-    flexDirection: 'row',
-    // justifyContent: 'center',
-  },
-  containerBel: {
-    //   backgroundColor: 'blue',
-    flex: 1,
-    height: 50,
-    justifyContent: 'center',
-  },
-  containerBtnMenu: {
-    //   backgroundColor: 'green',
-    flex: 1,
-    height: 50,
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  iconLonceng: {
-    width: 20,
-    height: 20,
-    marginEnd: 20,
-    resizeMode: 'stretch',
-  },
-  TextLonceng: {
-    width: 16,
-    height: 13,
-    fontSize: 10,
-    backgroundColor: 'rgba(255, 193, 7, 0.7)',
-    //   padding: 4,
-    textAlign: 'center',
-    borderRadius: 5,
-    position: 'absolute',
-    bottom: 15,
-    left: 12,
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
-  },
-
   ////////////////////
   //   Item Order
   ////////////////////
