@@ -34,8 +34,8 @@ const App = () => {
       {/* <Dashboard /> */}
       {/* <Profile /> */}
       {/* <RoomReservation /> */}
-      {/* <PickDate /> */}
-      <Room />
+      <PickDate />
+      {/* <Room /> */}
     </View>
   );
 };
