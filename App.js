@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Dimensions} from 'react-native';
 
 import SplashScreen from './src/pages/SplashScreen';
 import Login from './src/pages/Login';
@@ -17,20 +17,22 @@ import Dashboard from './src/pages/Dashboard';
 import Profile from './src/pages/Profile';
 import Header from './src/components/Header';
 import SideNav from './src/components/SideNav';
+import RoomReservation from './src/pages/RoomReservation';
 
+var FullWidth = Dimensions.get('window').width; //full width
+var FullHeight = Dimensions.get('window').height; //full height
 const App = () => {
   return (
-    <ScrollView>
-      <View>
-        <Header />
-        {/* <SplashScreen /> */}
-        {/* <Login /> */}
-        {/* <Register /> */}
-        {/* <ForgotPassword /> */}
-        {/* <Dashboard /> */}
-        <Profile />
-      </View>
-    </ScrollView>
+    <View style={{width: '100%', height: '100%'}}>
+      <Header />
+      {/* <SplashScreen /> */}
+      {/* <Login /> */}
+      {/* <Register /> */}
+      {/* <ForgotPassword /> */}
+      {/* <Dashboard /> */}
+      {/* <Profile /> */}
+      <RoomReservation />
+    </View>
   );
 };
 
