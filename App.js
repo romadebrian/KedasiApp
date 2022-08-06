@@ -18,6 +18,7 @@ import Profile from './src/pages/Profile';
 import Header from './src/components/Header';
 import SideNav from './src/components/SideNav';
 import RoomReservation from './src/pages/RoomReservation';
+import PickDate from './src/pages/RoomReservation/component/PickDate';
 
 var FullWidth = Dimensions.get('window').width; //full width
 var FullHeight = Dimensions.get('window').height; //full height
@@ -31,7 +32,8 @@ const App = () => {
       {/* <ForgotPassword /> */}
       {/* <Dashboard /> */}
       {/* <Profile /> */}
-      <RoomReservation />
+      {/* <RoomReservation /> */}
+      <PickDate />
     </View>
   );
 };
