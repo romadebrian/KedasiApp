@@ -8,78 +8,22 @@ import Room1 from '../../assets/img/room1.jpg';
 const CardRoom = () => {
   return (
     <View style={{alignItems: 'center', marginTop: 15}}>
-      <TouchableOpacity
-        style={{
-          width: '90%',
-          height: 250,
-          backgroundColor: 'white',
-        }}>
+      <TouchableOpacity style={styles.container}>
         <Image
           source={Room1}
           style={{width: '100%', height: 160, resizeMode: 'stretch'}}
         />
-        <Text
-          style={{
-            marginTop: 12,
-            marginLeft: 15,
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: 'bold',
-          }}>
-          Shared Office Desk
-        </Text>
-        <Text
-          style={{
-            marginTop: 3,
-            marginLeft: 15,
-            fontFamily: 'Poppins',
-            fontSize: 10,
-            fontWeight: '400',
-          }}>
+        <Text style={styles.TxtTitle}>Shared Office Desk</Text>
+        <Text style={styles.TxtDesc}>
           Shared office room with sitting position facing each other
         </Text>
-        <View
-          style={{
-            // width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 10,
-            marginLeft: 15,
-            // backgroundColor: 'red',
-          }}>
+        <View style={styles.containerPeople}>
           <View style={{flexDirection: 'row'}}>
             <Image source={IconPeople} style={{width: 20, height: 20}} />
-            <Text
-              style={{
-                marginLeft: 7,
-                fontFamily: 'Poppins',
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: 'black',
-              }}>
-              6
-            </Text>
+            <Text style={styles.TxtPeople}>6</Text>
           </View>
-          <View
-            style={{
-              backgroundColor: '#4099f7',
-              width: 88,
-              height: 25,
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderRadius: 10,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                marginLeft: 8,
-                marginRight: 4,
-                fontFamily: 'Poppins',
-                fontSize: 12,
-                fontWeight: '400',
-              }}>
-              More Info
-            </Text>
+          <View style={styles.containerMoreInfo}>
+            <Text style={styles.TxtMoreInfo}>More Info</Text>
             <Image source={IconArrow} style={{width: 13, height: 13}} />
           </View>
         </View>
@@ -90,4 +34,55 @@ const CardRoom = () => {
 
 export default CardRoom;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    width: '90%',
+    height: 250,
+    backgroundColor: 'white',
+  },
+  TxtTitle: {
+    marginTop: 12,
+    marginLeft: 15,
+    fontFamily: 'Poppins',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  TxtDesc: {
+    marginTop: 3,
+    marginLeft: 15,
+    fontFamily: 'Poppins',
+    fontSize: 10,
+    fontWeight: '400',
+  },
+  containerPeople: {
+    // width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginLeft: 15,
+    // backgroundColor: 'red',
+  },
+  TxtPeople: {
+    marginLeft: 7,
+    fontFamily: 'Poppins',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  containerMoreInfo: {
+    backgroundColor: '#4099f7',
+    width: 88,
+    height: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  TxtMoreInfo: {
+    color: 'white',
+    marginLeft: 8,
+    marginRight: 4,
+    fontFamily: 'Poppins',
+    fontSize: 12,
+    fontWeight: '400',
+  },
+});
