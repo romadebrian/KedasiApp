@@ -21,6 +21,7 @@ import RoomReservation from "./src/pages/RoomReservation";
 import PickDate from "./src/pages/RoomReservation/component/PickDate";
 import Room from "./src/pages/RoomReservation/component/Room";
 import RoomDetail from "./src/pages/RoomReservation/component/RoomDetail";
+import CheckOut from "./src/pages/RoomReservation/component/CheckOut";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
@@ -37,7 +38,8 @@ const App = () => {
       {/* <RoomReservation /> */}
       {/* <PickDate /> */}
       {/* <Room /> */}
-      <RoomDetail />
+      {/* <RoomDetail /> */}
+      <CheckOut />
     </View>
   );
 };
