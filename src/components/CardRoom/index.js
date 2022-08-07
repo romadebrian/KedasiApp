@@ -6,7 +6,7 @@ import IconArrow from "../../assets/icon/circle-arrow-right-solid.png";
 import Room1 from "../../assets/img/room1.jpg";
 
 const CardRoom = (props) => {
-  console.log(props.img);
+  // console.log(props.img);
 
   var img =
     props.img === "room1"

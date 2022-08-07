@@ -1,25 +1,29 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-const DetaillRoom = () => {
+const DetaillRoom = (props) => {
+  var img =
+    props.img === "room1"
+      ? require("../../assets/img/room1.jpg")
+      : props.img === "room2"
+      ? require("../../assets/img/room2.jpg")
+      : props.img === "room3"
+      ? require(`../../assets/img/room3.jpg`)
+      : null;
   return (
     <View>
       <Image
-        source={require("../../assets/img/room1.jpg")}
+        source={img}
         style={{ width: "100%", height: 200, resizeMode: "stretch" }}
       />
       <View style={styles.containerHead}>
-        <Text style={styles.TxtHeadTitle}>Shared Office Desk</Text>
+        <Text style={styles.TxtHeadTitle}>{props.title}</Text>
         <Text style={styles.TxtSubHeadTitle}>Kedasi coworking space</Text>
       </View>
 
       <View style={styles.containerDetailRoom}>
         <Text style={[styles.TxtTitle, { marginTop: 10 }]}>Detail</Text>
-        <Text style={{ marginBottom: 10 }}>
-          Shared office space with a sitting position facing each other,
-          equipped with electrical terminals under each table and air
-          conditioning making it suitable for working with laptops.
-        </Text>
+        <Text style={{ marginBottom: 10 }}>{props.desc}</Text>
 
         <View style={{ marginBottom: 15 }}>
           <Text style={styles.TxtTitle}>Capacity</Text>
@@ -29,7 +33,7 @@ const DetaillRoom = () => {
               style={{ width: 25, height: 25 }}
             />
             <Text style={{ marginLeft: 10, fontFamily: "Poppins" }}>
-              Maximum for 6 people
+              Maximum for {props.people} people
             </Text>
           </View>
         </View>
