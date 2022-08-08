@@ -6,33 +6,34 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import React, {Component} from 'react';
+} from "react-native";
+import React, { Component } from "react";
 
-import BackGound from '../../assets/img/bg.jpeg';
-import ExamplePhotoProfile from '../../assets/img/romadebrian.png';
+import BackGound from "../../assets/img/bg.jpeg";
+import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 
 export default class Profile extends Component {
   render() {
     return (
       <View
         style={{
-          backgroundColor: '#FEF7EF',
-          alignItems: 'center',
-          height: '100%',
-        }}>
-        <Image source={BackGound} style={{width: '100%', height: 150}} />
+          backgroundColor: "#FEF7EF",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <Image source={BackGound} style={{ width: "100%", height: 150 }} />
         <Image
           source={ExamplePhotoProfile}
           style={{
             width: 145,
             height: 145,
             borderRadius: 145 / 2,
-            position: 'absolute',
+            position: "absolute",
             top: 65,
           }}
         />
-        <Text style={{marginTop: 65, marginBottom: 20}}>Roma Debrian</Text>
+        <Text style={{ marginTop: 65, marginBottom: 20 }}>Roma Debrian</Text>
         <TextInput
           placeholder="Name"
           style={[styles.input]}
@@ -62,25 +63,28 @@ export default class Profile extends Component {
           style={{
             width: 300,
             marginBottom: 10,
-            flexDirection: 'row',
-          }}>
-          <View style={{flexDirection: 'row'}}>
+            flexDirection: "row",
+          }}
+        >
+          <View style={{ flexDirection: "row" }}>
             <TouchableOpacity
               style={{
                 width: 80,
                 height: 40,
                 marginRight: 5,
-                backgroundColor: '#007BFF',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                backgroundColor: "#007BFF",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Text
                 style={{
-                  color: 'white',
-                  fontFamily: 'Poppins',
-                  fontWeight: 'bold',
+                  color: "white",
+                  fontFamily: "Poppins",
+                  fontWeight: "bold",
                   fontSize: 16,
-                }}>
+                }}
+              >
                 SAVE
               </Text>
             </TouchableOpacity>
@@ -88,38 +92,42 @@ export default class Profile extends Component {
               style={{
                 width: 80,
                 height: 40,
-                backgroundColor: '#FFC107',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                backgroundColor: "#FFC107",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Text
                 style={{
-                  fontFamily: 'Poppins',
-                  fontWeight: 'bold',
+                  fontFamily: "Poppins",
+                  fontWeight: "bold",
                   fontSize: 16,
-                }}>
+                }}
+              >
                 CANCEL
               </Text>
             </TouchableOpacity>
           </View>
 
-          <View style={{width: '45%', flexDirection: 'row-reverse'}}>
+          <View style={{ width: "45%", flexDirection: "row-reverse" }}>
             <TouchableOpacity
               style={{
                 width: 80,
                 height: 40,
-                backgroundColor: '#28A745',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                backgroundColor: "#28A745",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Text
                 style={{
-                  textAlign: 'center',
-                  color: 'white',
-                  fontFamily: 'Poppins',
-                  fontWeight: 'bold',
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Poppins",
+                  fontWeight: "bold",
                   fontSize: 13,
-                }}>
+                }}
+              >
                 Change Password
               </Text>
             </TouchableOpacity>
@@ -138,8 +146,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 18,
-    borderColor: 'rgba(0, 0, 0, 0.3)',
-    fontFamily: 'Poppins',
+    borderColor: "rgba(0, 0, 0, 0.3)",
+    fontFamily: "Poppins",
     fontSize: 16,
     // textAlignVertical: 'center',
   },
@@ -150,9 +158,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 18,
-    borderColor: 'rgba(0, 0, 0, 0.3)',
-    fontFamily: 'Poppins',
+    borderColor: "rgba(0, 0, 0, 0.3)",
+    fontFamily: "Poppins",
     fontSize: 16,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
 });

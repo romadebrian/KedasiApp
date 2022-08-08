@@ -8,6 +8,8 @@
 
 import React from "react";
 import { ScrollView, StyleSheet, Text, View, Dimensions } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SplashScreen from "./src/pages/SplashScreen";
 import Login from "./src/pages/Login";
@@ -25,22 +27,27 @@ import CheckOut from "./src/pages/RoomReservation/component/CheckOut";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
+
+const Stack = createNativeStackNavigator();
+
 const App = () => {
   return (
-    <View style={{ width: "100%", height: "100%" }}>
-      <Header />
-      {/* <SplashScreen /> */}
-      {/* <Login /> */}
-      {/* <Register /> */}
-      {/* <ForgotPassword /> */}
-      {/* <Dashboard /> */}
-      {/* <Profile /> */}
-      {/* <RoomReservation /> */}
-      {/* <PickDate /> */}
-      {/* <Room /> */}
-      {/* <RoomDetail /> */}
-      <CheckOut />
-    </View>
+    <NavigationContainer>
+      {/* <Header /> */}
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          // options={{ title: "Welcome" }}
+        />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
