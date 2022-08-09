@@ -15,7 +15,8 @@ import NamaLogo from "../../assets/img/kedasi_nama.png";
 
 const Login = ({ navigation }) => {
   const HandleButtonLogin = () => {
-    navigation.navigate("Profile", { name: "Jane" });
+    // console.log(navigation);
+    navigation.navigate("Dashboard", { name: "Jane" });
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
@@ -39,7 +40,10 @@ const Login = ({ navigation }) => {
           //   value={email}
           //   onChangeText={}
         />
-        <TouchableOpacity style={{ width: "100%" }}>
+        <TouchableOpacity
+          style={{ width: "100%" }}
+          onPress={() => navigation.navigate("ForgotPassword")}
+        >
           <Text
             style={[
               {
@@ -60,7 +64,10 @@ const Login = ({ navigation }) => {
         >
           <Text style={styles.BTNText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ width: "100%" }}>
+        <TouchableOpacity
+          style={{ width: "100%" }}
+          onPress={() => navigation.navigate("Register")}
+        >
           <Text
             style={[
               {

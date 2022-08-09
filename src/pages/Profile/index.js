@@ -13,6 +13,10 @@ import BackGound from "../../assets/img/bg.jpeg";
 import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 
 export default class Profile extends Component {
+  HandleSave = () => {
+    // console.log(this.props);
+    this.props.navigation.navigate("Dashboard");
+  };
   render() {
     return (
       <View
@@ -76,6 +80,7 @@ export default class Profile extends Component {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              onPress={this.HandleSave}
             >
               <Text
                 style={{
@@ -96,6 +101,7 @@ export default class Profile extends Component {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              onPress={() => this.props.navigation.navigate("Dashboard")}
             >
               <Text
                 style={{
@@ -118,6 +124,7 @@ export default class Profile extends Component {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              onPress={() => this.props.navigation.navigate("ForgotPassword")}
             >
               <Text
                 style={{

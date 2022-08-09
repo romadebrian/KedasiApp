@@ -13,6 +13,7 @@ export default class RoomDetail extends Component {
           equipped with electrical terminals under each table and air
           conditioning making it suitable for working with laptops."
           people="6"
+          nav={this.props.navigation}
         />
       </ScrollView>
     );

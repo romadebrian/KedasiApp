@@ -9,7 +9,7 @@ export default class SplashScreen extends Component {
     widthLoading: 0,
   };
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
 
     var i = 1;
 
@@ -30,7 +30,7 @@ export default class SplashScreen extends Component {
           myLoop();
         } else {
           goToLogin();
-          console.log("Navigate");
+          // console.log("Navigate");
         }
       }, 0);
     };

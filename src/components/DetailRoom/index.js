@@ -1,7 +1,10 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 
 const DetaillRoom = (props) => {
+  useEffect(() => {
+    console.log(props);
+  });
   var img =
     props.img === "room1"
       ? require("../../assets/img/room1.jpg")
@@ -73,7 +76,10 @@ const DetaillRoom = (props) => {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.containerButton}>
+        <TouchableOpacity
+          style={styles.containerButton}
+          onPress={() => props.nav.navigate("CheckOut")}
+        >
           <Text style={styles.TxtButton}>Book now</Text>
         </TouchableOpacity>
       </View>

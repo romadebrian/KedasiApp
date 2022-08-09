@@ -1,23 +1,26 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import React, {useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useState } from "react";
 
-import Bars from '../../assets/img/bars-solid.png';
-import Bel from '../../assets/img/bell-regular.png';
+import Bars from "../../assets/img/bars-solid.png";
+import Bel from "../../assets/img/bell-regular.png";
 
-const Header = props => {
+const Header = (props) => {
+  useEffect(() => {
+    // console.log(props);
+  });
   return (
     <View style={styles.header}>
       <View style={styles.containerBtnMenu}>
         <TouchableOpacity onPress={props.showMenu}>
           <Image
             source={Bars}
-            style={{width: 20, height: 20, marginLeft: 12, marginRight: 10}}
+            style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
           />
         </TouchableOpacity>
-        <Text style={{fontSize: 14, fontWeight: '500'}}>Dashboard</Text>
+        <Text style={{ fontSize: 14, fontWeight: "500" }}>Dashboard</Text>
       </View>
       <View style={styles.containerBel}>
-        <TouchableOpacity style={{flexDirection: 'row-reverse'}}>
+        <TouchableOpacity style={{ flexDirection: "row-reverse" }}>
           <Image source={Bel} style={styles.iconLonceng} />
           <Text style={styles.TextLonceng}>99</Text>
         </TouchableOpacity>
@@ -33,40 +36,40 @@ const styles = StyleSheet.create({
     // width: '100%',
     // height: 50,
     // backgroundColor: 'white',
-    flexDirection: 'row',
+    flexDirection: "row",
     // justifyContent: 'center',
   },
   containerBel: {
     //   backgroundColor: 'blue',
     flex: 1,
     height: 50,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   containerBtnMenu: {
     //   backgroundColor: 'green',
     flex: 1,
     height: 50,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
   iconLonceng: {
     width: 20,
     height: 20,
     marginEnd: 20,
-    resizeMode: 'stretch',
+    resizeMode: "stretch",
   },
   TextLonceng: {
     width: 16,
     height: 13,
     fontSize: 10,
-    backgroundColor: 'rgba(255, 193, 7, 0.7)',
+    backgroundColor: "rgba(255, 193, 7, 0.7)",
     //   padding: 4,
-    textAlign: 'center',
+    textAlign: "center",
     borderRadius: 5,
-    position: 'absolute',
+    position: "absolute",
     bottom: 15,
     left: 12,
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
+    fontFamily: "Poppins",
+    fontWeight: "bold",
   },
 });

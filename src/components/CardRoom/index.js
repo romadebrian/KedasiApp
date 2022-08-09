@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import IconPeople from "../../assets/icon/user-group-solid.png";
 import IconArrow from "../../assets/icon/circle-arrow-right-solid.png";
@@ -7,6 +7,11 @@ import Room1 from "../../assets/img/room1.jpg";
 
 const CardRoom = (props) => {
   // console.log(props.img);
+  var nav = props.nav;
+
+  useEffect(() => {
+    // console.log(props);
+  });
 
   var img =
     props.img === "room1"
@@ -23,7 +28,10 @@ const CardRoom = (props) => {
 
   return (
     <View style={{ alignItems: "center", marginTop: 15 }}>
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => nav.navigate("RoomDetail")}
+      >
         <Image
           source={img}
           style={{ width: "100%", height: 160, resizeMode: "stretch" }}

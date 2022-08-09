@@ -6,14 +6,21 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-native-date-picker";
 
 import IconSearch from "../../../assets/icon/iconsearch.png";
 
-const PickDate = () => {
+const PickDate = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+
+  const HandleSearchDate = () => {
+    navigation.navigate("Room");
+  };
+
+  useEffect(() => {
+    console.log(navigation);
+  });
   return (
     <View
       style={{
@@ -48,7 +55,7 @@ const PickDate = () => {
       </View>
       <TouchableOpacity
         style={styles.containerBtnSearch}
-        onPress={() => setOpen(true)}
+        onPress={HandleSearchDate}
       >
         <Image source={IconSearch} style={{ width: 20, height: 20 }} />
         <Text style={styles.txtSearch}>Search</Text>

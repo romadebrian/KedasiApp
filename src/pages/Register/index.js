@@ -4,13 +4,16 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-} from 'react-native';
-import React from 'react';
+} from "react-native";
+import React from "react";
 
-const Register = () => {
+const Register = ({ navigation }) => {
+  const HandleRegister = () => {
+    navigation.navigate("Dashboard");
+  };
   return (
-    <View style={{backgroundColor: '#FEF7EF', height: '100%'}}>
-      <View style={{alignItems: 'center'}}>
+    <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
+      <View style={{ alignItems: "center" }}>
         <Text style={styles.textRegis}>REGISTRATION</Text>
         <TextInput
           placeholder="Full Name"
@@ -38,10 +41,13 @@ const Register = () => {
           //   value={email}
           //   onChangeText={}
         />
-        <TouchableOpacity style={styles.BTNRegis}>
+        <TouchableOpacity style={styles.BTNRegis} onPress={HandleRegister}>
           <Text style={styles.BTNText}>REGISTER</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{width: '100%'}}>
+        <TouchableOpacity
+          style={{ width: "100%" }}
+          onPress={() => navigation.navigate("Login")}
+        >
           <Text style={styles.TextToLogin}>Already have an account? Login</Text>
         </TouchableOpacity>
       </View>
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
     marginTop: 125,
     marginBottom: 40,
     // fontWeight: 'bold',
-    fontFamily: 'PTSerifCaption-Regular',
+    fontFamily: "PTSerifCaption-Regular",
     fontSize: 36,
   },
   input: {
@@ -66,32 +72,32 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 18,
-    borderColor: 'rgba(0, 0, 0, 0.3)',
-    fontFamily: 'Poppins',
+    borderColor: "rgba(0, 0, 0, 0.3)",
+    fontFamily: "Poppins",
   },
   BTNRegis: {
     marginTop: 13,
     width: 300,
     height: 50,
     borderRadius: 5,
-    backgroundColor: '#4592fa',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#4592fa",
+    alignItems: "center",
+    justifyContent: "center",
   },
   BTNText: {
-    color: 'white',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
+    color: "white",
+    fontFamily: "Poppins",
+    fontStyle: "normal",
+    fontWeight: "bold",
     fontSize: 25,
     lineHeight: 24,
   },
   TextToLogin: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 15,
-    marginStart: '10%',
-    color: '#4592fa',
-    fontFamily: 'Poppins-SemiBold',
+    marginStart: "10%",
+    color: "#4592fa",
+    fontFamily: "Poppins-SemiBold",
     fontSize: 13,
   },
 });

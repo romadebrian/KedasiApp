@@ -44,8 +44,16 @@ const App = () => {
           component={SplashScreen}
           // options={{ title: "Welcome" }}
         />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="RoomReservation" component={RoomReservation} />
+        <Stack.Screen name="PickDate" component={PickDate} />
+        <Stack.Screen name="Room" component={Room} />
+        <Stack.Screen name="RoomDetail" component={RoomDetail} />
+        <Stack.Screen name="CheckOut" component={CheckOut} />
       </Stack.Navigator>
     </NavigationContainer>
   );

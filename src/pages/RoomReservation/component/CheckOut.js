@@ -10,7 +10,7 @@ import React from "react";
 
 import IconCheck from "../../../assets/icon/check-white.png";
 
-const CheckOut = () => {
+const CheckOut = ({ navigation }) => {
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       <View style={styles.containerPaymentStatus}>
@@ -182,6 +182,7 @@ const CheckOut = () => {
       <View style={styles.containerButton}>
         <TouchableOpacity
           style={[styles.containerItemButton, { backgroundColor: "#4099f7" }]}
+          onPress={() => navigation.navigate("Dashboard")}
         >
           <Text style={styles.txtButton}>Dashboard</Text>
         </TouchableOpacity>

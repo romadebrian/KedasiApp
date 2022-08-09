@@ -5,53 +5,55 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import React, {Component} from 'react';
+} from "react-native";
+import React, { Component } from "react";
 
-import Casual from './component/Casual';
-import Monthly from './component/Monthly';
+import Casual from "./component/Casual";
+import Monthly from "./component/Monthly";
 
 export default class RoomReservation extends Component {
   state = {
-    typeMenu: 'Monthly',
-    txtCasual: '#007BFF',
-    txtMonthly: 'black',
+    typeMenu: "Casual",
+    txtCasual: "#007BFF",
+    txtMonthly: "black",
     locLineMenu: 35,
   };
 
   componentDidMount() {
-    if (this.state.typeMenu === 'Casual') {
+    // console.log(this.props);
+
+    if (this.state.typeMenu === "Casual") {
       this.setState({
-        typeMenu: 'Casual',
+        typeMenu: "Casual",
         locLineMenu: 35,
-        txtCasual: '#007BFF',
-        txtMonthly: 'black',
+        txtCasual: "#007BFF",
+        txtMonthly: "black",
       });
     } else {
       this.setState({
-        typeMenu: 'Monthly',
+        typeMenu: "Monthly",
         locLineMenu: 105,
-        txtCasual: 'black',
-        txtMonthly: '#007BFF',
+        txtCasual: "black",
+        txtMonthly: "#007BFF",
       });
     }
   }
 
   handleMenuCasual = () => {
     this.setState({
-      typeMenu: 'Casual',
+      typeMenu: "Casual",
       locLineMenu: 35,
-      txtCasual: '#007BFF',
-      txtMonthly: 'black',
+      txtCasual: "#007BFF",
+      txtMonthly: "black",
     });
   };
 
   handleMenuMonthly = () => {
     this.setState({
-      typeMenu: 'Monthly',
+      typeMenu: "Monthly",
       locLineMenu: 105,
-      txtCasual: 'black',
-      txtMonthly: '#007BFF',
+      txtCasual: "black",
+      txtMonthly: "#007BFF",
     });
   };
   render() {
@@ -64,8 +66,9 @@ export default class RoomReservation extends Component {
                 style={{
                   color: this.state.txtCasual,
                   fontSize: 14,
-                  fontWeight: '600',
-                }}>
+                  fontWeight: "600",
+                }}
+              >
                 Casual
               </Text>
             </TouchableOpacity>
@@ -75,8 +78,9 @@ export default class RoomReservation extends Component {
                   marginLeft: 25,
                   color: this.state.txtMonthly,
                   fontSize: 14,
-                  fontWeight: '600',
-                }}>
+                  fontWeight: "600",
+                }}
+              >
                 Monthly
               </Text>
             </TouchableOpacity>
@@ -86,17 +90,17 @@ export default class RoomReservation extends Component {
             style={{
               width: 70,
               height: 1,
-              backgroundColor: '#007BFF',
+              backgroundColor: "#007BFF",
               marginLeft: this.state.locLineMenu,
               marginTop: 10,
             }}
           />
         </View>
 
-        {this.state.typeMenu === 'Casual' ? (
-          <Casual />
-        ) : this.state.typeMenu === 'Monthly' ? (
-          <Monthly />
+        {this.state.typeMenu === "Casual" ? (
+          <Casual nav={this.props.navigation} />
+        ) : this.state.typeMenu === "Monthly" ? (
+          <Monthly nav={this.props.navigation} />
         ) : null}
       </View>
     );
@@ -105,20 +109,20 @@ export default class RoomReservation extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FEF7EF',
-    alignItems: 'center',
+    backgroundColor: "#FEF7EF",
+    alignItems: "center",
     // height: '100%',
     flex: 1,
   },
   containerTypeMenu: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    backgroundColor: 'white',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    justifyContent: "center",
   },
   rowMenu: {
     marginLeft: 50,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
 });
