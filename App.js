@@ -10,6 +10,7 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View, Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import SplashScreen from "./src/pages/SplashScreen";
 import Login from "./src/pages/Login";
@@ -29,15 +30,17 @@ var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
       {/* <Header /> */}
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
+      <Drawer.Navigator
+        // screenOptions={{
+        //   headerShown: false,
+        // }}
+        drawerContent={(props) => <SideNav {...props} />}
       >
         <Stack.Screen
           name="SplashScreen"
@@ -54,7 +57,7 @@ const App = () => {
         <Stack.Screen name="Room" component={Room} />
         <Stack.Screen name="RoomDetail" component={RoomDetail} />
         <Stack.Screen name="CheckOut" component={CheckOut} />
-      </Stack.Navigator>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
