@@ -32,14 +32,13 @@ var FullHeight = Dimensions.get("window").height; //full height
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const App = () => {
+const App = (props) => {
+  console.log(props);
   return (
     <NavigationContainer>
       {/* <Header /> */}
       <Drawer.Navigator
-        // screenOptions={{
-        //   headerShown: false,
-        // }}
+        screenOptions={{ header: (props) => <Header {...props} /> }}
         drawerContent={(props) => <SideNav {...props} />}
       >
         <Stack.Screen

@@ -5,13 +5,17 @@ import Bars from "../../assets/img/bars-solid.png";
 import Bel from "../../assets/img/bell-regular.png";
 
 const Header = (props) => {
+  var Navigation = props.navigation;
   useEffect(() => {
     // console.log(props);
   });
   return (
     <View style={styles.header}>
       <View style={styles.containerBtnMenu}>
-        <TouchableOpacity onPress={props.showMenu}>
+        <TouchableOpacity
+          onPress={props.showMenu}
+          onPressIn={() => Navigation.openDrawer()}
+        >
           <Image
             source={Bars}
             style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
   header: {
     // width: '100%',
     // height: 50,
-    // backgroundColor: 'white',
+    backgroundColor: "#FEF7EF",
     flexDirection: "row",
     // justifyContent: 'center',
   },

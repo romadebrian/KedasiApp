@@ -12,7 +12,7 @@ import IconLogout from "../../assets/icon/SignOut.png";
 const SideNav = (props) => {
   var Nav = props.navigation;
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
   });
 
   return (
