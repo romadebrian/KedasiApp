@@ -19,128 +19,130 @@ export default class Profile extends Component {
   };
   render() {
     return (
-      <View
-        style={{
-          backgroundColor: "#FEF7EF",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <Image source={BackGound} style={{ width: "100%", height: 150 }} />
-        <Image
-          source={ExamplePhotoProfile}
-          style={{
-            width: 145,
-            height: 145,
-            borderRadius: 145 / 2,
-            position: "absolute",
-            top: 65,
-          }}
-        />
-        <Text style={{ marginTop: 65, marginBottom: 20 }}>Roma Debrian</Text>
-        <TextInput
-          placeholder="Name"
-          style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
-        />
-        <TextInput
-          placeholder="Email"
-          style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
-        />
-        <TextInput
-          placeholder="Phone Number"
-          style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
-        />
-        <TextInput
-          placeholder="Address"
-          style={[styles.inputAddress]}
-          //   value={email}
-          //   onChangeText={}
-        />
-
+      <ScrollView>
         <View
           style={{
-            width: 300,
-            marginBottom: 10,
-            flexDirection: "row",
+            backgroundColor: "#FEF7EF",
+            alignItems: "center",
+            height: "100%",
           }}
         >
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={{
-                width: 80,
-                height: 40,
-                marginRight: 5,
-                backgroundColor: "#007BFF",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onPress={this.HandleSave}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontFamily: "Poppins",
-                  fontWeight: "bold",
-                  fontSize: 16,
-                }}
-              >
-                SAVE
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                width: 80,
-                height: 40,
-                backgroundColor: "#FFC107",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onPress={() => this.props.navigation.navigate("Dashboard")}
-            >
-              <Text
-                style={{
-                  fontFamily: "Poppins",
-                  fontWeight: "bold",
-                  fontSize: 16,
-                }}
-              >
-                CANCEL
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <Image source={BackGound} style={{ width: "100%", height: 150 }} />
+          <Image
+            source={ExamplePhotoProfile}
+            style={{
+              width: 145,
+              height: 145,
+              borderRadius: 145 / 2,
+              position: "absolute",
+              top: 65,
+            }}
+          />
+          <Text style={{ marginTop: 65, marginBottom: 20 }}>Roma Debrian</Text>
+          <TextInput
+            placeholder="Name"
+            style={[styles.input]}
+            //   value={email}
+            //   onChangeText={}
+          />
+          <TextInput
+            placeholder="Email"
+            style={[styles.input]}
+            //   value={email}
+            //   onChangeText={}
+          />
+          <TextInput
+            placeholder="Phone Number"
+            style={[styles.input]}
+            //   value={email}
+            //   onChangeText={}
+          />
+          <TextInput
+            placeholder="Address"
+            style={[styles.inputAddress]}
+            //   value={email}
+            //   onChangeText={}
+          />
 
-          <View style={{ width: "45%", flexDirection: "row-reverse" }}>
-            <TouchableOpacity
-              style={{
-                width: 80,
-                height: 40,
-                backgroundColor: "#28A745",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onPress={() => this.props.navigation.navigate("ForgotPassword")}
-            >
-              <Text
+          <View
+            style={{
+              width: 300,
+              marginBottom: 10,
+              flexDirection: "row",
+            }}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
                 style={{
-                  textAlign: "center",
-                  color: "white",
-                  fontFamily: "Poppins",
-                  fontWeight: "bold",
-                  fontSize: 13,
+                  width: 80,
+                  height: 40,
+                  marginRight: 5,
+                  backgroundColor: "#007BFF",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
+                onPress={this.HandleSave}
               >
-                Change Password
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: "white",
+                    fontFamily: "Poppins",
+                    fontWeight: "bold",
+                    fontSize: 16,
+                  }}
+                >
+                  SAVE
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: 80,
+                  height: 40,
+                  backgroundColor: "#FFC107",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onPress={() => this.props.navigation.navigate("Dashboard")}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Poppins",
+                    fontWeight: "bold",
+                    fontSize: 16,
+                  }}
+                >
+                  CANCEL
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ width: "45%", flexDirection: "row-reverse" }}>
+              <TouchableOpacity
+                style={{
+                  width: 80,
+                  height: 40,
+                  backgroundColor: "#28A745",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onPress={() => this.props.navigation.navigate("ForgotPassword")}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    fontFamily: "Poppins",
+                    fontWeight: "bold",
+                    fontSize: 13,
+                  }}
+                >
+                  Change Password
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

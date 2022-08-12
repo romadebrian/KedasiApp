@@ -17,7 +17,7 @@ export default class Dashboard extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   handleShowMenu = () => {
@@ -34,7 +34,7 @@ export default class Dashboard extends Component {
         style={{ backgroundColor: "#FEF7EF", height: "100%", width: "100%" }}
       >
         {/* Header */}
-        <Header showMenu={() => this.handleShowMenu()} />
+        {/* <Header showMenu={() => this.handleShowMenu()} /> */}
 
         {/* List Order */}
         <ScrollView style={{ position: "relative" }}>
@@ -96,12 +96,12 @@ export default class Dashboard extends Component {
           </View>
         </ScrollView>
         {/* Side Nav */}
-        {this.state.showMenu ? (
+        {/* {this.state.showMenu ? (
           <SideNav
             hideMenu={() => this.HandleHideMenu()}
             nav={this.props.navigation}
           />
-        ) : null}
+        ) : null} */}
         {/* <SideNav /> */}
       </View>
     );

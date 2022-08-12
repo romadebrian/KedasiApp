@@ -6,9 +6,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 const Register = ({ navigation }) => {
   const HandleRegister = () => {
+    // const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("Berhasil");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Gagal");
+      });
     navigation.navigate("Dashboard");
   };
   return (

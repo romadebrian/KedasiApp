@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1005977900028",
+    "firebase_url": "https://kedasi-default-rtdb.firebaseio.com",
+    "project_id": "kedasi",
+    "storage_bucket": "kedasi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005977900028:android:c987e5b4390daf51085879",
+        "android_client_info": {
+          "package_name": "com.kedasiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005977900028-gvjs66ovmrs9rao7hdhmsn3nk19ohqtf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA40Uq8r4DyL2K2unGMQL0fYNBP78D3woA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005977900028-gvjs66ovmrs9rao7hdhmsn3nk19ohqtf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

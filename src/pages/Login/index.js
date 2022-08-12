@@ -8,15 +8,34 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 import Logo from "../../assets/img/kedasi_logo.png";
 import NamaLogo from "../../assets/img/kedasi_nama.png";
 
 const Login = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const HandleButtonLogin = () => {
     // console.log(navigation);
-    navigation.navigate("Dashboard", { name: "Jane" });
+    // navigation.navigate("Dashboard", { name: "Jane" });
+    //
+    // const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("Login Berhasil", user);
+        navigation.navigate("Dashboard");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Gagal");
+      });
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
@@ -29,16 +48,15 @@ const Login = ({ navigation }) => {
         <TextInput
           placeholder="Email"
           style={[styles.input, { marginTop: 27 }]}
-
-          //   value={email}
-          //   onChangeText={}
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry={true}
           style={[styles.input, { marginTop: 7 }]}
-          //   value={email}
-          //   onChangeText={}
+          value={password}
+          onChangeText={setPassword}
         />
         <TouchableOpacity
           style={{ width: "100%" }}
