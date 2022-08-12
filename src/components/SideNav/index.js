@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 // import { useSelector } from "react-redux/es/exports";
 import { useSelector } from "react-redux";
 
+import { auth } from "../../config/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
 import LogoNama from "../../assets/img/logo-header-putih.png";
 import ExampleProfilePicture from "../../assets/img/romadebrian.png";
 import IconBook from "../../assets/icon/book.png";
@@ -17,8 +20,29 @@ const SideNav = (props) => {
   const globalState = useSelector((state) => state);
 
   useEffect(() => {
-    // console.log(props);
+    // console.log(globalState.userData.displayName);
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     const uid = user.uid;
+    //     console.log(user);
+    //   } else {
+    //     // User is signed out
+    //   }
+    // });
   });
+
+  const handleLogout = () => {
+    // auth.signOut();
+
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        Nav.navigate("Login");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
 
   return (
     <View style={styles.ContainerSideNav}>
@@ -39,7 +63,9 @@ const SideNav = (props) => {
           source={ExampleProfilePicture}
           style={{ width: 50, height: 50, borderRadius: 25 }}
         />
-        <Text style={styles.TxtProfile}>{globalState.name}</Text>
+        <Text style={styles.TxtProfile}>
+          {globalState.userData?.displayName}
+        </Text>
       </TouchableOpacity>
 
       <View
@@ -102,7 +128,7 @@ const SideNav = (props) => {
 
       <TouchableOpacity
         style={styles.ContainerItemMenu}
-        onPress={() => Nav.navigate("Login")}
+        onPress={() => handleLogout()}
       >
         <Image
           source={IconLogout}

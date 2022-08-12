@@ -13,7 +13,7 @@ const Header = (props) => {
   });
 
   const handleClickBell = () => {
-    dispatch({ type: "SET_NAME" });
+    // dispatch({ type: "SET_NAME" });
   };
   return (
     <View style={styles.header}>

@@ -1,13 +1,13 @@
 import { createStore } from "redux";
 
 const initialState = {
-  name: "Roma Debrians",
+  userData: "Loading",
 };
 
 const reducer = (state = initialState, action) => {
-  if (action.type === "SET_NAME") {
+  if (action.type === "SET_DATA") {
     return {
-      name: "Debrian Roma",
+      userData: action.input,
     };
   }
   return state;

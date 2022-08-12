@@ -9,16 +9,28 @@ import {
   View,
   ToastAndroid,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
+
+import { useSelector } from "react-redux";
 
 import Logo from "../../assets/img/kedasi_logo.png";
 import NamaLogo from "../../assets/img/kedasi_nama.png";
 
 const Login = ({ navigation }) => {
+  const globalState = useSelector((state) => state);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    // console.log(globalState);
+
+    if (globalState.userData !== null) {
+      navigation.navigate("Dashboard");
+    }
+  });
 
   const HandleButtonLogin = () => {
     // console.log(navigation);
