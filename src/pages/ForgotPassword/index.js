@@ -18,7 +18,7 @@ const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
   const HandleButtonSubmit = () => {
-    sendPasswordResetEmail(auth.email)
+    sendPasswordResetEmail(auth, email)
       .then(() => {
         console.log(email);
         alert("Email Reset Password Telah Dikirim");
