@@ -8,10 +8,13 @@ import {
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import { updateProfile } from "firebase/auth";
 
 const Register = ({ navigation }) => {
+  const [fullName, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRePassword] = useState("");
 
   const HandleRegister = () => {
     // const auth = getAuth();
@@ -20,13 +23,27 @@ const Register = ({ navigation }) => {
         // Signed in
         const user = userCredential.user;
         console.log("Berhasil");
+
+        updateProfile(auth.currentUser, {
+          displayName: fullName,
+          // photoURL: "https://example.com/jane-q-user/profile.jpg",
+        })
+          .then(() => {
+            // Profile updated!
+            // ...
+          })
+          .catch((error) => {
+            // An error occurred
+            // ...
+          });
+
+        navigation.navigate("Login");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("Gagal");
+        console.log("Gagal", errorCode, errorMessage);
       });
-    navigation.navigate("Dashboard");
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
@@ -35,28 +52,28 @@ const Register = ({ navigation }) => {
         <TextInput
           placeholder="Full Name"
           style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
+          value={fullName}
+          onChangeText={setFullname}
         />
         <TextInput
           placeholder="Email"
           style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry={true}
           style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
+          value={password}
+          onChangeText={setPassword}
         />
         <TextInput
           placeholder="Confirm Password"
           secureTextEntry={true}
           style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
+          value={repassword}
+          onChangeText={setRePassword}
         />
         <TouchableOpacity style={styles.BTNRegis} onPress={HandleRegister}>
           <Text style={styles.BTNText}>REGISTER</Text>
