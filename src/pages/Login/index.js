@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("Gagal");
+        console.log("Gagal", errorCode, errorMessage);
       });
   };
   return (
@@ -43,7 +43,7 @@ const Login = ({ navigation }) => {
         <Image source={Logo} style={styles.logo} />
         <Image
           source={NamaLogo}
-          style={{ width: 180, height: 60, marginTop: 27 }}
+          style={{ width: 180, height: 60, marginTop: 15 }}
         />
         <TextInput
           placeholder="Email"
@@ -108,7 +108,7 @@ const Login = ({ navigation }) => {
 export default Login;
 
 const styles = StyleSheet.create({
-  logo: { width: 75, height: 75, marginTop: 123 },
+  logo: { width: 75, height: 75, marginTop: 50 },
   input: {
     width: 300,
     height: 50,
