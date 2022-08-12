@@ -8,8 +8,11 @@ import {
   TouchableOpacity,
   View,
   ToastAndroid,
+  BackHandler,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 
@@ -24,13 +27,49 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [countBack, setCountBack] = useState(1);
+
   useEffect(() => {
     // console.log(globalState);
+    // const backHandler = BackHandler.addEventListener(
+    //   "hardwareBackPress",
+    //   () => true
+    // );
+    // return () => backHandler.remove();
+  }, []);
 
-    if (globalState.userData !== null) {
-      navigation.navigate("Dashboard");
-    }
-  });
+  useFocusEffect(
+    React.useCallback(() => {
+      // console.log(globalState);
+
+      if (
+        globalState.userData === "null" ||
+        globalState.userData === "Loading"
+      ) {
+        // navigation.navigate("Login");
+        console.log(globalState.userData);
+      } else {
+        console.log(globalState.userData);
+        navigation.navigate("Dashboard");
+      }
+
+      const onBackPress = () => {
+        if (countBack > 0) {
+          setCountBack(countBack - 1);
+          ToastAndroid.show("Press again to exit", ToastAndroid.SHORT);
+          return true;
+        } else {
+          // return false;
+          BackHandler.exitApp();
+        }
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [countBack])
+  );
 
   const HandleButtonLogin = () => {
     // console.log(navigation);
@@ -69,6 +108,21 @@ const Login = ({ navigation }) => {
         });
     }
   };
+
+  const handleBackButton = () => {
+    // const backHandler = BackHandler.addEventListener(
+    //   "hardwareBackPress",
+    //   () => true
+    // );
+    // ToastAndroid.show("Back button is pressed", ToastAndroid.SHORT);
+    // backHandler.remove();
+
+    BackHandler.removeEventListener(
+      "hardwareBackPress"
+      // setCountBack(countBack - 1)
+    );
+  };
+
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
       <View style={{ alignItems: "center" }}>
@@ -92,7 +146,10 @@ const Login = ({ navigation }) => {
         />
         <TouchableOpacity
           style={{ width: "100%" }}
-          onPress={() => navigation.navigate("ForgotPassword")}
+          onPress={() => {
+            navigation.navigate("ForgotPassword");
+            handleBackButton();
+          }}
         >
           <Text
             style={[
@@ -110,7 +167,10 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.BTNLogin}
-          onPress={() => HandleButtonLogin()}
+          onPress={() => {
+            HandleButtonLogin();
+            handleBackButton();
+          }}
         >
           <Text style={styles.BTNText}>Login</Text>
         </TouchableOpacity>
@@ -140,7 +200,7 @@ const Login = ({ navigation }) => {
 export default Login;
 
 const styles = StyleSheet.create({
-  logo: { width: 75, height: 75, marginTop: 50 },
+  logo: { width: 75, height: 75, marginTop: 80 },
   input: {
     width: 300,
     height: 50,

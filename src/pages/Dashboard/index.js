@@ -5,28 +5,56 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  BackHandler,
+  ToastAndroid,
 } from "react-native";
 import React, { Component } from "react";
+
+import { useSelector, connect } from "react-redux";
+
+import { auth } from "../../config/firebase";
 
 import Header from "../../components/Header";
 import SideNav from "../../components/SideNav";
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
+  // globalState = useSelector((state) => state);
+  navigation = this.props;
+
   state = {
     showMenu: false,
   };
 
   componentDidMount() {
-    // console.log(this.props);
+    console.log(this.props);
+    if (
+      this.props.GlobalUserData === "null" ||
+      this.props.GlobalUserData === "Loading"
+    ) {
+      navigation.navigate("Login");
+    } else {
+      console.log(this.props.GlobalUserData);
+    }
+
+    // BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
-  handleShowMenu = () => {
-    this.setState({ showMenu: true });
-  };
+  componentWillUnmount() {
+    // BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+  }
 
-  HandleHideMenu = () => {
-    this.setState({ showMenu: false });
-  };
+  handleBackButton() {
+    ToastAndroid.show("Back button is pressed", ToastAndroid.SHORT);
+    return true;
+  }
+
+  // handleShowMenu = () => {
+  //   this.setState({ showMenu: true });
+  // };
+
+  // HandleHideMenu = () => {
+  //   this.setState({ showMenu: false });
+  // };
 
   render() {
     return (
@@ -107,6 +135,15 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    GlobalUserData: state.userData,
+  };
+};
+
+export default connect(mapStateToProps)(Dashboard);
 
 const styles = StyleSheet.create({
   ////////////////////

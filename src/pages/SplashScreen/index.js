@@ -1,13 +1,16 @@
-import { Text, StyleSheet, View, Image } from "react-native";
+import { Text, StyleSheet, View, Image, BackHandler } from "react-native";
 import React, { Component } from "react";
 
 import Logo from "../../assets/img/Logo&Name.png";
+
+BackHandler.removeEventListener("hardwareBackPress", true);
 
 export default class SplashScreen extends Component {
   state = {
     status: 0,
     widthLoading: 0,
   };
+
   componentDidMount() {
     // console.log(this.props);
 
@@ -36,6 +39,16 @@ export default class SplashScreen extends Component {
     };
 
     myLoop();
+  }
+
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+  }
+
+  handleBackButton() {
+    // ToastAndroid.show("Back button is pressed", ToastAndroid.SHORT);
+    alert("Can't");
+    return true;
   }
 
   render() {

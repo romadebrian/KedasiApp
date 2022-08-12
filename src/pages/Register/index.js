@@ -5,8 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   ToastAndroid,
+  BackHandler,
 } from "react-native";
 import React, { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { updateProfile } from "firebase/auth";
@@ -16,6 +19,20 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.navigate("Login");
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [])
+  );
 
   const HandleRegister = () => {
     if (
@@ -114,7 +131,7 @@ export default Register;
 
 const styles = StyleSheet.create({
   textRegis: {
-    marginTop: 125,
+    marginTop: 80,
     marginBottom: 40,
     // fontWeight: 'bold',
     fontFamily: "PTSerifCaption-Regular",

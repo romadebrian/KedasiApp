@@ -5,8 +5,11 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import React, { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../config/firebase";
 
@@ -16,6 +19,20 @@ import ArrowBack from "../../assets/img/arrow-left-solid-HD.png";
 
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.navigate("Login");
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [])
+  );
 
   const HandleButtonSubmit = () => {
     sendPasswordResetEmail(auth, email)
