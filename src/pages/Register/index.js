@@ -17,33 +17,44 @@ const Register = ({ navigation }) => {
   const [repassword, setRePassword] = useState("");
 
   const HandleRegister = () => {
-    // const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("Berhasil");
+    if (
+      fullName === "" ||
+      email === "" ||
+      password === "" ||
+      repassword === ""
+    ) {
+      alert("The form cannot be empty");
+    } else if (password !== repassword) {
+      alert("retype the password is not correct");
+    } else
+      // const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("Berhasil");
 
-        updateProfile(auth.currentUser, {
-          displayName: fullName,
-          // photoURL: "https://example.com/jane-q-user/profile.jpg",
-        })
-          .then(() => {
-            // Profile updated!
-            // ...
+          updateProfile(auth.currentUser, {
+            displayName: fullName,
+            // photoURL: "https://example.com/jane-q-user/profile.jpg",
+            // phoneNumber: '083877434091'
           })
-          .catch((error) => {
-            // An error occurred
-            // ...
-          });
+            .then(() => {
+              // Profile updated!
+              // ...
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
 
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("Gagal", errorCode, errorMessage);
-      });
+          navigation.navigate("Login");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("Gagal", errorCode, errorMessage);
+        });
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>

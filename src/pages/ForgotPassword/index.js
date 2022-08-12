@@ -6,15 +6,28 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 import Logo from "../../assets/img/kedasi_logo.png";
 import NamaKedasi from "../../assets/img/kedasi_nama.png";
 import ArrowBack from "../../assets/img/arrow-left-solid-HD.png";
 
 const ForgotPassword = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+
   const HandleButtonSubmit = () => {
-    navigation.navigate("Login");
+    sendPasswordResetEmail(auth.email)
+      .then(() => {
+        console.log(email);
+        alert("Email Reset Password Telah Dikirim");
+        navigation.navigate("Login");
+      })
+      .catch((err) => {
+        console.log(err.code);
+        alert("Email Tidak Terdaftar");
+      });
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
@@ -29,8 +42,8 @@ const ForgotPassword = ({ navigation }) => {
         <TextInput
           placeholder="Email"
           style={[styles.input]}
-          //   value={email}
-          //   onChangeText={}
+          value={email}
+          onChangeText={setEmail}
         />
 
         <TouchableOpacity
