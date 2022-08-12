@@ -1,5 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect } from "react";
+// import { useSelector } from "react-redux/es/exports";
+import { useSelector } from "react-redux";
 
 import LogoNama from "../../assets/img/logo-header-putih.png";
 import ExampleProfilePicture from "../../assets/img/romadebrian.png";
@@ -11,6 +13,9 @@ import IconLogout from "../../assets/icon/SignOut.png";
 
 const SideNav = (props) => {
   var Nav = props.navigation;
+
+  const globalState = useSelector((state) => state);
+
   useEffect(() => {
     // console.log(props);
   });
@@ -34,7 +39,7 @@ const SideNav = (props) => {
           source={ExampleProfilePicture}
           style={{ width: 50, height: 50, borderRadius: 25 }}
         />
-        <Text style={styles.TxtProfile}>Roma Debrian</Text>
+        <Text style={styles.TxtProfile}>{globalState.name}</Text>
       </TouchableOpacity>
 
       <View

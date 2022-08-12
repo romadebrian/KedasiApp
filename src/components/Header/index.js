@@ -1,14 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Bars from "../../assets/img/bars-solid.png";
 import Bel from "../../assets/img/bell-regular.png";
 
 const Header = (props) => {
   var Navigation = props.navigation;
+  const dispatch = useDispatch();
   useEffect(() => {
     // console.log(props);
   });
+
+  const handleClickBell = () => {
+    dispatch({ type: "SET_NAME" });
+  };
   return (
     <View style={styles.header}>
       <View style={styles.containerBtnMenu}>
@@ -24,7 +30,10 @@ const Header = (props) => {
         <Text style={{ fontSize: 14, fontWeight: "500" }}>Dashboard</Text>
       </View>
       <View style={styles.containerBel}>
-        <TouchableOpacity style={{ flexDirection: "row-reverse" }}>
+        <TouchableOpacity
+          style={{ flexDirection: "row-reverse" }}
+          onPress={handleClickBell}
+        >
           <Image source={Bel} style={styles.iconLonceng} />
           <Text style={styles.TextLonceng}>99</Text>
         </TouchableOpacity>

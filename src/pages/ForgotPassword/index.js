@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   Logo: {
     width: 75,
     height: 75,
-    marginTop: 123,
+    marginTop: 50,
   },
   KedasiNama: {
     width: 180,
