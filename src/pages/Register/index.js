@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
 } from "react-native";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -26,13 +27,22 @@ const Register = ({ navigation }) => {
       alert("The form cannot be empty");
     } else if (password !== repassword) {
       alert("retype the password is not correct");
-    } else
-      // const auth = getAuth();
+    }
+    // const auth = getAuth();
+    else
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
           console.log("Berhasil");
+
+          ToastAndroid.showWithGravityAndOffset(
+            "Registration Successful",
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+          );
 
           updateProfile(auth.currentUser, {
             displayName: fullName,
