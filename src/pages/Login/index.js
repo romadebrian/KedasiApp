@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ToastAndroid,
 } from "react-native";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -22,20 +23,39 @@ const Login = ({ navigation }) => {
   const HandleButtonLogin = () => {
     // console.log(navigation);
     // navigation.navigate("Dashboard", { name: "Jane" });
-    //
-    // const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("Login Berhasil", user);
-        navigation.navigate("Dashboard");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("Gagal", errorCode, errorMessage);
-      });
+    if (email === "" || password === "") {
+      alert("some value is empty");
+    } else {
+      // const auth = getAuth();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+
+          ToastAndroid.showWithGravityAndOffset(
+            "Login Successful",
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+          );
+          console.log("Login Successful", user);
+          navigation.navigate("Dashboard");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("Gagal", errorCode, errorMessage);
+          // alert("Login Fail");
+          ToastAndroid.showWithGravityAndOffset(
+            "Login Fail",
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+          );
+        });
+    }
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
