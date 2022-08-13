@@ -3,8 +3,6 @@ import React, { Component } from "react";
 
 import Logo from "../../assets/img/Logo&Name.png";
 
-BackHandler.removeEventListener("hardwareBackPress", true);
-
 export default class SplashScreen extends Component {
   state = {
     status: 0,
@@ -13,6 +11,7 @@ export default class SplashScreen extends Component {
 
   componentDidMount() {
     // console.log(this.props);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 
     var i = 1;
 
@@ -39,10 +38,6 @@ export default class SplashScreen extends Component {
     };
 
     myLoop();
-  }
-
-  componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {

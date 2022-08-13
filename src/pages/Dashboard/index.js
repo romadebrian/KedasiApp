@@ -19,22 +19,24 @@ import SideNav from "../../components/SideNav";
 
 class Dashboard extends Component {
   // globalState = useSelector((state) => state);
-  navigation = this.props;
+  // navigation = this.props.navigation;
 
   state = {
     showMenu: false,
   };
 
   componentDidMount() {
+    var navigation = this.props.navigation;
     console.log(this.props);
-    if (
-      this.props.GlobalUserData === "null" ||
-      this.props.GlobalUserData === "Loading"
-    ) {
-      navigation.navigate("Login");
-    } else {
-      console.log(this.props.GlobalUserData);
-    }
+    console.log(this.navigation);
+    // if (
+    //   this.props.GlobalUserData === null ||
+    //   this.props.GlobalUserData === "Loading"
+    // ) {
+    //   navigation.navigate("Login");
+    // } else {
+    //   console.log(this.props.GlobalUserData);
+    // }
 
     // BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }

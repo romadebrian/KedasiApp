@@ -6,8 +6,15 @@
  * @flow strict-local
  */
 
-import React from "react";
-import { ScrollView, StyleSheet, Text, View, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  BackHandler,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -16,6 +23,7 @@ import { Provider } from "react-redux";
 import { auth } from "./src/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import store from "./src/config/redux";
 
 import SplashScreen from "./src/pages/SplashScreen";
 import Login from "./src/pages/Login";
@@ -30,7 +38,6 @@ import PickDate from "./src/pages/RoomReservation/component/PickDate";
 import Room from "./src/pages/RoomReservation/component/Room";
 import RoomDetail from "./src/pages/RoomReservation/component/RoomDetail";
 import CheckOut from "./src/pages/RoomReservation/component/CheckOut";
-import store from "./src/config/redux";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
@@ -41,6 +48,28 @@ const Drawer = createDrawerNavigator();
 const App = (props) => {
   // console.log(props);
   // const dispatch = useDispatch();
+
+  useEffect(() => {
+    const backAction = () => {
+      // Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => null,
+      //     style: "cancel",
+      //   },
+      //   { text: "YES", onPress: () => BackHandler.exitApp() },
+      // ]);
+      // alert("Roma Back");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   onAuthStateChanged(auth, (currentUser) => {
     console.log(currentUser);

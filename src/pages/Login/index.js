@@ -36,18 +36,23 @@ const Login = ({ navigation }) => {
     //   () => true
     // );
     // return () => backHandler.remove();
+    //
+    // if (globalState.userData !== null || globalState.userData !== "Loading") {
+    //   // navigation.navigate("Login");
+    //   navigation.navigate("Dashboard");
+    //   console.log(globalState.userData);
+    // } else {
+    //   console.log(globalState.userData);
+    // }
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       // console.log(globalState);
 
-      if (
-        globalState.userData === "null" ||
-        globalState.userData === "Loading"
-      ) {
+      if (globalState.userData === null || globalState.userData === "Loading") {
         // navigation.navigate("Login");
-        console.log(globalState.userData);
+        console.log(globalState);
       } else {
         console.log(globalState.userData);
         navigation.navigate("Dashboard");
@@ -57,11 +62,12 @@ const Login = ({ navigation }) => {
         if (countBack > 0) {
           setCountBack(countBack - 1);
           ToastAndroid.show("Press again to exit", ToastAndroid.SHORT);
-          return true;
+          // return true;
         } else {
           // return false;
           BackHandler.exitApp();
         }
+        return true;
       };
 
       BackHandler.addEventListener("hardwareBackPress", onBackPress);
