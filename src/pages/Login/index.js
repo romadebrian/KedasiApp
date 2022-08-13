@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
     // );
     // return () => backHandler.remove();
     //
-    // if (globalState.userData !== null || globalState.userData !== "Loading") {
+    // if (globalState.userData !== null ) {
     //   // navigation.navigate("Login");
     //   navigation.navigate("Dashboard");
     //   console.log(globalState.userData);
@@ -54,13 +54,13 @@ const Login = ({ navigation }) => {
     React.useCallback(() => {
       // console.log(globalState);
 
-      // if (globalState.userData === null || globalState.userData === "Loading") {
-      //   // navigation.navigate("Login");
-      //   console.log(globalState);
-      // } else {
-      //   console.log(globalState);
-      //   navigation.navigate("Dashboard");
-      // }
+      if (globalState.dataPengguna.email !== null) {
+        console.log(globalState);
+        navigation.navigate("Dashboard");
+      } else {
+        console.log(globalState);
+        // navigation.navigate("Dashboard");
+      }
 
       const onBackPress = () => {
         if (countBack > 0) {
@@ -93,14 +93,8 @@ const Login = ({ navigation }) => {
           // Signed in
           const user = userCredential.user;
 
-          ToastAndroid.showWithGravityAndOffset(
-            "Login Successful",
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
-          );
-          console.log("Login Successful", user);
+          ToastAndroid.show("Login Successfully", ToastAndroid.SHORT);
+          console.log("Login Successfully", user);
           navigation.navigate("Dashboard");
         })
         .catch((error) => {
@@ -108,13 +102,8 @@ const Login = ({ navigation }) => {
           const errorMessage = error.message;
           console.log("Gagal", errorCode, errorMessage);
           // alert("Login Fail");
-          ToastAndroid.showWithGravityAndOffset(
-            "Login Fail",
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
-          );
+
+          ToastAndroid.show("Login Fail", ToastAndroid.SHORT);
         });
     }
   };
