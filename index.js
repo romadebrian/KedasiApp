@@ -38,11 +38,14 @@ onAuthStateChanged(auth, (currentUser) => {
 
   // store.dispatch({ type: "SET_DATA", input: currentUser });
   //   const dispatch = useDispatch();
-  store.dispatch(setUID(currentUser.uid));
-  store.dispatch(setEmail(currentUser.email));
-  store.dispatch(setName(currentUser.displayName));
-  store.dispatch(setPhoneNumber(currentUser.phoneNumber));
-  store.dispatch(setPhotoUrl(currentUser.photoURL));
+
+  if (currentUser !== null) {
+    store.dispatch(setUID(currentUser.uid));
+    store.dispatch(setEmail(currentUser.email));
+    store.dispatch(setName(currentUser.displayName));
+    store.dispatch(setPhoneNumber(currentUser.phoneNumber));
+    store.dispatch(setPhotoUrl(currentUser.photoURL));
+  }
 });
 
 AppRegistry.registerComponent(appName, () => App);
