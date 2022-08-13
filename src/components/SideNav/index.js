@@ -20,7 +20,7 @@ const SideNav = (props) => {
   const globalState = useSelector((state) => state);
 
   useEffect(() => {
-    // console.log(globalState.userData.displayName);
+    // console.log(globalState);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
     //     const uid = user.uid;
@@ -64,7 +64,7 @@ const SideNav = (props) => {
           style={{ width: 50, height: 50, borderRadius: 25 }}
         />
         <Text style={styles.TxtProfile}>
-          {globalState.userData?.displayName}
+          {globalState.dataPengguna?.displayName}
         </Text>
       </TouchableOpacity>
 
