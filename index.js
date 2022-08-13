@@ -45,6 +45,12 @@ onAuthStateChanged(auth, (currentUser) => {
     store.dispatch(setName(currentUser.displayName));
     store.dispatch(setPhoneNumber(currentUser.phoneNumber));
     store.dispatch(setPhotoUrl(currentUser.photoURL));
+  } else {
+    store.dispatch(setUID(null));
+    store.dispatch(setEmail(null));
+    store.dispatch(setName(null));
+    store.dispatch(setPhoneNumber(null));
+    store.dispatch(setPhotoUrl(null));
   }
 });
 
