@@ -16,13 +16,15 @@ import { useFocusEffect } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setDataPengguna, increment } from "../../config/dataUser";
 
 import Logo from "../../assets/img/kedasi_logo.png";
 import NamaLogo from "../../assets/img/kedasi_nama.png";
 
 const Login = ({ navigation }) => {
   const globalState = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +32,7 @@ const Login = ({ navigation }) => {
   const [countBack, setCountBack] = useState(1);
 
   useEffect(() => {
-    // console.log(globalState);
+    console.log(globalState);
     // const backHandler = BackHandler.addEventListener(
     //   "hardwareBackPress",
     //   () => true
@@ -44,19 +46,21 @@ const Login = ({ navigation }) => {
     // } else {
     //   console.log(globalState.userData);
     // }
-  }, []);
+    //
+    // dispatch(setDataPengguna("Test Data User"));
+  }, [globalState]);
 
   useFocusEffect(
     React.useCallback(() => {
       // console.log(globalState);
 
-      if (globalState.userData === null || globalState.userData === "Loading") {
-        // navigation.navigate("Login");
-        console.log(globalState);
-      } else {
-        console.log(globalState.userData);
-        navigation.navigate("Dashboard");
-      }
+      // if (globalState.userData === null || globalState.userData === "Loading") {
+      //   // navigation.navigate("Login");
+      //   console.log(globalState);
+      // } else {
+      //   console.log(globalState);
+      //   navigation.navigate("Dashboard");
+      // }
 
       const onBackPress = () => {
         if (countBack > 0) {
@@ -74,7 +78,7 @@ const Login = ({ navigation }) => {
 
       return () =>
         BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-    }, [countBack])
+    }, [countBack, globalState])
   );
 
   const HandleButtonLogin = () => {

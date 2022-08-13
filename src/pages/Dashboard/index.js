@@ -28,7 +28,7 @@ class Dashboard extends Component {
   componentDidMount() {
     var navigation = this.props.navigation;
     console.log(this.props);
-    console.log(this.navigation);
+    console.log(navigation);
     // if (
     //   this.props.GlobalUserData === null ||
     //   this.props.GlobalUserData === "Loading"

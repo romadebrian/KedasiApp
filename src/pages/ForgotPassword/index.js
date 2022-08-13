@@ -13,6 +13,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../config/firebase";
 
+import { useDispatch } from "react-redux";
+import { setDataPengguna } from "../../config/dataUser";
+
 import Logo from "../../assets/img/kedasi_logo.png";
 import NamaKedasi from "../../assets/img/kedasi_nama.png";
 import ArrowBack from "../../assets/img/arrow-left-solid-HD.png";
@@ -20,10 +23,13 @@ import ArrowBack from "../../assets/img/arrow-left-solid-HD.png";
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
+  const dispatch = useDispatch();
+
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.navigate("Login");
+        // navigation.navigate("Login");
+        navigation.goBack();
         return true;
       };
 
@@ -35,16 +41,18 @@ const ForgotPassword = ({ navigation }) => {
   );
 
   const HandleButtonSubmit = () => {
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        console.log(email);
-        alert("Email Reset Password Telah Dikirim");
-        navigation.navigate("Login");
-      })
-      .catch((err) => {
-        console.log(err.code);
-        alert("Email Tidak Terdaftar");
-      });
+    // sendPasswordResetEmail(auth, email)
+    //   .then(() => {
+    //     console.log(email);
+    //     alert("Email Reset Password Telah Dikirim");
+    //     navigation.navigate("Login");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.code);
+    //     alert("Email Tidak Terdaftar");
+    //   });
+
+    dispatch(setDataPengguna("Roma Debrian"));
   };
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>

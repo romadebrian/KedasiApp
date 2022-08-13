@@ -18,11 +18,12 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Provider } from "react-redux";
 
 import { auth } from "./src/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, Provider } from "react-redux";
+import { setUID } from "./src/config/dataUser";
 import store from "./src/config/redux";
 
 import SplashScreen from "./src/pages/SplashScreen";
@@ -50,6 +51,7 @@ const App = (props) => {
   // const dispatch = useDispatch();
 
   useEffect(() => {
+    // store.dispatch(setDataPengguna("Roma Debrians123")); //  Bisa
     const backAction = () => {
       // Alert.alert("Hold on!", "Are you sure you want to go back?", [
       //   {
@@ -71,10 +73,11 @@ const App = (props) => {
     return () => backHandler.remove();
   }, []);
 
-  onAuthStateChanged(auth, (currentUser) => {
-    console.log(currentUser);
-    store.dispatch({ type: "SET_DATA", input: currentUser });
-  });
+  // onAuthStateChanged(auth, (currentUser) => {
+  //   console.log(currentUser);
+  //   // store.dispatch({ type: "SET_DATA", input: currentUser });
+  //   store.dispatch(setDataPengguna(currentUser.displayName));
+  // });
 
   return (
     <Provider store={store}>

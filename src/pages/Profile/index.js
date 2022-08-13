@@ -13,6 +13,11 @@ import BackGound from "../../assets/img/bg.jpeg";
 import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 
 export default class Profile extends Component {
+
+  componentDidMount() {
+
+  }
+  
   HandleSave = () => {
     // console.log(this.props);
     this.props.navigation.navigate("Dashboard");
