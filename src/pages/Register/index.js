@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   BackHandler,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
@@ -41,9 +42,15 @@ const Register = ({ navigation }) => {
       password === "" ||
       repassword === ""
     ) {
-      alert("The form cannot be empty");
+      // alert("The form cannot be empty");
+      Alert.alert("Faill", "The form cannot be empty", [
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
     } else if (password !== repassword) {
-      alert("retype the password is not correct");
+      // alert("retype the password is not correct");
+      Alert.alert("Input wrong", "Retype the password is not correct", [
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
     }
     // const auth = getAuth();
     else
