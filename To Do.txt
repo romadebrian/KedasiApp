@@ -1,0 +1,22 @@
+menu profile update dengan realtime firebase
+bikin table ID user dangan row profile, dan notifikasi
+untuk order user masuk ke table order admin dengan tambahan email/user id
+benerin link navigasinya ()
+bikin gak bisa di rotasi
+
+
+onPress={() => {
+          /* 1. Navigate to the Details route with params */
+          navigation.navigate('Details', {
+            itemId: 86,
+            otherParam: 'anything you want here',
+          });
+
+function DetailsScreen({ route, navigation }) {
+    const { itemId, otherParam } = route.params;
+     return (
+        <Text>itemId: {JSON.stringify(itemId)}</Text>
+     )
+}
+
+this.props.navigation.navigate(JSON.stringify(itemId));
