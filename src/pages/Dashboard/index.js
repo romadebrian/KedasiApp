@@ -23,12 +23,14 @@ class Dashboard extends Component {
 
   state = {
     showMenu: false,
+    countBack: 2,
   };
 
   componentDidMount() {
     var navigation = this.props.navigation;
-    console.log(this.props);
-    console.log(navigation);
+    // console.log(this.props);
+    // console.log(navigation);
+    //
     // if (
     //   this.props.GlobalUserData === null ||
     //   this.props.GlobalUserData === "Loading"
@@ -38,17 +40,24 @@ class Dashboard extends Component {
     //   console.log(this.props.GlobalUserData);
     // }
 
-    // BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
-    // BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
-  handleBackButton() {
-    ToastAndroid.show("Back button is pressed", ToastAndroid.SHORT);
-    return true;
-  }
+  handleBackButton = () => {
+    // ToastAndroid.show("Back button is pressed", ToastAndroid.SHORT);
+    // return false;
+
+    if (this.state.countBack > 0) {
+      // console.log(this.state.countBack);
+      this.state.countBack = this.state.countBack - 1;
+    } else {
+      BackHandler.exitApp();
+    }
+  };
 
   // handleShowMenu = () => {
   //   this.setState({ showMenu: true });
@@ -139,7 +148,7 @@ class Dashboard extends Component {
 }
 
 mapStateToProps = (state) => {
-  console.log(state);
+  // console.log(state);
   return {
     GlobalUserData: state.userData,
   };
