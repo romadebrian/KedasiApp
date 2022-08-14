@@ -15,7 +15,7 @@ import { getDatabase, ref, onValue, child, set, get } from "firebase/database";
 import BackGound from "../../assets/img/bg.jpeg";
 import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 
-export default class Profile extends Component {
+class Profile extends Component {
   state = {
     userID: "Hs5WHaAOG6PBOUNdNQ9EX7b1dqQ2",
     FullName: "",
@@ -45,6 +45,7 @@ export default class Profile extends Component {
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       console.log(data);
+      this.setState({ Address: data?.Address });
     });
   };
 
@@ -53,10 +54,7 @@ export default class Profile extends Component {
 
     const db = getDatabase();
     set(ref(db, "users/" + this.state.userID), {
-      username: "Roma Ifscl",
-      email: "Romaifscl@gmail.com",
-      profile_picture:
-        "https://akses.ksei.co.id/service/banner-info/show-image/IF_L20180601021929296290000000102",
+      Address: this.state.Address,
     }).then((error) => {
       console.log("err", error);
       if (error) {
@@ -150,6 +148,8 @@ export default class Profile extends Component {
     );
   }
 }
+
+export default Profile;
 
 const styles = StyleSheet.create({
   containerProfile: {
