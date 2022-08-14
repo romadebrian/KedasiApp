@@ -10,6 +10,8 @@ import {
   BackHandler,
 } from "react-native";
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import { getDatabase, ref, onValue, child, set, get } from "firebase/database";
 
 import BackGound from "../../assets/img/bg.jpeg";
@@ -46,6 +48,16 @@ class Profile extends Component {
       const data = snapshot.val();
       console.log(data);
       this.setState({ Address: data?.Address });
+    });
+
+    console.log(this.props.dataPengguna);
+    var dataPengguna = this.props.dataPengguna;
+    this.setState({
+      userID: dataPengguna.uid,
+      FullName: dataPengguna.displayName,
+      Email: dataPengguna.email,
+      PhoneNumber: dataPengguna.phoneNumber,
+      Photo: dataPengguna.photoURL,
     });
   };
 
@@ -89,7 +101,9 @@ class Profile extends Component {
         <View style={styles.containerProfile}>
           <Image source={BackGound} style={{ width: "100%", height: 150 }} />
           <Image source={ExamplePhotoProfile} style={styles.photoProfile} />
-          <Text style={{ marginTop: 65, marginBottom: 20 }}>Roma Debrian</Text>
+          <Text style={{ marginTop: 65, marginBottom: 20 }}>
+            {this.state.FullName}
+          </Text>
           <TextInput
             placeholder="Name"
             style={[styles.input]}
@@ -101,6 +115,7 @@ class Profile extends Component {
             style={[styles.input]}
             value={this.state.Email}
             onChangeText={(value) => this.setState({ Email: value })}
+            editable={false}
           />
           <TextInput
             placeholder="Phone Number"
@@ -149,7 +164,12 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = ({ dataPengguna }) => ({
+  // globalState: dataPengguna,
+  dataPengguna,
+});
+
+export default connect(mapStateToProps)(Profile);
 
 const styles = StyleSheet.create({
   containerProfile: {
