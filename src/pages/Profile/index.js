@@ -18,6 +18,11 @@ import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 export default class Profile extends Component {
   state = {
     userID: "Hs5WHaAOG6PBOUNdNQ9EX7b1dqQ2",
+    FullName: "",
+    Email: "",
+    PhoneNumber: "",
+    Address: "",
+    Photo: "",
   };
 
   componentDidMount() {
