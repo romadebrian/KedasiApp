@@ -84,7 +84,7 @@ const ForgotPassword = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ width: "100%", flexDirection: "row" }}
+          style={styles.containerButtonBack}
           onPress={() => navigation.navigate("Login")}
         >
           <Image source={ArrowBack} style={styles.StyArrowBack} />
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   BTNText: {
+    marginTop: 5,
     color: "white",
     fontFamily: "Poppins",
     fontStyle: "normal",
@@ -146,9 +147,15 @@ const styles = StyleSheet.create({
     fontSize: 25,
     lineHeight: 24,
   },
+  containerButtonBack: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+  },
   TextBack: {
     fontWeight: "bold",
-    marginTop: 15,
+    // marginTop: 15,
     marginLeft: 5,
     color: "#0047FF",
     fontFamily: "Poppins-SemiBold",
@@ -157,7 +164,7 @@ const styles = StyleSheet.create({
   StyArrowBack: {
     width: 15,
     height: 15,
-    marginTop: 15,
+    // marginTop: 15,
     marginLeft: "10%",
   },
 });
