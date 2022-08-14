@@ -110,26 +110,26 @@ export default class Profile extends Component {
           <TextInput
             placeholder="Name"
             style={[styles.input]}
-            //   value={email}
-            //   onChangeText={}
+            value={this.state.FullName}
+            onChangeText={(value) => this.setState({ FullName: value })}
           />
           <TextInput
             placeholder="Email"
             style={[styles.input]}
-            //   value={email}
-            //   onChangeText={}
+            value={this.state.Email}
+            onChangeText={(value) => this.setState({ Email: value })}
           />
           <TextInput
             placeholder="Phone Number"
             style={[styles.input]}
-            //   value={email}
-            //   onChangeText={}
+            value={this.state.PhoneNumber}
+            onChangeText={(value) => this.setState({ PhoneNumber: value })}
           />
           <TextInput
             placeholder="Address"
             style={[styles.inputAddress]}
-            //   value={email}
-            //   onChangeText={}
+            value={this.state.Address}
+            onChangeText={(value) => this.setState({ Address: value })}
           />
 
           <View
