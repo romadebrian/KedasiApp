@@ -88,24 +88,9 @@ export default class Profile extends Component {
   render() {
     return (
       <ScrollView>
-        <View
-          style={{
-            backgroundColor: "#FEF7EF",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
+        <View style={styles.containerProfile}>
           <Image source={BackGound} style={{ width: "100%", height: 150 }} />
-          <Image
-            source={ExamplePhotoProfile}
-            style={{
-              width: 145,
-              height: 145,
-              borderRadius: 145 / 2,
-              position: "absolute",
-              top: 65,
-            }}
-          />
+          <Image source={ExamplePhotoProfile} style={styles.photoProfile} />
           <Text style={{ marginTop: 65, marginBottom: 20 }}>Roma Debrian</Text>
           <TextInput
             placeholder="Name"
@@ -132,80 +117,31 @@ export default class Profile extends Component {
             onChangeText={(value) => this.setState({ Address: value })}
           />
 
-          <View
-            style={{
-              width: 300,
-              marginBottom: 10,
-              flexDirection: "row",
-            }}
-          >
+          <View style={styles.containerFooter}>
             <View style={{ flexDirection: "row" }}>
               <TouchableOpacity
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginRight: 5,
-                  backgroundColor: "#007BFF",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                style={[
+                  styles.containerButton,
+                  { marginRight: 5, backgroundColor: "#007BFF" },
+                ]}
                 onPress={this.HandleSave}
               >
-                <Text
-                  style={{
-                    color: "white",
-                    fontFamily: "Poppins",
-                    fontWeight: "bold",
-                    fontSize: 16,
-                  }}
-                >
-                  SAVE
-                </Text>
+                <Text style={[styles.TxtButton, { color: "white" }]}>SAVE</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{
-                  width: 80,
-                  height: 40,
-                  backgroundColor: "#FFC107",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                style={[styles.containerButton, { backgroundColor: "#FFC107" }]}
                 onPress={() => this.props.navigation.navigate("Dashboard")}
               >
-                <Text
-                  style={{
-                    fontFamily: "Poppins",
-                    fontWeight: "bold",
-                    fontSize: 16,
-                  }}
-                >
-                  CANCEL
-                </Text>
+                <Text style={styles.TxtButton}>CANCEL</Text>
               </TouchableOpacity>
             </View>
 
             <View style={{ width: "45%", flexDirection: "row-reverse" }}>
               <TouchableOpacity
-                style={{
-                  width: 80,
-                  height: 40,
-                  backgroundColor: "#28A745",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                style={[styles.containerButton, { backgroundColor: "#28A745" }]}
                 onPress={() => this.props.navigation.navigate("ForgotPassword")}
               >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontFamily: "Poppins",
-                    fontWeight: "bold",
-                    fontSize: 13,
-                  }}
-                >
-                  Change Password
-                </Text>
+                <Text style={styles.TxtBtnChangePassword}>Change Password</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -216,6 +152,18 @@ export default class Profile extends Component {
 }
 
 const styles = StyleSheet.create({
+  containerProfile: {
+    backgroundColor: "#FEF7EF",
+    alignItems: "center",
+    height: "100%",
+  },
+  photoProfile: {
+    width: 145,
+    height: 145,
+    borderRadius: 145 / 2,
+    position: "absolute",
+    top: 65,
+  },
   input: {
     marginBottom: 13,
     width: 300,
@@ -239,5 +187,28 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     fontSize: 16,
     textAlignVertical: "top",
+  },
+  containerFooter: {
+    width: 300,
+    marginBottom: 10,
+    flexDirection: "row",
+  },
+  containerButton: {
+    width: 80,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  TxtButton: {
+    fontFamily: "Poppins",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  TxtBtnChangePassword: {
+    textAlign: "center",
+    color: "white",
+    fontFamily: "Poppins",
+    fontWeight: "bold",
+    fontSize: 13,
   },
 });
