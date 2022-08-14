@@ -6,22 +6,80 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ToastAndroid,
+  BackHandler,
 } from "react-native";
 import React, { Component } from "react";
+import { getDatabase, ref, onValue, child, set, get } from "firebase/database";
 
 import BackGound from "../../assets/img/bg.jpeg";
 import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 
 export default class Profile extends Component {
+  state = {
+    userID: "Hs5WHaAOG6PBOUNdNQ9EX7b1dqQ2",
+  };
 
   componentDidMount() {
+    // console.log(this.props);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 
+    this.handleCollectDataUser();
   }
-  
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+  }
+
+  handleCollectDataUser = () => {
+    // const starCountRef = ref(db, "users/" + userID + "/Nama");
+    // Pakai onValue/Onchanged karena didComponentMount gak terbaca ke 2 kalinya jadi harus terus update
+
+    const db = getDatabase();
+    const starCountRef = ref(db, "users/" + this.state.userID);
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+    });
+  };
+
   HandleSave = () => {
     // console.log(this.props);
-    this.props.navigation.navigate("Dashboard");
+
+    const db = getDatabase();
+    set(ref(db, "users/" + this.state.userID), {
+      username: "Roma Ifscl",
+      email: "Romaifscl@gmail.com",
+      profile_picture:
+        "https://akses.ksei.co.id/service/banner-info/show-image/IF_L20180601021929296290000000102",
+    }).then((error) => {
+      console.log("err", error);
+      if (error) {
+        console.log("Gagal Simpan");
+        alert("Gagal Simpan");
+      } else {
+        console.log("Berhasil Simpan");
+        ToastAndroid.show("Profile Updated", ToastAndroid.SHORT);
+      }
+    });
+
+    // this.props.navigation.navigate("Dashboard");
   };
+
+  handleBackButton = () => {
+    console.log(this.props);
+    // this.props.navigation.goBack();
+    this.props.navigation.navigate("Dashboard");
+    //
+    // this.props.navigation.popToTop();
+    // this.props.navigation.canGoBack();
+    // const navi = (routeBack) => {
+
+    // this.props.navigation.navigate(routeBack);
+    // };
+    // return true;
+  };
+
   render() {
     return (
       <ScrollView>
