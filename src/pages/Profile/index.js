@@ -12,14 +12,16 @@ import {
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { auth, CheckCurrentUser } from "../../config/firebase";
 import { getDatabase, ref, onValue, child, set, get } from "firebase/database";
+import { updateProfile } from "firebase/auth";
 
 import BackGound from "../../assets/img/bg.jpeg";
 import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 
 class Profile extends Component {
   state = {
-    userID: "Hs5WHaAOG6PBOUNdNQ9EX7b1dqQ2",
+    userID: "",
     FullName: "",
     Email: "",
     PhoneNumber: "",
@@ -42,23 +44,28 @@ class Profile extends Component {
     // const starCountRef = ref(db, "users/" + userID + "/Nama");
     // Pakai onValue/Onchanged karena didComponentMount gak terbaca ke 2 kalinya jadi harus terus update
 
-    const db = getDatabase();
-    const starCountRef = ref(db, "users/" + this.state.userID);
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      this.setState({ Address: data?.Address });
-    });
-
-    console.log(this.props.dataPengguna);
+    console.log("Data Redux: ", this.props.dataPengguna);
     var dataPengguna = this.props.dataPengguna;
-    this.setState({
-      userID: dataPengguna.uid,
-      FullName: dataPengguna.displayName,
-      Email: dataPengguna.email,
-      PhoneNumber: dataPengguna.phoneNumber,
-      Photo: dataPengguna.photoURL,
-    });
+    this.setState(
+      {
+        userID: dataPengguna.uid,
+        FullName: dataPengguna.displayName,
+        Email: dataPengguna.email,
+        // PhoneNumber: dataPengguna.phoneNumber,
+        Photo: dataPengguna.photoURL,
+      },
+      () => {
+        const db = getDatabase();
+        const starCountRef = ref(db, "users/" + this.state.userID);
+        onValue(starCountRef, (snapshot) => {
+          const data = snapshot.val();
+          console.log("Data Database", data);
+          this.setState({ Address: data?.Alamat, PhoneNumber: data?.Telepon });
+        });
+      }
+    );
+
+    //
   };
 
   HandleSave = () => {
@@ -66,16 +73,30 @@ class Profile extends Component {
 
     const db = getDatabase();
     set(ref(db, "users/" + this.state.userID), {
-      Address: this.state.Address,
-    }).then((error) => {
-      console.log("err", error);
-      if (error) {
-        console.log("Gagal Simpan");
-        alert("Gagal Simpan");
-      } else {
+      Nama: this.state.FullName,
+      Email: this.state.Email,
+      Telepon: this.state.PhoneNumber,
+      Alamat: this.state.Address,
+      Profile_Picture: this.state.Photo,
+    })
+      .then(() => {
+        // Profile updated!
         console.log("Berhasil Simpan");
         ToastAndroid.show("Profile Updated", ToastAndroid.SHORT);
-      }
+      })
+      .catch((error) => {
+        // An error occurred
+        console.log("Gagal Simpan", error);
+        alert("Gagal Simpan");
+      });
+
+    //
+
+    updateProfile(auth.currentUser, {
+      displayName: this.state.FullName,
+      photoURL: this.state.Photo,
+    }).then(() => {
+      CheckCurrentUser();
     });
 
     // this.props.navigation.navigate("Dashboard");
@@ -100,7 +121,12 @@ class Profile extends Component {
       <ScrollView>
         <View style={styles.containerProfile}>
           <Image source={BackGound} style={{ width: "100%", height: 150 }} />
-          <Image source={ExamplePhotoProfile} style={styles.photoProfile} />
+          <Image
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/kedasi.appspot.com/o/profile%2Fdawdawdawd.jpg?alt=media&token=722cff58-6df1-48dc-b6dd-ff006bedb213",
+            }}
+            style={styles.photoProfile}
+          />
           <Text style={{ marginTop: 65, marginBottom: 20 }}>
             {this.state.FullName}
           </Text>
@@ -119,6 +145,7 @@ class Profile extends Component {
           />
           <TextInput
             placeholder="Phone Number"
+            keyboardType="number-pad"
             style={[styles.input]}
             value={this.state.PhoneNumber}
             onChangeText={(value) => this.setState({ PhoneNumber: value })}
