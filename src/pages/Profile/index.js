@@ -221,7 +221,7 @@ const Profile = ({ navigation }) => {
         // console.log(Extension);
 
         const storage = getStorage(app);
-        const storageRef = sRef(storage, `profile/${userID}.jpg`);
+        const storageRef = sRef(storage, `profile/${userID}.jpg`); // i use JPG for replace file in firebase
 
         const img = await fetch(response.assets[0].uri);
         const bytes = await img.blob();
