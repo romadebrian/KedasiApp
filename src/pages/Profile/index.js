@@ -215,13 +215,13 @@ const Profile = ({ navigation }) => {
         var filenya = response.assets[0];
 
         // Get Extension from source file
-        var arrA = Array.from(filenya.type);
-        arrA.splice(0, 6);
-        var Extension = arrA.join("");
-        console.log(Extension);
+        // var arrA = Array.from(filenya.type);
+        // arrA.splice(0, 6);
+        // var Extension = arrA.join("");
+        // console.log(Extension);
 
         const storage = getStorage(app);
-        const storageRef = sRef(storage, `profile/${userID}.jpeg`);
+        const storageRef = sRef(storage, `profile/${userID}.jpg`);
 
         const img = await fetch(response.assets[0].uri);
         const bytes = await img.blob();
