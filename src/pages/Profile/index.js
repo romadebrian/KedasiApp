@@ -172,7 +172,7 @@ const Profile = ({ navigation }) => {
       {
         text: "OK",
         onPress: () => {
-          sendPasswordResetEmail(auth, this.state.Email)
+          sendPasswordResetEmail(auth, email)
             .then(() => {
               Alert.alert(
                 "Successfully Sent",
