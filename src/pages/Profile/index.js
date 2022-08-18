@@ -50,6 +50,7 @@ const Profile = ({ navigation }) => {
 
     const unsubscribe = navigation.addListener("focus", () => {
       setIsLoad(false);
+      // setPhoto("");
     });
     return unsubscribe;
   }, [navigation]);
@@ -232,8 +233,10 @@ const Profile = ({ navigation }) => {
         getDownloadURL((await uploadBytes(storageRef, bytes)).ref).then(
           (downloadURL) => {
             console.log("File available at", downloadURL);
-            // setUrlImage(downloadURL);
-            ToastAndroid.show("Foto Updated", ToastAndroid.SHORT);
+            ToastAndroid.show("Foto Uploaded", ToastAndroid.SHORT);
+
+            setPhoto(downloadURL);
+            HandleSave();
           }
         );
         //
@@ -286,16 +289,14 @@ const Profile = ({ navigation }) => {
           style={{ position: "absolute", top: 65 }}
           onPress={handleChangePhoto}
         >
-          {photo === null ? (
+          {photo === null || photo === "" ? (
             <Image
               source={require("../../assets/img/no-image.png")}
               style={styles.photoProfile}
             />
           ) : (
             <Image
-              source={{
-                uri: "https://firebasestorage.googleapis.com/v0/b/kedasi.appspot.com/o/profile%2Fdawdawdawd.jpg?alt=media&token=722cff58-6df1-48dc-b6dd-ff006bedb213",
-              }}
+              source={{ uri: photo + "?" + new Date() }}
               style={styles.photoProfile}
             />
           )}
