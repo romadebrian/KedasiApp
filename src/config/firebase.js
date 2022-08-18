@@ -29,7 +29,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
 // export const auth = getAuth(app);
@@ -39,7 +39,7 @@ export const auth = initializeAuth(app, {
 
 export const CheckCurrentUser = () => {
   onAuthStateChanged(auth, (currentUser) => {
-    console.log(currentUser);
+    // console.log(currentUser);
 
     // store.dispatch({ type: "SET_DATA", input: currentUser });
     //   const dispatch = useDispatch();
