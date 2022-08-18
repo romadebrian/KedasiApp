@@ -8,7 +8,8 @@ import {
   BackHandler,
   ToastAndroid,
 } from "react-native";
-import React, { Component } from "react";
+import React, { Component, useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { useSelector, connect } from "react-redux";
 
@@ -17,135 +18,115 @@ import { auth } from "../../config/firebase";
 import Header from "../../components/Header";
 import SideNav from "../../components/SideNav";
 
-class Dashboard extends Component {
+const Dashboard = ({ navigation }) => {
   // globalState = useSelector((state) => state);
   // navigation = this.props.navigation;
+  const [isLoad, setIsLoad] = useState(false);
+  const [countBack, setCountBack] = useState(1);
 
-  state = {
-    showMenu: false,
-    countBack: 2,
-  };
+  useEffect(() => {
+    if (isLoad === false) {
+      setIsLoad(true);
+    }
 
-  componentDidMount() {
-    var navigation = this.props.navigation;
-    // console.log(this.props);
-    // console.log(navigation);
-    //
-    // if (
-    //   this.props.GlobalUserData === null ||
-    //   this.props.GlobalUserData === "Loading"
-    // ) {
-    //   navigation.navigate("Login");
-    // } else {
-    //   console.log(this.props.GlobalUserData);
-    // }
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoad(false);
+      setCountBack(1);
+    });
 
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
-  }
+    return unsubscribe;
+  }, [navigation]);
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
-  }
+  useFocusEffect(
+    useCallback(() => {
+      // console.log(globalState);
 
-  handleBackButton = () => {
-    // ToastAndroid.show("Back button is pressed", ToastAndroid.SHORT);
-    // return false;
+      BackHandler.addEventListener("hardwareBackPress", () =>
+        handleBackButton()
+      );
 
-    if (this.state.countBack > 0) {
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", () =>
+          handleBackButton()
+        );
+      };
+    })
+  );
+
+  const handleBackButton = () => {
+    if (countBack > 0) {
       // console.log(this.state.countBack);
-      this.state.countBack = this.state.countBack - 1;
+      setCountBack(countBack - 1);
+      ToastAndroid.show("Press back again to exit", ToastAndroid.SHORT);
     } else {
       BackHandler.exitApp();
     }
   };
 
-  // handleShowMenu = () => {
-  //   this.setState({ showMenu: true });
-  // };
-
-  // HandleHideMenu = () => {
-  //   this.setState({ showMenu: false });
-  // };
-
-  render() {
-    return (
-      <View
-        style={{ backgroundColor: "#FEF7EF", height: "100%", width: "100%" }}
-      >
-        {/* Header */}
-        {/* <Header showMenu={() => this.handleShowMenu()} /> */}
-
-        {/* List Order */}
-        <ScrollView style={{ position: "relative" }}>
-          <View style={{ alignItems: "center" }}>
-            <TouchableOpacity>
-              <View
-                style={[
-                  styles.ContainerItem,
-                  styles.shadow,
-                  { backgroundColor: "#28A745" },
-                ]}
-              >
-                <Text style={[styles.TitleItem, { color: "white" }]}>
-                  Active Orders
-                </Text>
-                <Text style={[styles.DetailItem, { color: "white" }]}>
-                  ROOM 001 MONTHLY 50 HOURS
-                </Text>
-                <Text style={[styles.DetailTimeItem, { color: "white" }]}>
-                  1/01/2022 - 30/12/2022
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View
-                style={[
-                  styles.ContainerItem,
-                  styles.shadow,
-                  { backgroundColor: "#FFC107" },
-                ]}
-              >
-                <Text style={[styles.TitleItem, { color: "black" }]}>
-                  Unpaid Orders
-                </Text>
-                <Text style={[styles.DetailItem, { color: "black" }]}>
-                  ROOM 001 MONTHLY 50 HOURS
-                </Text>
-                <Text style={[styles.DetailTimeItem, { color: "black" }]}>
-                  Payment Due : 30/12/2022
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View
-                style={[
-                  styles.ContainerItemUnorder,
-                  styles.shadow,
-                  { backgroundColor: "#6C757D" },
-                ]}
-              >
-                <Text style={[styles.TitleItem, { color: "white" }]}>
-                  You don't have orders
-                </Text>
-                <Text style={[styles.DetailItem, { color: "white" }]}>
-                  Order Now
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-        {/* Side Nav */}
-        {/* {this.state.showMenu ? (
-          <SideNav
-            hideMenu={() => this.HandleHideMenu()}
-            nav={this.props.navigation}
-          />
-        ) : null} */}
-        {/* <SideNav /> */}
-      </View>
-    );
-  }
-}
+  return (
+    <View style={{ backgroundColor: "#FEF7EF", height: "100%", width: "100%" }}>
+      {/* List Order */}
+      <ScrollView style={{ position: "relative" }}>
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity>
+            <View
+              style={[
+                styles.ContainerItem,
+                styles.shadow,
+                { backgroundColor: "#28A745" },
+              ]}
+            >
+              <Text style={[styles.TitleItem, { color: "white" }]}>
+                Active Orders
+              </Text>
+              <Text style={[styles.DetailItem, { color: "white" }]}>
+                ROOM 001 MONTHLY 50 HOURS
+              </Text>
+              <Text style={[styles.DetailTimeItem, { color: "white" }]}>
+                1/01/2022 - 30/12/2022
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View
+              style={[
+                styles.ContainerItem,
+                styles.shadow,
+                { backgroundColor: "#FFC107" },
+              ]}
+            >
+              <Text style={[styles.TitleItem, { color: "black" }]}>
+                Unpaid Orders
+              </Text>
+              <Text style={[styles.DetailItem, { color: "black" }]}>
+                ROOM 001 MONTHLY 50 HOURS
+              </Text>
+              <Text style={[styles.DetailTimeItem, { color: "black" }]}>
+                Payment Due : 30/12/2022
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View
+              style={[
+                styles.ContainerItemUnorder,
+                styles.shadow,
+                { backgroundColor: "#6C757D" },
+              ]}
+            >
+              <Text style={[styles.TitleItem, { color: "white" }]}>
+                You don't have orders
+              </Text>
+              <Text style={[styles.DetailItem, { color: "white" }]}>
+                Order Now
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 
 mapStateToProps = (state) => {
   // console.log(state);
@@ -154,7 +135,7 @@ mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;
 
 const styles = StyleSheet.create({
   ////////////////////
