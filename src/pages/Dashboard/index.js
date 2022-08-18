@@ -40,11 +40,7 @@ const Dashboard = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       // console.log(globalState);
-
-      BackHandler.addEventListener("hardwareBackPress", () =>
-        handleBackButton()
-      );
-
+      BackHandler.addEventListener("hardwareBackPress", () => handleBackButton());
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", () =>
           handleBackButton()
