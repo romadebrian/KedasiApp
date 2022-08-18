@@ -1,4 +1,3 @@
-fungsi upload foto
 semua menggunakan functional component
 Perbaiki Fungsi Update Data Profile
 bikin table ID user dangan row profile, dan notifikasi
