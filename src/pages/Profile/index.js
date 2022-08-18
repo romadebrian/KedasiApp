@@ -193,13 +193,8 @@ const Profile = ({ navigation }) => {
 
   const handleChangePhoto = async () => {
     const options = {
-      title: "Select Avatar",
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
       includeBase64: true,
-      // mediaType: "photo",
+      mediaType: "photo",
     };
 
     const metadata = {
@@ -217,11 +212,16 @@ const Profile = ({ navigation }) => {
         console.log("User tapped custom button: ", response.customButton);
       } else {
         // var fileName = response.assets[0].fileName;
-        var filenya = response.assets[0].base64;
-        // var fileName =
+        var filenya = response.assets[0];
+
+        // Get Extension from source file
+        var arrA = Array.from(filenya.type);
+        arrA.splice(0, 6);
+        var Extension = arrA.join("");
+        console.log(Extension);
 
         const storage = getStorage(app);
-        const storageRef = sRef(storage, "images/test3.jpeg");
+        const storageRef = sRef(storage, `profile/${userID}.jpeg`);
 
         const img = await fetch(response.assets[0].uri);
         const bytes = await img.blob();
@@ -286,12 +286,19 @@ const Profile = ({ navigation }) => {
           style={{ position: "absolute", top: 65 }}
           onPress={handleChangePhoto}
         >
-          <Image
-            source={{
-              uri: "https://firebasestorage.googleapis.com/v0/b/kedasi.appspot.com/o/profile%2Fdawdawdawd.jpg?alt=media&token=722cff58-6df1-48dc-b6dd-ff006bedb213",
-            }}
-            style={styles.photoProfile}
-          />
+          {photo === null ? (
+            <Image
+              source={require("../../assets/img/no-image.png")}
+              style={styles.photoProfile}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: "https://firebasestorage.googleapis.com/v0/b/kedasi.appspot.com/o/profile%2Fdawdawdawd.jpg?alt=media&token=722cff58-6df1-48dc-b6dd-ff006bedb213",
+              }}
+              style={styles.photoProfile}
+            />
+          )}
           <View style={styles.IconPhoto}>
             <Image
               source={require("../../assets/icon/camera-solid-white.png")}

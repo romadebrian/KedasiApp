@@ -7,6 +7,8 @@ benerin link navigasinya ()
 bikin gak bisa di rotasi
 
 
+
+
 onPress={() => {
           /* 1. Navigate to the Details route with params */
           navigation.navigate('Details', {
