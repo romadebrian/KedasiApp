@@ -19,11 +19,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { auth } from "./src/config/firebase";
+import { auth, CheckCurrentUser } from "./src/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
-import { useDispatch, Provider } from "react-redux";
-import { setUID } from "./src/config/dataUser";
+import { Provider } from "react-redux";
+import {
+  setUID,
+  setEmail,
+  setName,
+  setPhoneNumber,
+  setPhotoUrl,
+} from "./src/config/dataUser";
 import store from "./src/config/redux";
 
 import SplashScreen from "./src/pages/SplashScreen";
@@ -75,9 +81,26 @@ const App = (props) => {
 
   // onAuthStateChanged(auth, (currentUser) => {
   //   console.log(currentUser);
+
   //   // store.dispatch({ type: "SET_DATA", input: currentUser });
-  //   store.dispatch(setDataPengguna(currentUser.displayName));
+  //   //   const dispatch = useDispatch();
+
+  //   if (currentUser !== null) {
+  //     store.dispatch(setUID(currentUser.uid));
+  //     store.dispatch(setEmail(currentUser.email));
+  //     store.dispatch(setName(currentUser.displayName));
+  //     store.dispatch(setPhoneNumber(currentUser.phoneNumber));
+  //     store.dispatch(setPhotoUrl(currentUser.photoURL));
+  //   } else {
+  //     store.dispatch(setUID(null));
+  //     store.dispatch(setEmail(null));
+  //     store.dispatch(setName(null));
+  //     store.dispatch(setPhoneNumber(null));
+  //     store.dispatch(setPhotoUrl(null));
+  //   }
   // });
+
+  CheckCurrentUser();
 
   return (
     <Provider store={store}>

@@ -21,6 +21,8 @@ import { setDataPengguna, increment } from "../../config/dataUser";
 
 import Logo from "../../assets/img/kedasi_logo.png";
 import NamaLogo from "../../assets/img/kedasi_nama.png";
+import IconMail from "../../assets/icon/envelope-regular.png";
+import IconLock from "../../assets/icon/lock.png";
 
 const Login = ({ navigation }) => {
   const globalState = useSelector((state) => state);
@@ -32,7 +34,8 @@ const Login = ({ navigation }) => {
   const [countBack, setCountBack] = useState(1);
 
   useEffect(() => {
-    console.log(globalState);
+    // console.log(globalState);
+    //
     // const backHandler = BackHandler.addEventListener(
     //   "hardwareBackPress",
     //   () => true
@@ -55,10 +58,10 @@ const Login = ({ navigation }) => {
       // console.log(globalState);
 
       if (globalState.dataPengguna.email !== null) {
-        console.log(globalState);
+        // console.log(globalState);
         navigation.navigate("Dashboard");
       } else {
-        console.log(globalState);
+        // console.log(globalState);
         // navigation.navigate("Dashboard");
       }
 

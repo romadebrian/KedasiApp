@@ -5,107 +5,94 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
-import React, { Component } from "react";
+import React, { Component, useCallback, useEffect, useState } from "react";
 
 import Casual from "./component/Casual";
 import Monthly from "./component/Monthly";
+import { useFocusEffect } from "@react-navigation/native";
 
-export default class RoomReservation extends Component {
-  state = {
-    typeMenu: "Casual",
-    txtCasual: "#007BFF",
-    txtMonthly: "black",
-    locLineMenu: 35,
-  };
+const RoomReservation = ({ navigation }) => {
+  const [typeMenu, setTypeMenu] = useState("Casual");
+  const [txtCasual, setTxtCasual] = useState("#007BFF");
+  const [txtMonthly, setTxtMonthly] = useState("black");
+  const [locLineMenu, setLocLineMenu] = useState(35);
 
-  componentDidMount() {
-    // console.log(this.props);
-
-    if (this.state.typeMenu === "Casual") {
-      this.setState({
-        typeMenu: "Casual",
-        locLineMenu: 35,
-        txtCasual: "#007BFF",
-        txtMonthly: "black",
-      });
+  useEffect(() => {
+    if (typeMenu === "Casual") {
+      setLocLineMenu(35);
+      setTxtCasual("#007BFF");
+      setTxtMonthly("black");
     } else {
-      this.setState({
-        typeMenu: "Monthly",
-        locLineMenu: 105,
-        txtCasual: "black",
-        txtMonthly: "#007BFF",
-      });
+      setLocLineMenu(105);
+      setTxtCasual("black");
+      setTxtMonthly("#007BFF");
     }
-  }
 
-  handleMenuCasual = () => {
-    this.setState({
-      typeMenu: "Casual",
-      locLineMenu: 35,
-      txtCasual: "#007BFF",
-      txtMonthly: "black",
-    });
-  };
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
+      navigation.navigate("Dashboard")
+    );
 
-  handleMenuMonthly = () => {
-    this.setState({
-      typeMenu: "Monthly",
-      locLineMenu: 105,
-      txtCasual: "black",
-      txtMonthly: "#007BFF",
-    });
-  };
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.containerTypeMenu}>
-          <View style={styles.rowMenu}>
-            <TouchableOpacity onPress={this.handleMenuCasual}>
-              <Text
-                style={{
-                  color: this.state.txtCasual,
-                  fontSize: 14,
-                  fontWeight: "600",
-                }}
-              >
-                Casual
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.handleMenuMonthly}>
-              <Text
-                style={{
-                  marginLeft: 25,
-                  color: this.state.txtMonthly,
-                  fontSize: 14,
-                  fontWeight: "600",
-                }}
-              >
-                Monthly
-              </Text>
-            </TouchableOpacity>
-          </View>
+    return () => backHandler.remove();
+  }, [typeMenu]);
 
-          <View
-            style={{
-              width: 70,
-              height: 1,
-              backgroundColor: "#007BFF",
-              marginLeft: this.state.locLineMenu,
-              marginTop: 10,
-            }}
-          />
+  useFocusEffect(
+    useCallback(() => {
+      // console.log(navigation);
+    })
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.containerTypeMenu}>
+        <View style={styles.rowMenu}>
+          <TouchableOpacity onPress={() => setTypeMenu("Casual")}>
+            <Text
+              style={{
+                color: txtCasual,
+                fontSize: 14,
+                fontWeight: "600",
+              }}
+            >
+              Casual
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setTypeMenu("Monthly")}>
+            <Text
+              style={{
+                marginLeft: 25,
+                color: txtMonthly,
+                fontSize: 14,
+                fontWeight: "600",
+              }}
+            >
+              Monthly
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        {this.state.typeMenu === "Casual" ? (
-          <Casual nav={this.props.navigation} />
-        ) : this.state.typeMenu === "Monthly" ? (
-          <Monthly nav={this.props.navigation} />
-        ) : null}
+        <View
+          style={{
+            width: 70,
+            height: 1,
+            backgroundColor: "#007BFF",
+            marginLeft: locLineMenu,
+            marginTop: 10,
+          }}
+        />
       </View>
-    );
-  }
-}
+
+      {typeMenu === "Casual" ? (
+        <Casual nav={navigation} />
+      ) : typeMenu === "Monthly" ? (
+        <Monthly nav={navigation} />
+      ) : null}
+    </View>
+  );
+};
+
+export default RoomReservation;
 
 const styles = StyleSheet.create({
   container: {

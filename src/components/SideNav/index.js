@@ -37,10 +37,12 @@ const SideNav = (props) => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
+        console.log("Logout Success");
         Nav.navigate("Login");
       })
       .catch((error) => {
         // An error happened.
+        console.log(error);
       });
   };
 
@@ -126,10 +128,7 @@ const SideNav = (props) => {
         <Text style={styles.TxtItemMenu}>Message</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.ContainerItemMenu}
-        onPress={() => handleLogout()}
-      >
+      <TouchableOpacity style={styles.ContainerItemMenu} onPress={handleLogout}>
         <Image
           source={IconLogout}
           style={{
