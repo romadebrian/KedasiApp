@@ -12,7 +12,7 @@ import IconCheck from "../../../assets/icon/check-solid.png";
 
 const Casual = ({ nav }) => {
   useEffect(() => {
-    console.log(nav);
+    // console.log(nav);
   });
   return (
     <ScrollView>
