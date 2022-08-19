@@ -64,14 +64,15 @@ const Profile = ({ navigation }) => {
         setIsLoad(true);
       }
 
-      BackHandler.addEventListener("hardwareBackPress", () =>
-        navigation.navigate("Dashboard")
-      );
+      const backAction = () => {
+        navigation.navigate("Dashboard");
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", backAction);
 
       return () => {
-        BackHandler.removeEventListener("hardwareBackPress", () =>
-          navigation.navigate("Dashboard")
-        );
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
       };
     })
   );
