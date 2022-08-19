@@ -25,11 +25,12 @@ import IconSearch from "../../../assets/icon/iconsearch.png";
 import { async } from "@firebase/util";
 
 const PickDate = ({ route, navigation }) => {
-  const [date, setDate] = useState(new Date());
+  const [pickDate, setPickDate] = useState(new Date());
   const [duration, setDuration] = useState("1");
 
   useEffect(() => {
     console.log(route.params);
+    console.log(pickDate);
 
     const backAction = () => {
       navigation.navigate("RoomReservation");
@@ -52,7 +53,7 @@ const PickDate = ({ route, navigation }) => {
           onPress: () => {},
         },
       ]);
-    } else if (date < new Date()) {
+    } else if (pickDate < new Date()) {
       Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
     } else {
       //////////////////// Colect data from firebase ////////////////////
@@ -86,19 +87,41 @@ const PickDate = ({ route, navigation }) => {
         i++;
       } while (i < t);
 
-      //////////////////// Formating Start Date ////////////////////
-      console.log("tglMulai ", tglMulai);
-      // let startDay = tglMulai;
+      //////////////////// Formating Finish Date ////////////////////
+      // var IncreseDate = new Date(
+      //   "Fri Jul 1 2023 00:00:00 GMT+0700 (Western Indonesia Time)"
+      // );
 
-      let StartDate =
-        tglMulai.getDate() +
-        "-" +
-        parseInt(tglMulai.getMonth() + 1) +
-        "-" +
-        tglMulai.getFullYear();
+      var PickerDate = new Date(pickDate);
 
-      console.log("StartDate ", StartDate);
-      setConvertTglMulai(StartDate);
+      let totDuration = Number(duration); //convert string to number
+      var IncreseDate = null;
+
+      if (
+        route.params.type === "Casual 1" ||
+        route.params.type === "Casual 2" ||
+        route.params.type === "Casual 3"
+      ) {
+        IncreseDate = PickerDate;
+        console.log("Perjam/Perhari");
+      } else {
+        IncreseDate = new Date(
+          new Date(PickerDate).setMonth(PickerDate.getMonth() + totDuration)
+        );
+      }
+
+      let DateAfterIncresed = IncreseDate;
+
+      console.log("DateAfterIncresed", DateAfterIncresed);
+
+      var dateFrom = "01-12-2022";
+      var d1 = dateFrom.split("-");
+      var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]);
+
+      console.log(from);
+
+      var resultStart = pickDate <= from;
+      console.log(resultStart);
     }
 
     // navigation.navigate("Room");
@@ -112,7 +135,7 @@ const PickDate = ({ route, navigation }) => {
         height: "100%",
       }}
     >
-      <DatePicker date={date} onDateChange={setDate} mode="date" />
+      <DatePicker date={pickDate} onDateChange={setPickDate} mode="date" />
       <View
         style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
       >
