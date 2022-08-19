@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   BackHandler,
 } from "react-native";
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Casual from "./component/Casual";
 import Monthly from "./component/Monthly";
@@ -30,8 +30,14 @@ const RoomReservation = ({ navigation }) => {
       setTxtMonthly("#007BFF");
     }
 
-    const backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
-      navigation.navigate("Dashboard")
+    const backAction = () => {
+      navigation.navigate("Dashboard");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
     );
 
     return () => backHandler.remove();
