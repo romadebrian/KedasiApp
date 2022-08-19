@@ -7,6 +7,7 @@ import {
   Image,
   BackHandler,
   Alert,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-native-date-picker";
@@ -27,11 +28,12 @@ import { async } from "@firebase/util";
 const PickDate = ({ route, navigation }) => {
   const [pickDate, setPickDate] = useState(new Date());
   const [duration, setDuration] = useState("1");
-  const [avaliableRoom, setAvaliableRoom] = useState([]);
+  const [avaliableRoom, setAvaliableRoom] = useState();
 
   useEffect(() => {
     console.log(route.params);
-    console.log(pickDate);
+    // console.log(pickDate);
+    console.log("avaliableRoom", avaliableRoom);
 
     const backAction = () => {
       navigation.navigate("RoomReservation");
@@ -59,41 +61,6 @@ const PickDate = ({ route, navigation }) => {
     //   Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
     // }
     else {
-      //////////////////// Check one by one with looping////////////////////
-      var i = 0;
-      var r = 6;
-
-      do {
-        console.log("Bagian", i);
-        i++;
-      } while (i < r);
-
-      //////////////////// Colect data from firebase ////////////////////
-      var Room = "ROOM 001";
-
-      const db = getDatabase();
-      const DetailOrder = query(
-        ref(db, "order"),
-        orderByChild("Ruangan"),
-        equalTo(Room)
-      );
-
-      var ListOrder = [];
-      await get(DetailOrder).then((snapshot) => {
-        // console.log(snapshot);
-
-        snapshot.forEach((childsnapshot) => {
-          ListOrder.push(childsnapshot.val());
-
-          // console.log(ListOrder[0]);
-          // console.log(childsnapshot.val());
-        });
-
-        // console.log(ListOrder);
-      });
-
-      console.log("result", ListOrder);
-
       //////////////////// Formating Finish Date ////////////////////
       // var IncreseDate = new Date(
       //   "Fri Jul 1 2023 00:00:00 GMT+0700 (Western Indonesia Time)"
@@ -117,55 +84,100 @@ const PickDate = ({ route, navigation }) => {
         );
       }
 
-      let DateAfterIncresed = IncreseDate;
+      let ResultDateAfterIncresed = IncreseDate;
 
-      console.log("DateAfterIncresed", DateAfterIncresed);
+      console.log("ResultDateAfterIncresed", ResultDateAfterIncresed);
 
-      var i2 = 0;
-      var statusAvaliable = true;
-      // console.log(ListOrder.length);
+      //////////////////// Check one by one with looping////////////////////
+      var i = 0;
+      var r = 6; // ROOM 005
+      const avalRoom = [];
+
       do {
-        console.log("Bagian", i2);
+        console.log("Ruangan", i);
 
-        console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
-        console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
-        var bookingDate = ListOrder[i2].TanggalSewa;
-        var dueDate = ListOrder[i2].TanggalSelesai;
+        //////////////////// Colect data from firebase ////////////////////
+        var Room = `ROOM 00${i}`;
 
-        var d1 = bookingDate.split("-");
-        var d2 = dueDate.split("-");
+        const db = getDatabase();
+        const DetailOrder = query(
+          ref(db, "order"),
+          orderByChild("Ruangan"),
+          equalTo(Room)
+        );
 
-        var ConvertBookingDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
-        var ConvertDueDate = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+        var ListOrder = [];
+        await get(DetailOrder).then((snapshot) => {
+          // console.log(snapshot);
 
-        // console.log(from);
+          snapshot.forEach((childsnapshot) => {
+            ListOrder.push(childsnapshot.val());
 
-        // if Pick Date in inside booking start from Database order
-        var result1 =
-          pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
+            // console.log(ListOrder[0]);
+            // console.log(childsnapshot.val());
+          });
 
-        // If Database Booking Date inside of
-        var result2 =
-          ConvertBookingDate >= pickDate &&
-          ConvertBookingDate <= DateAfterIncresed;
+          // console.log(ListOrder);
+        });
 
-        // var resultStart = check1 >= from && check1 <= to;
-        // var resultStart2 = from >= check1 && from <= check2;
+        console.log("result", ListOrder);
 
-        console.log(result1);
-        console.log(result2);
+        var i2 = 0;
+        var statusAvaliable = true;
+        // console.log(ListOrder.length);
+        do {
+          console.log("Order", i2);
 
-        // use or (||) operator
-        if (statusAvaliable === true) {
-          if (result1 === true || result2 === true) {
-            statusAvaliable = false;
+          console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
+          console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
+          var bookingDate = ListOrder[i2].TanggalSewa;
+          var dueDate = ListOrder[i2].TanggalSelesai;
+
+          var d1 = bookingDate.split("-");
+          var d2 = dueDate.split("-");
+
+          var ConvertBookingDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+          var ConvertDueDate = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+
+          // console.log(from);
+
+          // if Pick Date in inside booking start from Database order
+          var result1 =
+            pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
+
+          // If Database Booking Date inside of
+          var result2 =
+            ConvertBookingDate >= pickDate &&
+            ConvertBookingDate <= ResultDateAfterIncresed;
+
+          // var resultStart = check1 >= from && check1 <= to;
+          // var resultStart2 = from >= check1 && from <= check2;
+
+          console.log(result1);
+          console.log(result2);
+
+          // use or (||) operator
+          if (statusAvaliable === true) {
+            if (result1 === true || result2 === true) {
+              statusAvaliable = false;
+            }
           }
-        }
 
-        i2++;
-      } while (i2 < ListOrder.length);
+          i2++;
+        } while (i2 < ListOrder.length);
 
-      console.log("statusAvaliable", statusAvaliable);
+        console.log("statusAvaliable", statusAvaliable);
+        statusAvaliable ? avalRoom.push(Room) : null;
+
+        i++;
+      } while (i < r);
+
+      console.log(avalRoom);
+      setAvaliableRoom(avalRoom);
+      ToastAndroid.show(
+        `Ruangan yang tersedia: ${avalRoom}`,
+        ToastAndroid.SHORT
+      );
     }
 
     // navigation.navigate("Room");
