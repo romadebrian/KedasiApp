@@ -61,12 +61,12 @@ const PickDate = ({ route, navigation }) => {
     else {
       //////////////////// Check one by one with looping////////////////////
       var i = 0;
-      var t = 6;
+      var r = 6;
 
       do {
         console.log("Bagian", i);
         i++;
-      } while (i < t);
+      } while (i < r);
 
       //////////////////// Colect data from firebase ////////////////////
       var Room = "ROOM 001";
@@ -121,39 +121,51 @@ const PickDate = ({ route, navigation }) => {
 
       console.log("DateAfterIncresed", DateAfterIncresed);
 
-      console.log(ListOrder[0].TanggalSewa);
-      var bookingDate = ListOrder[0].TanggalSewa;
-      var dueDate = ListOrder[0].TanggalSelesai;
-
-      var d1 = bookingDate.split("-");
-      var d2 = dueDate.split("-");
-
-      var ConvertBookingDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
-      var ConvertDueDate = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
-
-      // console.log(from);
-
-      // if Pick Date in inside booking start from Database order
-      var result1 =
-        pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
-
-      // If Database Booking Date inside of
-      var result2 =
-        ConvertBookingDate >= pickDate &&
-        ConvertBookingDate <= DateAfterIncresed;
-
-      // var resultStart = check1 >= from && check1 <= to;
-      // var resultStart2 = from >= check1 && from <= check2;
-
-      console.log(result1);
-      console.log(result2);
-
       var i2 = 0;
+      var statusAvaliable = true;
       // console.log(ListOrder.length);
       do {
         console.log("Bagian", i2);
+
+        console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
+        console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
+        var bookingDate = ListOrder[i2].TanggalSewa;
+        var dueDate = ListOrder[i2].TanggalSelesai;
+
+        var d1 = bookingDate.split("-");
+        var d2 = dueDate.split("-");
+
+        var ConvertBookingDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+        var ConvertDueDate = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+
+        // console.log(from);
+
+        // if Pick Date in inside booking start from Database order
+        var result1 =
+          pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
+
+        // If Database Booking Date inside of
+        var result2 =
+          ConvertBookingDate >= pickDate &&
+          ConvertBookingDate <= DateAfterIncresed;
+
+        // var resultStart = check1 >= from && check1 <= to;
+        // var resultStart2 = from >= check1 && from <= check2;
+
+        console.log(result1);
+        console.log(result2);
+
+        // use or (||) operator
+        if (statusAvaliable === true) {
+          if (result1 === true || result2 === true) {
+            statusAvaliable = false;
+          }
+        }
+
         i2++;
       } while (i2 < ListOrder.length);
+
+      console.log("statusAvaliable", statusAvaliable);
     }
 
     // navigation.navigate("Room");

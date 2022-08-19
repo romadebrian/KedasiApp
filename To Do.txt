@@ -1,5 +1,6 @@
 bikin table ID user dangan row profile, dan notifikasi
 untuk order user masuk ke table order admin dengan tambahan email/user id
+menu casual dan monthly bisa di swipe/slide
 benerin link navigasinya ()
 bikin gak bisa di rotasi
 
