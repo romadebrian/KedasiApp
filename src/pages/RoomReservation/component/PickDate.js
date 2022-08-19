@@ -27,6 +27,7 @@ import { async } from "@firebase/util";
 const PickDate = ({ route, navigation }) => {
   const [pickDate, setPickDate] = useState(new Date());
   const [duration, setDuration] = useState("1");
+  const [avaliableRoom, setAvaliableRoom] = useState([]);
 
   useEffect(() => {
     console.log(route.params);
@@ -53,39 +54,45 @@ const PickDate = ({ route, navigation }) => {
           onPress: () => {},
         },
       ]);
-    } else if (pickDate < new Date()) {
-      Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
-    } else {
-      //////////////////// Colect data from firebase ////////////////////
+    }
+    // else if (pickDate < new Date()) {
+    //   Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
+    // }
+    else {
+      //////////////////// Check one by one with looping////////////////////
       var i = 0;
       var t = 6;
-
-      const db = getDatabase();
-      const DetailOrder = query(
-        ref(db, "order"),
-        orderByChild("Ruangan"),
-        equalTo("ROOM 001")
-      );
-
-      var Detail = [];
-      get(DetailOrder).then((snapshot) => {
-        console.log(snapshot);
-
-        snapshot.forEach((childsnapshot) => {
-          Detail.push(childsnapshot.val());
-        });
-
-        console.log(Detail);
-      });
-
-      console.log("result", DetailOrder);
-
-      // Check one by one with looping
 
       do {
         console.log("Bagian", i);
         i++;
       } while (i < t);
+
+      //////////////////// Colect data from firebase ////////////////////
+      var Room = "ROOM 001";
+
+      const db = getDatabase();
+      const DetailOrder = query(
+        ref(db, "order"),
+        orderByChild("Ruangan"),
+        equalTo(Room)
+      );
+
+      var ListOrder = [];
+      await get(DetailOrder).then((snapshot) => {
+        // console.log(snapshot);
+
+        snapshot.forEach((childsnapshot) => {
+          ListOrder.push(childsnapshot.val());
+
+          // console.log(ListOrder[0]);
+          // console.log(childsnapshot.val());
+        });
+
+        // console.log(ListOrder);
+      });
+
+      console.log("result", ListOrder);
 
       //////////////////// Formating Finish Date ////////////////////
       // var IncreseDate = new Date(
@@ -114,14 +121,39 @@ const PickDate = ({ route, navigation }) => {
 
       console.log("DateAfterIncresed", DateAfterIncresed);
 
-      var dateFrom = "01-12-2022";
-      var d1 = dateFrom.split("-");
-      var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]);
+      console.log(ListOrder[0].TanggalSewa);
+      var bookingDate = ListOrder[0].TanggalSewa;
+      var dueDate = ListOrder[0].TanggalSelesai;
 
-      console.log(from);
+      var d1 = bookingDate.split("-");
+      var d2 = dueDate.split("-");
 
-      var resultStart = pickDate <= from;
-      console.log(resultStart);
+      var ConvertBookingDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+      var ConvertDueDate = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+
+      // console.log(from);
+
+      // if Pick Date in inside booking start from Database order
+      var result1 =
+        pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
+
+      // If Database Booking Date inside of
+      var result2 =
+        ConvertBookingDate >= pickDate &&
+        ConvertBookingDate <= DateAfterIncresed;
+
+      // var resultStart = check1 >= from && check1 <= to;
+      // var resultStart2 = from >= check1 && from <= check2;
+
+      console.log(result1);
+      console.log(result2);
+
+      var i2 = 0;
+      // console.log(ListOrder.length);
+      do {
+        console.log("Bagian", i2);
+        i2++;
+      } while (i2 < ListOrder.length);
     }
 
     // navigation.navigate("Room");
@@ -131,11 +163,17 @@ const PickDate = ({ route, navigation }) => {
     <View
       style={{
         alignItems: "center",
+        justifyContent: "center",
         backgroundColor: "#FEF7EF",
         height: "100%",
       }}
     >
-      <DatePicker date={pickDate} onDateChange={setPickDate} mode="date" />
+      <DatePicker
+        date={pickDate}
+        onDateChange={setPickDate}
+        mode="date"
+        style={{ backgroundColor: "white" }}
+      />
       <View
         style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
       >
