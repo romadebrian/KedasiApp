@@ -5,22 +5,105 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  BackHandler,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-native-date-picker";
 
+import {
+  getDatabase,
+  ref,
+  query,
+  orderByChild,
+  equalTo,
+  get,
+  child,
+} from "firebase/database";
+
 import IconSearch from "../../../assets/icon/iconsearch.png";
+import { async } from "@firebase/util";
 
-const PickDate = ({ navigation }) => {
+const PickDate = ({ route, navigation }) => {
   const [date, setDate] = useState(new Date());
-
-  const HandleSearchDate = () => {
-    navigation.navigate("Room");
-  };
+  const [duration, setDuration] = useState("1");
 
   useEffect(() => {
-    console.log(navigation);
+    console.log(route.params);
+
+    const backAction = () => {
+      navigation.navigate("RoomReservation");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   });
+
+  const HandleSearchDate = async () => {
+    if (duration === "") {
+      Alert.alert("Faill", "Duration can not be empty", [
+        {
+          text: "OK",
+          onPress: () => {},
+        },
+      ]);
+    } else if (date < new Date()) {
+      Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
+    } else {
+      //////////////////// Colect data from firebase ////////////////////
+      var i = 0;
+      var t = 6;
+
+      const db = getDatabase();
+      const DetailOrder = query(
+        ref(db, "order"),
+        orderByChild("Ruangan"),
+        equalTo("ROOM 001")
+      );
+
+      var Detail = [];
+      get(DetailOrder).then((snapshot) => {
+        console.log(snapshot);
+
+        snapshot.forEach((childsnapshot) => {
+          Detail.push(childsnapshot.val());
+        });
+
+        console.log(Detail);
+      });
+
+      console.log("result", DetailOrder);
+
+      // Check one by one with looping
+
+      do {
+        console.log("Bagian", i);
+        i++;
+      } while (i < t);
+
+      //////////////////// Formating Start Date ////////////////////
+      console.log("tglMulai ", tglMulai);
+      // let startDay = tglMulai;
+
+      let StartDate =
+        tglMulai.getDate() +
+        "-" +
+        parseInt(tglMulai.getMonth() + 1) +
+        "-" +
+        tglMulai.getFullYear();
+
+      console.log("StartDate ", StartDate);
+      setConvertTglMulai(StartDate);
+    }
+
+    // navigation.navigate("Room");
+  };
+
   return (
     <View
       style={{
@@ -35,13 +118,12 @@ const PickDate = ({ navigation }) => {
       >
         <Text style={styles.txtDuration}>Duration</Text>
         <TextInput
-          placeholder="Date"
-          defaultValue="1"
+          // placeholder="Date"
+          defaultValue={duration}
           keyboardType="number-pad"
           maxLength={2}
           style={styles.inputDuration}
-          //   value={email}
-          //   onChangeText={}
+          onChangeText={setDuration}
         />
         <Text
           style={{
