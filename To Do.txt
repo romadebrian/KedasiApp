@@ -1,9 +1,9 @@
-semua menggunakan functional component
-Perbaiki Fungsi Update Data Profile
 bikin table ID user dangan row profile, dan notifikasi
 untuk order user masuk ke table order admin dengan tambahan email/user id
 benerin link navigasinya ()
 bikin gak bisa di rotasi
+
+code time 2.6.26
 
 
 
