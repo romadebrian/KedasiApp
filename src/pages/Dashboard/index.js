@@ -32,6 +32,7 @@ const Dashboard = ({ navigation }) => {
     const unsubscribe = navigation.addListener("focus", () => {
       setIsLoad(false);
       setCountBack(1);
+      // console.log("Unsubscribe", countBack);
     });
 
     return unsubscribe;
@@ -40,7 +41,9 @@ const Dashboard = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       // console.log(globalState);
-      BackHandler.addEventListener("hardwareBackPress", () => handleBackButton());
+      BackHandler.addEventListener("hardwareBackPress", () =>
+        handleBackButton()
+      );
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", () =>
           handleBackButton()
@@ -57,6 +60,8 @@ const Dashboard = ({ navigation }) => {
     } else {
       BackHandler.exitApp();
     }
+
+    return true;
   };
 
   return (
