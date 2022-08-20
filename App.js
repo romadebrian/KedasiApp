@@ -43,7 +43,7 @@ import SideNav from "./src/components/SideNav";
 import RoomReservation from "./src/pages/RoomReservation";
 import PickDate from "./src/pages/RoomReservation/component/PickDate";
 import Room from "./src/pages/RoomReservation/component/Room";
-import RoomDetail from "./src/pages/RoomReservation/component/RoomDetail";
+import DetaillRoom from "./src/pages/RoomReservation/DetaillRoom";
 import CheckOut from "./src/pages/RoomReservation/component/CheckOut";
 
 var FullWidth = Dimensions.get("window").width; //full width
@@ -143,7 +143,7 @@ const App = (props) => {
           <Stack.Screen name="RoomReservation" component={RoomReservation} />
           <Stack.Screen name="PickDate" component={PickDate} />
           <Stack.Screen name="Room" component={Room} />
-          <Stack.Screen name="RoomDetail" component={RoomDetail} />
+          <Stack.Screen name="DetaillRoom" component={DetaillRoom} />
           <Stack.Screen name="CheckOut" component={CheckOut} />
         </Drawer.Navigator>
       </NavigationContainer>
