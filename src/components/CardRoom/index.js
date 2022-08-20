@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  BackHandler,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
 import IconPeople from "../../assets/icon/user-group-solid.png";
@@ -11,6 +18,8 @@ const CardRoom = (props) => {
 
   useEffect(() => {
     // console.log(props);
+    // console.log(props.dataBack.type);
+    // console.log(props.dataBack.DataAvalRoom);
   });
 
   var img =
@@ -30,7 +39,14 @@ const CardRoom = (props) => {
     <View style={{ alignItems: "center", marginBottom: 15 }}>
       <TouchableOpacity
         style={styles.container}
-        onPress={() => nav.navigate("RoomDetail")}
+        onPress={() =>
+          nav.navigate("DetaillRoom", {
+            DataAvalRoom: props.dataBack.DataAvalRoom,
+            type: props.dataBack.type,
+            ListDetailRoom: props.ListDetailRoom,
+            room: props.room,
+          })
+        }
       >
         <Image
           source={img}
