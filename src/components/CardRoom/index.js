@@ -27,7 +27,7 @@ const CardRoom = (props) => {
   // };
 
   return (
-    <View style={{ alignItems: "center", marginTop: 15 }}>
+    <View style={{ alignItems: "center", marginBottom: 15 }}>
       <TouchableOpacity
         style={styles.container}
         onPress={() => nav.navigate("RoomDetail")}
