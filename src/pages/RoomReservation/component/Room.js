@@ -5,6 +5,13 @@ import CardRoom from "../../../components/CardRoom";
 const Room = ({ route, navigation }) => {
   const [dataRoom] = useState([
     {
+      id: "ROOM 000",
+      img: "room1",
+      title: "Shared Office Desk",
+      desc: "Shared office room with sitting position facing each other",
+      people: "6",
+    },
+    {
       id: "ROOM 001",
       img: "room1",
       title: "Shared Office Desk",
@@ -72,30 +79,15 @@ const Room = ({ route, navigation }) => {
             desc={dataDetail.desc}
             people={dataDetail.people}
             nav={navigation}
+            dataBack={{
+              DataAvalRoom: route.params.DataAvalRoom,
+              type: route.params.type,
+            }}
+            ListDetailRoom={dataRoom}
+            room={data}
           />
         );
       })}
-      {/* <CardRoom
-        img="room1"
-        title="Shared Office Desk"
-        desc="Shared office room with sitting position facing each other"
-        people="6"
-        nav={navigation}
-      />
-      <CardRoom
-        img="room2"
-        title="Shared Office Desk"
-        desc="Office by sitting facing the wall"
-        people="4"
-        nav={navigation}
-      />
-      <CardRoom
-        img="room3"
-        title="Shared Office Desk"
-        desc="Aesthetic office space"
-        people="5"
-        nav={navigation}
-      /> */}
     </ScrollView>
   );
 };
