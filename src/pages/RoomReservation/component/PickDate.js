@@ -31,7 +31,7 @@ const PickDate = ({ route, navigation }) => {
   // const [avaliableRoom, setAvaliableRoom] = useState();
 
   useEffect(() => {
-    console.log(route.params);
+    console.log(route);
     // console.log(pickDate);
     // console.log("avaliableRoom", avaliableRoom);
 
@@ -178,7 +178,10 @@ const PickDate = ({ route, navigation }) => {
 
       // console.log(avalRoom.length);
       if (avalRoom.length > 0) {
-        navigation.navigate("Room", { DataAvalRoom: avalRoom });
+        navigation.navigate("Room", {
+          DataAvalRoom: avalRoom,
+          type: route.params.type,
+        });
       } else {
         console.log("tidak ada ruangan yang tersedia");
         ToastAndroid.show(`No Room Available`, ToastAndroid.SHORT);
