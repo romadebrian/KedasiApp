@@ -28,12 +28,12 @@ import { async } from "@firebase/util";
 const PickDate = ({ route, navigation }) => {
   const [pickDate, setPickDate] = useState(new Date());
   const [duration, setDuration] = useState("1");
-  const [avaliableRoom, setAvaliableRoom] = useState();
+  // const [avaliableRoom, setAvaliableRoom] = useState();
 
   useEffect(() => {
     console.log(route.params);
     // console.log(pickDate);
-    console.log("avaliableRoom", avaliableRoom);
+    // console.log("avaliableRoom", avaliableRoom);
 
     const backAction = () => {
       navigation.navigate("RoomReservation");
@@ -61,6 +61,7 @@ const PickDate = ({ route, navigation }) => {
     //   Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
     // }
     else {
+      ToastAndroid.show("Searching...", ToastAndroid.SHORT);
       //////////////////// Formating Finish Date ////////////////////
       // var IncreseDate = new Date(
       //   "Fri Jul 1 2023 00:00:00 GMT+0700 (Western Indonesia Time)"
@@ -173,14 +174,16 @@ const PickDate = ({ route, navigation }) => {
       } while (i < r);
 
       console.log(avalRoom);
-      setAvaliableRoom(avalRoom);
-      ToastAndroid.show(
-        `Ruangan yang tersedia: ${avalRoom}`,
-        ToastAndroid.SHORT
-      );
-    }
+      // setAvaliableRoom(avalRoom);
 
-    // navigation.navigate("Room");
+      // console.log(avalRoom.length);
+      if (avalRoom.length > 0) {
+        navigation.navigate("Room", { DataAvalRoom: avalRoom });
+      } else {
+        console.log("tidak ada ruangan yang tersedia");
+        ToastAndroid.show(`No Room Available`, ToastAndroid.SHORT);
+      }
+    }
   };
 
   return (
