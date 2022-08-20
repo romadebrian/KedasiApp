@@ -7,16 +7,30 @@ import {
   TouchableOpacity,
   BackHandler,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { getDatabase, ref, set, child, get } from "firebase/database";
+import { async } from "@firebase/util";
 
 const DetaillRoom = ({ route, navigation }) => {
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
 
+  const [isLoad, setIsLoad] = useState(false);
+  const [dataOrder, setDataOrder] = useState();
+  const [nextOrderId, setNextOrderId] = useState("");
+
   useEffect(() => {
+    console.log(route.params.room);
     console.log(route);
-    console.log(detialTarget);
+    console.log(dataOrder);
+
+    if (!isLoad) {
+      console.log("Didmount");
+      handleCollectData();
+      setIsLoad(true);
+    }
 
     const backAction = () => {
       navigation.navigate("Room", {
@@ -34,6 +48,16 @@ const DetaillRoom = ({ route, navigation }) => {
     return () => backHandler.remove();
   });
 
+  useEffect(() => {
+    // handleCollectDataUser();
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoad(false);
+      // setPhoto("");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const img =
     detialTarget.img === "room1"
       ? require("../../assets/img/room1.jpg")
@@ -42,6 +66,76 @@ const DetaillRoom = ({ route, navigation }) => {
       : detialTarget.img === "room3"
       ? require(`../../assets/img/room3.jpg`)
       : null;
+
+  const handleBooking = () => {
+    console.log("Order Id: ", e.target[0].value);
+    console.log("Paket: ", paket);
+    console.log("Jumlah Paket: ", totalPaket);
+    console.log("Nama Costumer: ", e.target[3].value);
+    console.log("Ruangan: ", e.target[4].value);
+    console.log("Tanggal Mulai: ", convertTglMulai);
+    console.log("Tanggal Selesai: ", tglSelesai);
+    console.log("StatusPembayaran: ", statusPembayaran);
+    console.log("Total Pembayaran", totalPayment);
+    console.log("Jatuh Tempo", jatuhTempo);
+
+    const db = getDatabase();
+    set(ref(db, "users/" + userId), {
+      username: name,
+      email: email,
+      profile_picture: imageUrl,
+    });
+    // navigation.navigate("CheckOut");
+  };
+
+  const handleCollectData = async () => {
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, `order`))
+      .then((snapshot) => {
+        const dataR = [];
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          Object.keys(snapshot.val()).map((key) => {
+            dataR.push({
+              id: key,
+              data: snapshot.val()[key],
+            });
+
+            // data2.push(snapshot.val()[key]);
+            setDataOrder(dataR);
+            return dataR;
+          });
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    handleGetOrderID();
+  };
+
+  const handleGetOrderID = () => {
+    // console.log(dataOrder.length);
+    var totalOrderId = dataOrder.length;
+    var init = totalOrderId + 1;
+    var str = "" + init;
+    var pad = "0000";
+    var ans = pad.substring(0, pad.length - str.length) + str;
+    const valVNextOrderId = "ORD" + ans;
+
+    // this.setState({ nextOrderId: valVNextOrderId });
+    setNextOrderId(valVNextOrderId);
+
+    console.log(valVNextOrderId);
+  };
+
+  const handleTypePaket = () => {};
+
+  const handleTotalPayment = () => {};
+
+  const handleDueDate = () => {};
 
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
@@ -107,9 +201,14 @@ const DetaillRoom = ({ route, navigation }) => {
               </Text>
             </View>
           </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              Rp. 10,000,000
+            </Text>
+          </View>
           <TouchableOpacity
             style={styles.containerButton}
-            onPress={() => navigation.navigate("CheckOut")}
+            onPress={handleBooking}
           >
             <Text style={styles.TxtButton}>Book now</Text>
           </TouchableOpacity>
