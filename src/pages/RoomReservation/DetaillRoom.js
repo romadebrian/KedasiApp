@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import React, { useEffect } from "react";
 
@@ -12,19 +13,35 @@ const DetaillRoom = ({ route, navigation }) => {
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
+
   useEffect(() => {
     console.log(route);
     console.log(detialTarget);
+
+    const backAction = () => {
+      navigation.navigate("Room", {
+        type: route.params.type,
+        DataAvalRoom: route.params.DataAvalRoom,
+      });
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   });
 
-  const img = require("../../assets/img/room1.jpg");
-  // props.img === "room1"
-  //   ? require("../../assets/img/room1.jpg")
-  //   : props.img === "room2"
-  //   ? require("../../assets/img/room2.jpg")
-  //   : props.img === "room3"
-  //   ? require(`../../assets/img/room3.jpg`)
-  //   : null;
+  const img =
+    detialTarget.img === "room1"
+      ? require("../../assets/img/room1.jpg")
+      : detialTarget.img === "room2"
+      ? require("../../assets/img/room2.jpg")
+      : detialTarget.img === "room3"
+      ? require(`../../assets/img/room3.jpg`)
+      : null;
 
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
