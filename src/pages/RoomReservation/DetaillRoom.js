@@ -33,7 +33,7 @@ const DetaillRoom = ({ route, navigation }) => {
     console.log(route);
     console.log(dataOrder);
     // console.log(nextOrderId);
-    // console.log("Name User", globalState.dataPengguna.displayName);
+    console.log("Date User", globalState.dataPengguna);
 
     if (!isLoad) {
       console.log("Didmount");
@@ -85,6 +85,26 @@ const DetaillRoom = ({ route, navigation }) => {
       : detialTarget.img === "room3"
       ? require(`../../assets/img/room3.jpg`)
       : null;
+
+  const handleBookingPress = () => {
+    Alert.alert("Confirmation", "Are you sure you want to book a room?", [
+      {
+        text: "Cancel",
+        onPress: () => {
+          console.log("Cancel Pressed");
+          ToastAndroid.show("Cancelled", ToastAndroid.SHORT);
+        },
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          handleBooking();
+          handleSaveToProfile();
+        },
+      },
+    ]);
+  };
 
   const handleBooking = async () => {
     var nameUser = globalState.dataPengguna.displayName;
@@ -147,6 +167,19 @@ const DetaillRoom = ({ route, navigation }) => {
         // The write failed...
         alert("Gagal Simpan");
       });
+  };
+
+  const handleSaveToProfile = () => {
+    var idUser = globalState.dataPengguna.uid;
+
+    const db = getDatabase();
+    const addOrder = ref(db, `users/${idUser}/order`);
+    const newOrderRef = push(addOrder);
+
+    set(newOrderRef, { OrderId: nextOrderId });
+
+    // const db = getDatabase();
+    // set(ref(db, `users/${idUser}/profile`), { nextOrderId });
   };
 
   const handleCollectData = async () => {
@@ -278,25 +311,6 @@ const DetaillRoom = ({ route, navigation }) => {
     // console.log("Result Formating ", convertDate);
     // setConvertTglMulai(convertDate);
     return convertDate;
-  };
-
-  const handleBookingPress = () => {
-    Alert.alert("Confirmation", "Are you sure you want to book a room?", [
-      {
-        text: "Cancel",
-        onPress: () => {
-          console.log("Cancel Pressed");
-          ToastAndroid.show("Cancelled", ToastAndroid.SHORT);
-        },
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          handleBooking();
-        },
-      },
-    ]);
   };
 
   return (
