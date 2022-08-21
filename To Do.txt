@@ -4,8 +4,7 @@ update photo profile di side nav
 menu casual dan monthly bisa di swipe/slide
 benerin link navigasinya ()
 bikin gak bisa di rotasi
-
-code time 2.6.26
+di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
 
 

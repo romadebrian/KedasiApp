@@ -45,6 +45,7 @@ const CardRoom = (props) => {
             type: props.dataBack.type,
             ListDetailRoom: props.ListDetailRoom,
             room: props.room,
+            duration: props.duration,
           })
         }
       >

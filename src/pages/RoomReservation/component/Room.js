@@ -85,6 +85,7 @@ const Room = ({ route, navigation }) => {
             }}
             ListDetailRoom={dataRoom}
             room={data}
+            duration={route.params.duration}
           />
         );
       })}

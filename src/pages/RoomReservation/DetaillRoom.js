@@ -7,21 +7,42 @@ import {
   TouchableOpacity,
   BackHandler,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { getDatabase, ref, set, child, get } from "firebase/database";
+import { async } from "@firebase/util";
 
 const DetaillRoom = ({ route, navigation }) => {
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
 
+  const [isLoad, setIsLoad] = useState(false);
+  const [dataOrder, setDataOrder] = useState();
+  const [nextOrderId, setNextOrderId] = useState("");
+  const [paket, setPaket] = useState("");
+  const [totalPayment, setTotalPayment] = useState("");
+
   useEffect(() => {
+    console.log(route.params.room);
     console.log(route);
-    console.log(detialTarget);
+    console.log(dataOrder);
+    // console.log(nextOrderId);
+
+    if (!isLoad) {
+      console.log("Didmount");
+      handleCollectData();
+      handleTypePaket();
+      setIsLoad(true);
+
+      handleGetOrderID();
+    }
 
     const backAction = () => {
       navigation.navigate("Room", {
         type: route.params.type,
         DataAvalRoom: route.params.DataAvalRoom,
+        duration: route.params.duration,
       });
       return true;
     };
@@ -34,6 +55,16 @@ const DetaillRoom = ({ route, navigation }) => {
     return () => backHandler.remove();
   });
 
+  useEffect(() => {
+    // handleCollectDataUser();
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoad(false);
+      // setPhoto("");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const img =
     detialTarget.img === "room1"
       ? require("../../assets/img/room1.jpg")
@@ -42,6 +73,125 @@ const DetaillRoom = ({ route, navigation }) => {
       : detialTarget.img === "room3"
       ? require(`../../assets/img/room3.jpg`)
       : null;
+
+  const handleBooking = () => {
+    console.log("Order Id: ", nextOrderId);
+    console.log("Paket: ", paket);
+    console.log("Jumlah Paket: ", totalPaket);
+    console.log("Nama Costumer: ", e.target[3].value);
+    console.log("Ruangan: ", e.target[4].value);
+    console.log("Tanggal Mulai: ", convertTglMulai);
+    console.log("Tanggal Selesai: ", tglSelesai);
+    console.log("StatusPembayaran: ", statusPembayaran);
+    console.log("Total Pembayaran", totalPayment);
+    console.log("Jatuh Tempo", jatuhTempo);
+
+    const db = getDatabase();
+    set(ref(db, "users/" + userId), {
+      username: name,
+      email: email,
+      profile_picture: imageUrl,
+    });
+    // navigation.navigate("CheckOut");
+  };
+
+  const handleCollectData = async () => {
+    const dataR = [];
+    const dbRef = ref(getDatabase());
+    await get(child(dbRef, `order`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          Object.keys(snapshot.val()).map((key) => {
+            dataR.push({
+              id: key,
+              data: snapshot.val()[key],
+            });
+
+            // data2.push(snapshot.val()[key]);
+            setDataOrder(dataR);
+
+            return dataR;
+          });
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    return dataR;
+  };
+
+  const handleGetOrderID = async () => {
+    var ListOrder = await handleCollectData();
+    console.log(ListOrder.length);
+    var totalOrderId = ListOrder.length;
+    var init = totalOrderId + 1;
+    var str = "" + init;
+    var pad = "0000";
+    var ans = pad.substring(0, pad.length - str.length) + str;
+    const valVNextOrderId = "ORD" + ans;
+
+    // this.setState({ nextOrderId: valVNextOrderId });
+    setNextOrderId(valVNextOrderId);
+
+    console.log("valVNextOrderId", valVNextOrderId);
+  };
+
+  const handleTypePaket = () => {
+    var tipe = route.params.type;
+    if (tipe === "Casual 1") {
+      setPaket("PERJAM");
+    } else if (tipe === "Casual 2") {
+      setPaket("HARIAN");
+    } else if (tipe === "Casual 3") {
+      setPaket("HARIAN(PELAJAR)");
+    } else if (tipe === "Monthly 1") {
+      setPaket("BULANAN 25JAM");
+    } else if (tipe === "Monthly 2") {
+      setPaket("BULANAN 50JAM");
+    } else if (tipe === "Monthly 3") {
+      setPaket("BULANAN 100JAM");
+    } else if (tipe === "Monthly 4") {
+      setPaket("BULANAN TANPA BATAS");
+    } else {
+      null;
+    }
+
+    console.log("Type Pacet: ", paket);
+
+    return handleTotalPayment();
+  };
+
+  const handleTotalPayment = () => {
+    var totalPaket = route.params.duration;
+    let ConvertToCurrency = Intl.NumberFormat("en-US");
+
+    if (paket === "PERJAM") {
+      setTotalPayment(ConvertToCurrency.format(30000 * totalPaket));
+    } else if (paket === "HARIAN") {
+      setTotalPayment(ConvertToCurrency.format(100000 * totalPaket));
+    } else if (paket === "HARIAN(PELAJAR)") {
+      setTotalPayment(ConvertToCurrency.format(75000 * totalPaket));
+    } else if (paket === "BULANAN 25JAM") {
+      setTotalPayment(ConvertToCurrency.format(450000 * totalPaket));
+    } else if (paket === "BULANAN 50JAM") {
+      setTotalPayment(ConvertToCurrency.format(650000 * totalPaket));
+    } else if (paket === "BULANAN 100JAM") {
+      setTotalPayment(ConvertToCurrency.format(900000 * totalPaket));
+    } else if (paket === "BULANAN TANPA BATAS") {
+      setTotalPayment(ConvertToCurrency.format(1200000 * totalPaket));
+    } else {
+      setTotalPayment(0);
+    }
+
+    // can't call "totalPayment because useState"
+    // return console.log("Total Payment", totalPayment);
+  };
+
+  const handleDueDate = () => {};
 
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
@@ -107,9 +257,14 @@ const DetaillRoom = ({ route, navigation }) => {
               </Text>
             </View>
           </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              Rp. {totalPayment}
+            </Text>
+          </View>
           <TouchableOpacity
             style={styles.containerButton}
-            onPress={() => navigation.navigate("CheckOut")}
+            onPress={handleBooking}
           >
             <Text style={styles.TxtButton}>Book now</Text>
           </TouchableOpacity>
