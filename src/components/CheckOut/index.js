@@ -61,9 +61,8 @@ const CheckOut = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  const handleGetOrderDetail = () => {
+  const handleGetOrderDetail = async () => {
     const orderID = route.params.orderID;
-    const resultDatabase = [];
 
     const db = getDatabase();
     const DetailOrder = query(
@@ -75,20 +74,22 @@ const CheckOut = ({ route, navigation }) => {
     try {
       onValue(DetailOrder, (snapshot) => {
         Object.keys(snapshot.val()).map((key) => {
+          const resultDatabase = []; // Must place in here for get real time data
           resultDatabase.push({
             data: snapshot.val()[key],
           });
 
           setDataOrder(resultDatabase[0].data);
           console.log(resultDatabase[0].data);
+          // console.log(snapshot.val()[key]);
+
+          handlePriceAndDuration();
           return resultDatabase;
         });
       });
     } catch (error) {
       console.log(error);
     }
-
-    return handlePriceAndDuration();
   };
 
   const handlePriceAndDuration = () => {
@@ -98,26 +99,28 @@ const CheckOut = ({ route, navigation }) => {
       setTypeDuration("Hour");
     } else if (paket === "HARIAN") {
       setSubTotal("100.000");
-      setTypeDuration("day");
+      setTypeDuration("Day");
     } else if (paket === "HARIAN(PELAJAR)") {
       setSubTotal("75.000");
-      setTypeDuration("day");
+      setTypeDuration("Day");
     } else if (paket === "BULANAN 25JAM") {
       setSubTotal("450.000");
-      setTypeDuration("month");
+      setTypeDuration("Month");
     } else if (paket === "BULANAN 50JAM") {
       setSubTotal("650.000");
-      setTypeDuration("month");
+      setTypeDuration("Month");
     } else if (paket === "BULANAN 100JAM") {
       setSubTotal("900.000");
-      setTypeDuration("month");
+      setTypeDuration("Month");
     } else if (paket === "BULANAN TANPA BATAS") {
       setSubTotal("1.200.000");
-      setTypeDuration("month");
+      setTypeDuration("Month");
     } else {
       setSubTotal("0");
-      setTypeDuration("empty");
+      // setTypeDuration("Empty");
     }
+
+    console.log(paket);
   };
 
   return (
@@ -246,7 +249,7 @@ const CheckOut = ({ route, navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              {subTotal}
+              Rp {subTotal}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
