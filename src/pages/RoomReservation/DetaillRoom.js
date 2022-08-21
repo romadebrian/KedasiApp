@@ -140,12 +140,13 @@ const DetaillRoom = ({ route, navigation }) => {
           "",
           dueDate
         );
+
+        navigation.navigate("CheckOut");
       })
       .catch((error) => {
         // The write failed...
         alert("Gagal Simpan");
       });
-    // navigation.navigate("CheckOut");
   };
 
   const handleCollectData = async () => {
