@@ -10,7 +10,7 @@ import React from "react";
 
 import IconCheck from "../../assets/icon/check-white.png";
 
-const CheckOut = ({ navigation }) => {
+const CheckOut = ({route, navigation }) => {
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       <View style={styles.containerPaymentStatus}>

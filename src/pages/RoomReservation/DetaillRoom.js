@@ -161,7 +161,7 @@ const DetaillRoom = ({ route, navigation }) => {
           dueDate
         );
 
-        navigation.navigate("CheckOut");
+        navigation.navigate("CheckOut", { orderID: nextOrderId });
       })
       .catch((error) => {
         // The write failed...
