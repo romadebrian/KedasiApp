@@ -28,6 +28,7 @@ import { async } from "@firebase/util";
 const PickDate = ({ route, navigation }) => {
   const [pickDate, setPickDate] = useState(new Date());
   const [duration, setDuration] = useState("1");
+  // const [endDate, setEndDate] = useState();
   // const [avaliableRoom, setAvaliableRoom] = useState();
 
   useEffect(() => {
@@ -63,29 +64,30 @@ const PickDate = ({ route, navigation }) => {
     else {
       ToastAndroid.show("Searching...", ToastAndroid.SHORT);
       //////////////////// Formating Finish Date ////////////////////
-      // var IncreseDate = new Date(
+      // var EndOfDate = new Date(
       //   "Fri Jul 1 2023 00:00:00 GMT+0700 (Western Indonesia Time)"
       // );
 
       var PickerDate = new Date(pickDate);
 
       let totDuration = Number(duration); //convert string to number
-      var IncreseDate = null;
+      var EndOfDate = null;
 
       if (
         route.params.type === "Casual 1" ||
         route.params.type === "Casual 2" ||
         route.params.type === "Casual 3"
       ) {
-        IncreseDate = PickerDate;
+        EndOfDate = PickerDate;
         console.log("Perjam/Perhari");
       } else {
-        IncreseDate = new Date(
+        EndOfDate = new Date(
           new Date(PickerDate).setMonth(PickerDate.getMonth() + totDuration)
         );
       }
 
-      let ResultDateAfterIncresed = IncreseDate;
+      let ResultDateAfterIncresed = EndOfDate;
+      // setEndDate(EndOfDate);
 
       console.log("Result Date After Incresed", ResultDateAfterIncresed);
 
@@ -182,6 +184,8 @@ const PickDate = ({ route, navigation }) => {
           DataAvalRoom: avalRoom,
           type: route.params.type,
           duration: duration,
+          pickDate: pickDate,
+          endDate: EndOfDate,
         });
       } else {
         console.log("tidak ada ruangan yang tersedia");
