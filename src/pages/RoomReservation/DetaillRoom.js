@@ -20,16 +20,21 @@ const DetaillRoom = ({ route, navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [dataOrder, setDataOrder] = useState();
   const [nextOrderId, setNextOrderId] = useState("");
+  const [paket, setPaket] = useState("");
 
   useEffect(() => {
     console.log(route.params.room);
     console.log(route);
     console.log(dataOrder);
+    // console.log(nextOrderId);
 
     if (!isLoad) {
       console.log("Didmount");
       handleCollectData();
+      handleTypePaket();
       setIsLoad(true);
+
+      handleGetOrderID();
     }
 
     const backAction = () => {
@@ -68,7 +73,7 @@ const DetaillRoom = ({ route, navigation }) => {
       : null;
 
   const handleBooking = () => {
-    console.log("Order Id: ", e.target[0].value);
+    console.log("Order Id: ", nextOrderId);
     console.log("Paket: ", paket);
     console.log("Jumlah Paket: ", totalPaket);
     console.log("Nama Costumer: ", e.target[3].value);
@@ -89,10 +94,10 @@ const DetaillRoom = ({ route, navigation }) => {
   };
 
   const handleCollectData = async () => {
+    const dataR = [];
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `order`))
+    await get(child(dbRef, `order`))
       .then((snapshot) => {
-        const dataR = [];
         if (snapshot.exists()) {
           // console.log(snapshot.val());
           Object.keys(snapshot.val()).map((key) => {
@@ -103,6 +108,7 @@ const DetaillRoom = ({ route, navigation }) => {
 
             // data2.push(snapshot.val()[key]);
             setDataOrder(dataR);
+
             return dataR;
           });
         } else {
@@ -113,12 +119,13 @@ const DetaillRoom = ({ route, navigation }) => {
         console.error(error);
       });
 
-    handleGetOrderID();
+    return dataR;
   };
 
-  const handleGetOrderID = () => {
-    // console.log(dataOrder.length);
-    var totalOrderId = dataOrder.length;
+  const handleGetOrderID = async () => {
+    var ListOrder = await handleCollectData();
+    console.log(ListOrder.length);
+    var totalOrderId = ListOrder.length;
     var init = totalOrderId + 1;
     var str = "" + init;
     var pad = "0000";
@@ -131,7 +138,28 @@ const DetaillRoom = ({ route, navigation }) => {
     console.log(valVNextOrderId);
   };
 
-  const handleTypePaket = () => {};
+  const handleTypePaket = () => {
+    var tipe = route.params.type;
+    if (tipe === "Casual 1") {
+      setPaket("PERJAM");
+    } else if (tipe === "Casual 2") {
+      setPaket("HARIAN");
+    } else if (tipe === "Casual 3") {
+      setPaket("HARIAN(PELAJAR)");
+    } else if (tipe === "Monthly 1") {
+      setPaket("BULANAN 25JAM");
+    } else if (tipe === "Monthly 2") {
+      setPaket("BULANAN 50JAM");
+    } else if (tipe === "Monthly 3") {
+      setPaket("BULANAN 100JAM");
+    } else if (tipe === "Monthly 4") {
+      setPaket("BULANAN TANPA BATAS");
+    } else {
+      null;
+    }
+
+    console.log(paket);
+  };
 
   const handleTotalPayment = () => {};
 
