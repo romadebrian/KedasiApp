@@ -22,6 +22,7 @@ const DetaillRoom = ({ route, navigation }) => {
   const [nextOrderId, setNextOrderId] = useState("");
   const [paket, setPaket] = useState("");
   const [totalPayment, setTotalPayment] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   useEffect(() => {
     console.log(route.params.room);
@@ -33,9 +34,11 @@ const DetaillRoom = ({ route, navigation }) => {
       console.log("Didmount");
       handleCollectData();
       handleTypePaket();
-      setIsLoad(true);
 
       handleGetOrderID();
+      handleDueDate();
+
+      setIsLoad(true);
     }
 
     const backAction = () => {
@@ -77,7 +80,7 @@ const DetaillRoom = ({ route, navigation }) => {
   const handleBooking = () => {
     console.log("Order Id: ", nextOrderId);
     console.log("Paket: ", paket);
-    console.log("Jumlah Paket: ", totalPaket);
+    console.log("Jumlah Paket: ", route.params.duration);
     console.log("Nama Costumer: ", e.target[3].value);
     console.log("Ruangan: ", e.target[4].value);
     console.log("Tanggal Mulai: ", convertTglMulai);
@@ -191,7 +194,20 @@ const DetaillRoom = ({ route, navigation }) => {
     // return console.log("Total Payment", totalPayment);
   };
 
-  const handleDueDate = () => {};
+  const handleDueDate = () => {
+    var dateNow = new Date();
+
+    // add a day
+    dateNow.setDate(dateNow.getDate() + 2);
+
+    console.log("Due Date", dateNow);
+
+    // return new Promise((resolve) => {
+    //   resolve(dateNow);
+    // });
+
+    return setDueDate(dateNow);
+  };
 
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
