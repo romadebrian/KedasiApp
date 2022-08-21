@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import { getDatabase, ref, set, child, get } from "firebase/database";
 import { async } from "@firebase/util";
 
 const DetaillRoom = ({ route, navigation }) => {
+  const globalState = useSelector((state) => state);
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
@@ -29,6 +32,7 @@ const DetaillRoom = ({ route, navigation }) => {
     console.log(route);
     console.log(dataOrder);
     // console.log(nextOrderId);
+    // console.log("Name User", globalState.dataPengguna.displayName);
 
     if (!isLoad) {
       console.log("Didmount");
@@ -38,14 +42,18 @@ const DetaillRoom = ({ route, navigation }) => {
       handleGetOrderID();
       handleDueDate();
 
+      // handleFormatingDate();
+
       setIsLoad(true);
     }
 
     const backAction = () => {
       navigation.navigate("Room", {
-        type: route.params.type,
         DataAvalRoom: route.params.DataAvalRoom,
+        type: route.params.type,
         duration: route.params.duration,
+        pickDate: route.params.pickDate,
+        endDate: route.params.endDate,
       });
       return true;
     };
@@ -77,24 +85,31 @@ const DetaillRoom = ({ route, navigation }) => {
       ? require(`../../assets/img/room3.jpg`)
       : null;
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
+    var nameUser = globalState.dataPengguna.displayName;
+    var duration = route.params.duration;
+    var room = route.params.room;
+    var paymentStatus = "Menunggu Pembayaran";
+    var startDate = handleFormatingDate(route.params.pickDate);
+    var endDate = handleFormatingDate(route.params.endDate);
+
     console.log("Order Id: ", nextOrderId);
     console.log("Paket: ", paket);
-    console.log("Jumlah Paket: ", route.params.duration);
-    console.log("Nama Costumer: ", e.target[3].value);
-    console.log("Ruangan: ", e.target[4].value);
-    console.log("Tanggal Mulai: ", convertTglMulai);
-    console.log("Tanggal Selesai: ", tglSelesai);
-    console.log("StatusPembayaran: ", statusPembayaran);
+    console.log("Jumlah Paket: ", duration);
+    console.log("Nama Costumer: ", nameUser);
+    console.log("Ruangan: ", room);
+    console.log("Tanggal Mulai: ", startDate);
+    console.log("Tanggal Selesai: ", endDate);
+    console.log("StatusPembayaran: ", paymentStatus);
     console.log("Total Pembayaran", totalPayment);
-    console.log("Jatuh Tempo", jatuhTempo);
+    console.log("Jatuh Tempo", dueDate);
 
-    const db = getDatabase();
-    set(ref(db, "users/" + userId), {
-      username: name,
-      email: email,
-      profile_picture: imageUrl,
-    });
+    // const db = getDatabase();
+    // set(ref(db, "users/" + userId), {
+    //   username: name,
+    //   email: email,
+    //   profile_picture: imageUrl,
+    // });
     // navigation.navigate("CheckOut");
   };
 
@@ -207,6 +222,26 @@ const DetaillRoom = ({ route, navigation }) => {
     // });
 
     return setDueDate(dateNow);
+  };
+
+  const handleFormatingDate = (date) => {
+    // console.log("input date ", input);
+    // let date = route.params.pickDate;
+
+    // var date = new Date(
+    //   "Wed Aug 24 2022 14:45:03 GMT+0700 (Western Indonesia Time)"
+    // );
+
+    let convertDate =
+      date.getDate() +
+      "-" +
+      parseInt(date.getMonth() + 1) +
+      "-" +
+      date.getFullYear();
+
+    // console.log("Result Formating ", convertDate);
+    // setConvertTglMulai(convertDate);
+    return convertDate;
   };
 
   return (
