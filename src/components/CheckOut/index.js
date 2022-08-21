@@ -5,12 +5,121 @@ import {
   Text,
   TouchableOpacity,
   View,
+  BackHandler,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import {
+  getDatabase,
+  ref,
+  onValue,
+  orderByChild,
+  equalTo,
+  get,
+  query,
+} from "firebase/database";
 
 import IconCheck from "../../assets/icon/check-white.png";
 
-const CheckOut = ({route, navigation }) => {
+const CheckOut = ({ route, navigation }) => {
+  const [isLoad, setIsLoad] = useState(false);
+  const [dataOrder, setDataOrder] = useState("");
+
+  useEffect(() => {
+    console.log("route", route);
+
+    if (!isLoad) {
+      console.log("Didmount");
+      handleGetOrderDetail();
+
+      setIsLoad(true);
+    }
+
+    const backAction = () => {
+      navigation.navigate("Dashboard");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  });
+
+  useEffect(() => {
+    // handleCollectDataUser();
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoad(false);
+      // setPhoto("");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  const handleGetOrderDetail = () => {
+    const orderID = route.params.orderID;
+    const resultDatabase = [];
+
+    const db = getDatabase();
+    const DetailOrder = query(
+      ref(db, "order"),
+      orderByChild("OrderId"),
+      equalTo(orderID)
+    );
+
+    try {
+      onValue(DetailOrder, (snapshot) => {
+        Object.keys(snapshot.val()).map((key) => {
+          resultDatabase.push({
+            data: snapshot.val()[key],
+          });
+
+          setDataOrder(resultDatabase[0].data);
+          console.log(resultDatabase[0].data);
+          return resultDatabase;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    // const orderRef = ref(db, "order/" + orderID);
+    // onValue(starCountRef, (snapshot) => {
+    //   const data = snapshot.val();
+    //   updateStarCount(postElement, data);
+    // });
+
+    var DataOrder = [];
+
+    // const DetailOrder = query(
+    //   ref(db, "order"),
+    //   orderByChild("OrderId"),
+    //   equalTo(orderID)
+    // );
+
+    // .then((snapshot) => {
+    //   snapshot.forEach((childsnapshot) => {
+    //     DataOrder.push(childsnapshot.val());
+
+    //     console.log(DataOrder);
+    //   });
+    // });
+
+    //   try {
+    //     const DetailOrder = ref(db, "order/-NA0TiMAgm8ajQvyLVEc");
+    //     onValue(DetailOrder, (snapshot) => {
+    //       const data = snapshot.val();
+    //       console.log(data);
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+  };
+
+  const handlePriceAndDuration = () => {};
+
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       <View style={styles.containerPaymentStatus}>
@@ -126,12 +235,13 @@ const CheckOut = ({route, navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Monthly 50 Hours
+              {dataOrder?.Paket}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Shared Office Desk
+              {/* Shared Office Desk  */}
+              {dataOrder?.Ruangan}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
@@ -146,17 +256,17 @@ const CheckOut = ({route, navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Rp 1.950.000
+              Rp {dataOrder?.TotalPembayaran}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              1-1-2022
+              {dataOrder?.TanggalSewa}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              1-4-2022
+              {dataOrder?.TanggalSelesai}
             </Text>
           </View>
         </View>

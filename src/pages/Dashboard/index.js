@@ -69,7 +69,11 @@ const Dashboard = ({ navigation }) => {
       {/* List Order */}
       <ScrollView style={{ position: "relative" }}>
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("CheckOut", { orderID: "ORD0035" })
+            }
+          >
             <View
               style={[
                 styles.ContainerItem,
