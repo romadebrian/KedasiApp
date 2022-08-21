@@ -6,7 +6,7 @@ benerin link navigasinya ()
 bikin gak bisa di rotasi
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
-
+ganti update profile jadi users/${idUser}/profile
 
 
 onPress={() => {
