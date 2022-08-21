@@ -21,6 +21,7 @@ const DetaillRoom = ({ route, navigation }) => {
   const [dataOrder, setDataOrder] = useState();
   const [nextOrderId, setNextOrderId] = useState("");
   const [paket, setPaket] = useState("");
+  const [totalPayment, setTotalPayment] = useState("");
 
   useEffect(() => {
     console.log(route.params.room);
@@ -41,6 +42,7 @@ const DetaillRoom = ({ route, navigation }) => {
       navigation.navigate("Room", {
         type: route.params.type,
         DataAvalRoom: route.params.DataAvalRoom,
+        duration: route.params.duration,
       });
       return true;
     };
@@ -135,7 +137,7 @@ const DetaillRoom = ({ route, navigation }) => {
     // this.setState({ nextOrderId: valVNextOrderId });
     setNextOrderId(valVNextOrderId);
 
-    console.log(valVNextOrderId);
+    console.log("valVNextOrderId", valVNextOrderId);
   };
 
   const handleTypePaket = () => {
@@ -158,10 +160,36 @@ const DetaillRoom = ({ route, navigation }) => {
       null;
     }
 
-    console.log(paket);
+    console.log("Type Pacet: ", paket);
+
+    return handleTotalPayment();
   };
 
-  const handleTotalPayment = () => {};
+  const handleTotalPayment = () => {
+    var totalPaket = route.params.duration;
+    let ConvertToCurrency = Intl.NumberFormat("en-US");
+
+    if (paket === "PERJAM") {
+      setTotalPayment(ConvertToCurrency.format(30000 * totalPaket));
+    } else if (paket === "HARIAN") {
+      setTotalPayment(ConvertToCurrency.format(100000 * totalPaket));
+    } else if (paket === "HARIAN(PELAJAR)") {
+      setTotalPayment(ConvertToCurrency.format(75000 * totalPaket));
+    } else if (paket === "BULANAN 25JAM") {
+      setTotalPayment(ConvertToCurrency.format(450000 * totalPaket));
+    } else if (paket === "BULANAN 50JAM") {
+      setTotalPayment(ConvertToCurrency.format(650000 * totalPaket));
+    } else if (paket === "BULANAN 100JAM") {
+      setTotalPayment(ConvertToCurrency.format(900000 * totalPaket));
+    } else if (paket === "BULANAN TANPA BATAS") {
+      setTotalPayment(ConvertToCurrency.format(1200000 * totalPaket));
+    } else {
+      setTotalPayment(0);
+    }
+
+    // can't call "totalPayment because useState"
+    // return console.log("Total Payment", totalPayment);
+  };
 
   const handleDueDate = () => {};
 
@@ -231,7 +259,7 @@ const DetaillRoom = ({ route, navigation }) => {
           </View>
           <View style={{ alignItems: "center" }}>
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              Rp. 10,000,000
+              Rp. {totalPayment}
             </Text>
           </View>
           <TouchableOpacity
