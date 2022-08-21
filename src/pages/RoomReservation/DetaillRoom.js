@@ -6,13 +6,14 @@ import {
   Image,
   TouchableOpacity,
   BackHandler,
+  Alert,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 
-import { getDatabase, ref, set, child, get } from "firebase/database";
-import { async } from "@firebase/util";
+import { getDatabase, ref, set, child, get, push } from "firebase/database";
 
 const DetaillRoom = ({ route, navigation }) => {
   const globalState = useSelector((state) => state);
@@ -104,12 +105,46 @@ const DetaillRoom = ({ route, navigation }) => {
     console.log("Total Pembayaran", totalPayment);
     console.log("Jatuh Tempo", dueDate);
 
-    // const db = getDatabase();
-    // set(ref(db, "users/" + userId), {
-    //   username: name,
-    //   email: email,
-    //   profile_picture: imageUrl,
-    // });
+    const db = getDatabase();
+    const orderListRef = ref(db, "order");
+    const newOrderRef = push(orderListRef);
+
+    set(newOrderRef, {
+      OrderId: nextOrderId,
+      Paket: paket,
+      JumlahPaket: duration,
+      NamaPemesan: nameUser,
+      Ruangan: room,
+      TanggalSewa: startDate,
+      TanggalSelesai: endDate,
+      Status: paymentStatus,
+      TotalPembayaran: totalPayment,
+      BuktiPembayaran: "",
+      JatuhTempo: dueDate,
+    })
+      .then(() => {
+        // Data saved successfully!
+        ToastAndroid.show("Booking Success", ToastAndroid.SHORT);
+        console.log("Booking Success");
+        console.log(
+          "send value: ",
+          nextOrderId,
+          paket,
+          duration,
+          nameUser,
+          room,
+          startDate,
+          endDate,
+          paymentStatus,
+          totalPayment,
+          "",
+          dueDate
+        );
+      })
+      .catch((error) => {
+        // The write failed...
+        alert("Gagal Simpan");
+      });
     // navigation.navigate("CheckOut");
   };
 
@@ -244,6 +279,25 @@ const DetaillRoom = ({ route, navigation }) => {
     return convertDate;
   };
 
+  const handleBookingPress = () => {
+    Alert.alert("Confirmation", "Are you sure you want to book a room?", [
+      {
+        text: "Cancel",
+        onPress: () => {
+          console.log("Cancel Pressed");
+          ToastAndroid.show("Cancelled", ToastAndroid.SHORT);
+        },
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          handleBooking();
+        },
+      },
+    ]);
+  };
+
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       <View>
@@ -315,7 +369,7 @@ const DetaillRoom = ({ route, navigation }) => {
           </View>
           <TouchableOpacity
             style={styles.containerButton}
-            onPress={handleBooking}
+            onPress={handleBookingPress}
           >
             <Text style={styles.TxtButton}>Book now</Text>
           </TouchableOpacity>
