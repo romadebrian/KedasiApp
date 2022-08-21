@@ -87,7 +87,7 @@ const PickDate = ({ route, navigation }) => {
 
       let ResultDateAfterIncresed = IncreseDate;
 
-      console.log("ResultDateAfterIncresed", ResultDateAfterIncresed);
+      console.log("Result Date After Incresed", ResultDateAfterIncresed);
 
       //////////////////// Check one by one with looping////////////////////
       var i = 0;
@@ -181,6 +181,7 @@ const PickDate = ({ route, navigation }) => {
         navigation.navigate("Room", {
           DataAvalRoom: avalRoom,
           type: route.params.type,
+          duration: duration,
         });
       } else {
         console.log("tidak ada ruangan yang tersedia");
