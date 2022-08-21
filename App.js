@@ -44,7 +44,7 @@ import RoomReservation from "./src/pages/RoomReservation";
 import PickDate from "./src/pages/RoomReservation/component/PickDate";
 import Room from "./src/pages/RoomReservation/component/Room";
 import DetaillRoom from "./src/pages/RoomReservation/DetaillRoom";
-import CheckOut from "./src/pages/RoomReservation/component/CheckOut";
+import CheckOut from "./src/components/CheckOut";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
