@@ -24,6 +24,8 @@ import IconCheck from "../../assets/icon/check-white.png";
 const CheckOut = ({ route, navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [dataOrder, setDataOrder] = useState("");
+  const [subTotal, setSubTotal] = useState();
+  const [typeDuration, setTypeDuration] = useState();
 
   useEffect(() => {
     console.log("route", route);
@@ -48,6 +50,7 @@ const CheckOut = ({ route, navigation }) => {
     return () => backHandler.remove();
   });
 
+  // Handle DidUnmount
   useEffect(() => {
     // handleCollectDataUser();
 
@@ -85,40 +88,37 @@ const CheckOut = ({ route, navigation }) => {
       console.log(error);
     }
 
-    // const orderRef = ref(db, "order/" + orderID);
-    // onValue(starCountRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   updateStarCount(postElement, data);
-    // });
-
-    var DataOrder = [];
-
-    // const DetailOrder = query(
-    //   ref(db, "order"),
-    //   orderByChild("OrderId"),
-    //   equalTo(orderID)
-    // );
-
-    // .then((snapshot) => {
-    //   snapshot.forEach((childsnapshot) => {
-    //     DataOrder.push(childsnapshot.val());
-
-    //     console.log(DataOrder);
-    //   });
-    // });
-
-    //   try {
-    //     const DetailOrder = ref(db, "order/-NA0TiMAgm8ajQvyLVEc");
-    //     onValue(DetailOrder, (snapshot) => {
-    //       const data = snapshot.val();
-    //       console.log(data);
-    //     });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
+    return handlePriceAndDuration();
   };
 
-  const handlePriceAndDuration = () => {};
+  const handlePriceAndDuration = () => {
+    var paket = dataOrder?.Paket;
+    if (paket === "PERJAM") {
+      setSubTotal("30.000");
+      setTypeDuration("Hour");
+    } else if (paket === "HARIAN") {
+      setSubTotal("100.000");
+      setTypeDuration("day");
+    } else if (paket === "HARIAN(PELAJAR)") {
+      setSubTotal("75.000");
+      setTypeDuration("day");
+    } else if (paket === "BULANAN 25JAM") {
+      setSubTotal("450.000");
+      setTypeDuration("month");
+    } else if (paket === "BULANAN 50JAM") {
+      setSubTotal("650.000");
+      setTypeDuration("month");
+    } else if (paket === "BULANAN 100JAM") {
+      setSubTotal("900.000");
+      setTypeDuration("month");
+    } else if (paket === "BULANAN TANPA BATAS") {
+      setSubTotal("1.200.000");
+      setTypeDuration("month");
+    } else {
+      setSubTotal("0");
+      setTypeDuration("empty");
+    }
+  };
 
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
@@ -246,12 +246,12 @@ const CheckOut = ({ route, navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Rp 650.000
+              {subTotal}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              3 Month
+              {dataOrder?.JumlahPaket} {typeDuration}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
