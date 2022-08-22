@@ -290,7 +290,9 @@ const DetaillRoom = ({ route, navigation }) => {
     //   resolve(dateNow);
     // });
 
-    return setDueDate(dateNow);
+    var result = handleFormatingDate(dateNow);
+
+    return setDueDate(result);
   };
 
   const handleFormatingDate = (date) => {
