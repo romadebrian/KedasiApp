@@ -26,9 +26,11 @@ const CheckOut = ({ route, navigation }) => {
   const [dataOrder, setDataOrder] = useState("");
   const [subTotal, setSubTotal] = useState();
   const [typeDuration, setTypeDuration] = useState();
+  const [dateOrder, setDateOrder] = useState();
 
   useEffect(() => {
     console.log("route", route);
+    // console.log(dataOrder);
 
     if (!isLoad) {
       console.log("Didmount");
@@ -84,6 +86,7 @@ const CheckOut = ({ route, navigation }) => {
           // console.log(snapshot.val()[key]);
 
           handlePriceAndDuration();
+          handleGetDateOrder();
           return resultDatabase;
         });
       });
@@ -121,6 +124,39 @@ const CheckOut = ({ route, navigation }) => {
     }
 
     console.log(paket);
+  };
+
+  const handleGetDateOrder = () => {
+    if (dataOrder.JatuhTempo != null) {
+      var dueDate = handleUnFormat(dataOrder.JatuhTempo);
+      dueDate.setDate(dueDate.getDate() - 2);
+      // console.log("Order Date", dueDate);
+      var result = handleFormatingDate(dueDate);
+      setDateOrder(result);
+    }
+  };
+
+  const handleUnFormat = (date) => {
+    // console.log(dataOrder.JatuhTempo);
+    if (date != null) {
+      // var bookingDate = dataOrder.JatuhTempo;
+      var d1 = date.split("-");
+      var unconverConvertDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+
+      // console.log("UnformatLog", ConvertBookingDate);
+      return unconverConvertDate;
+    }
+  };
+
+  const handleFormatingDate = (date) => {
+    let convertDate =
+      date.getDate() +
+      "-" +
+      parseInt(date.getMonth() + 1) +
+      "-" +
+      date.getFullYear();
+
+    return convertDate;
   };
 
   return (
@@ -177,7 +213,8 @@ const CheckOut = ({ route, navigation }) => {
           <Text
             style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
           >
-            30/12/2022 - 23:59 WIB
+            {dateOrder}
+            {/* - 23:59 WIB */}
           </Text>
         </View>
         <View style={styles.containerDate}>
@@ -189,7 +226,8 @@ const CheckOut = ({ route, navigation }) => {
           <Text
             style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
           >
-            1/1/2022 - 23:59 WIB
+            {dataOrder.JatuhTempo}
+            {/* - 23:59 WIB */}
           </Text>
         </View>
       </View>
