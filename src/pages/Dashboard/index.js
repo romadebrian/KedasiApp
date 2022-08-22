@@ -92,7 +92,11 @@ const Dashboard = ({ navigation }) => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("CheckOut", { orderID: "ORD0038" })
+            }
+          >
             <View
               style={[
                 styles.ContainerItem,
