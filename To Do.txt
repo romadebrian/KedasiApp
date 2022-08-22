@@ -1,5 +1,6 @@
 bikin table ID user dangan row profile, dan notifikasi
 update photo profile di side nav 
+ketika item side nav di klik backgroud nya berubah biru
 menu casual dan monthly bisa di swipe/slide
 benerin link navigasinya () (untuk order ruangan gak usah)
 bikin gak bisa di rotasi
