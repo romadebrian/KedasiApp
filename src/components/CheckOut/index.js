@@ -20,6 +20,7 @@ import {
 } from "firebase/database";
 
 import IconCheck from "../../assets/icon/check-white.png";
+import { async } from "@firebase/util";
 
 const CheckOut = ({ route, navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
@@ -27,6 +28,7 @@ const CheckOut = ({ route, navigation }) => {
   const [subTotal, setSubTotal] = useState();
   const [typeDuration, setTypeDuration] = useState();
   const [dateOrder, setDateOrder] = useState();
+  const [paymentStatus, setPaymentStatus] = useState(false);
 
   useEffect(() => {
     console.log("route", route);
@@ -38,6 +40,10 @@ const CheckOut = ({ route, navigation }) => {
 
       setIsLoad(true);
     }
+
+    handlePriceAndDuration();
+    handleGetDateOrder();
+    handlePaymentStatus();
 
     const backAction = () => {
       navigation.navigate("Dashboard");
@@ -74,7 +80,7 @@ const CheckOut = ({ route, navigation }) => {
     );
 
     try {
-      onValue(DetailOrder, (snapshot) => {
+      onValue(DetailOrder, async (snapshot) => {
         Object.keys(snapshot.val()).map((key) => {
           const resultDatabase = []; // Must place in here for get real time data
           resultDatabase.push({
@@ -85,8 +91,6 @@ const CheckOut = ({ route, navigation }) => {
           console.log(resultDatabase[0].data);
           // console.log(snapshot.val()[key]);
 
-          handlePriceAndDuration();
-          handleGetDateOrder();
           return resultDatabase;
         });
       });
@@ -159,6 +163,20 @@ const CheckOut = ({ route, navigation }) => {
     return convertDate;
   };
 
+  const handlePaymentStatus = () => {
+    if (dataOrder.Status != null) {
+      console.log(dataOrder.Status);
+      if (dataOrder.Status === "Active" || dataOrder.Status === "Selesai") {
+        setPaymentStatus(true);
+      } else if (
+        dataOrder.Status === "Menunggu Pembayaran" ||
+        dataOrder.Status === "Batal"
+      ) {
+        setPaymentStatus(false);
+      }
+    }
+  };
+
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       <View style={styles.containerPaymentStatus}>
@@ -171,31 +189,51 @@ const CheckOut = ({ route, navigation }) => {
             },
           ]}
         />
-        <View
-          style={[
-            styles.lineStatusPayment,
-            {
-              backgroundColor: "rgba(217, 217, 217, 0.7)",
-              left: 180,
-            },
-          ]}
-        />
+        {paymentStatus ? (
+          <View
+            style={[
+              styles.lineStatusPayment,
+              {
+                backgroundColor: "#007BFF",
+                left: 180,
+              },
+            ]}
+          />
+        ) : (
+          <View
+            style={[
+              styles.lineStatusPayment,
+              {
+                backgroundColor: "rgba(217, 217, 217, 0.7)",
+                left: 180,
+              },
+            ]}
+          />
+        )}
 
         <View style={styles.containerCrycleStatusPayment}>
           <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
           <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
-          <View
-            style={[
-              styles.crycle,
-              { backgroundColor: "rgba(217, 217, 217, 0.7)" },
-            ]}
-          />
+          {paymentStatus ? (
+            <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
+          ) : (
+            <View
+              style={[
+                styles.crycle,
+                { backgroundColor: "rgba(217, 217, 217, 0.7)" },
+              ]}
+            />
+          )}
         </View>
 
         <View style={styles.containerIconCheck}>
           <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-          {/* <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-          <Image source={IconCheck} style={{ width: 10, height: 10 }} /> */}
+          {paymentStatus ? (
+            <>
+              <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+              <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+            </>
+          ) : null}
         </View>
 
         <View style={styles.containerTextStatusPayment}>
