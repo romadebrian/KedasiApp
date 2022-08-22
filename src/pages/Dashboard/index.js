@@ -71,7 +71,7 @@ const Dashboard = ({ navigation }) => {
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("CheckOut", { orderID: "ORD0035" })
+              navigation.navigate("CheckOut", { orderID: "ORD0038" })
             }
           >
             <View
