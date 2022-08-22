@@ -1,12 +1,15 @@
 bikin table ID user dangan row profile, dan notifikasi
-untuk order user masuk ke table order admin dengan tambahan email/user id
 update photo profile di side nav 
+ketika item side nav di klik backgroud nya berubah biru
 menu casual dan monthly bisa di swipe/slide
-benerin link navigasinya ()
+benerin link navigasinya () (untuk order ruangan gak usah)
 bikin gak bisa di rotasi
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
+ganti update profile jadi users/${idUser}/profile
 
+add notifikasi ke admin ketika user order, order selesai bayar, user nulis pesan
+add notifikasi ke user ketika user order (pesanan di terima), pesanan selesai
 
 
 onPress={() => {

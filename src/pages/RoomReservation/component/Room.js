@@ -1,4 +1,11 @@
-import { Text, StyleSheet, View, ScrollView, BackHandler } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  BackHandler,
+  LogBox,
+} from "react-native";
 import React, { Component, useEffect, useState } from "react";
 import CardRoom from "../../../components/CardRoom";
 
@@ -66,6 +73,10 @@ const Room = ({ route, navigation }) => {
     return () => backHandler.remove();
   });
 
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
+
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       {route.params.DataAvalRoom.map((data) => {
@@ -79,13 +90,15 @@ const Room = ({ route, navigation }) => {
             desc={dataDetail.desc}
             people={dataDetail.people}
             nav={navigation}
+            ListDetailRoom={dataRoom}
+            room={data}
             dataBack={{
               DataAvalRoom: route.params.DataAvalRoom,
               type: route.params.type,
+              duration: route.params.duration,
+              pickDate: route.params.pickDate,
+              endDate: route.params.endDate,
             }}
-            ListDetailRoom={dataRoom}
-            room={data}
-            duration={route.params.duration}
           />
         );
       })}

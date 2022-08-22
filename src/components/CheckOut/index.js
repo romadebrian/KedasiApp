@@ -5,12 +5,178 @@ import {
   Text,
   TouchableOpacity,
   View,
+  BackHandler,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import IconCheck from "../../../assets/icon/check-white.png";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  orderByChild,
+  equalTo,
+  get,
+  query,
+} from "firebase/database";
 
-const CheckOut = ({ navigation }) => {
+import IconCheck from "../../assets/icon/check-white.png";
+import { async } from "@firebase/util";
+
+const CheckOut = ({ route, navigation }) => {
+  const [isLoad, setIsLoad] = useState(false);
+  const [dataOrder, setDataOrder] = useState("");
+  const [subTotal, setSubTotal] = useState();
+  const [typeDuration, setTypeDuration] = useState();
+  const [dateOrder, setDateOrder] = useState();
+  const [paymentStatus, setPaymentStatus] = useState(false);
+
+  useEffect(() => {
+    console.log("route", route);
+    // console.log(dataOrder);
+
+    if (!isLoad) {
+      console.log("Didmount");
+      handleGetOrderDetail();
+
+      setIsLoad(true);
+    }
+
+    handlePriceAndDuration();
+    handleGetDateOrder();
+    handlePaymentStatus();
+
+    const backAction = () => {
+      navigation.navigate("Dashboard");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  });
+
+  // Handle DidUnmount
+  useEffect(() => {
+    // handleCollectDataUser();
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoad(false);
+      // setPhoto("");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  const handleGetOrderDetail = async () => {
+    const orderID = route.params.orderID;
+
+    const db = getDatabase();
+    const DetailOrder = query(
+      ref(db, "order"),
+      orderByChild("OrderId"),
+      equalTo(orderID)
+    );
+
+    try {
+      onValue(DetailOrder, async (snapshot) => {
+        Object.keys(snapshot.val()).map((key) => {
+          const resultDatabase = []; // Must place in here for get real time data
+          resultDatabase.push({
+            data: snapshot.val()[key],
+          });
+
+          setDataOrder(resultDatabase[0].data);
+          console.log(resultDatabase[0].data);
+          // console.log(snapshot.val()[key]);
+
+          return resultDatabase;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePriceAndDuration = () => {
+    var paket = dataOrder?.Paket;
+    if (paket === "PERJAM") {
+      setSubTotal("30.000");
+      setTypeDuration("Hour");
+    } else if (paket === "HARIAN") {
+      setSubTotal("100.000");
+      setTypeDuration("Day");
+    } else if (paket === "HARIAN(PELAJAR)") {
+      setSubTotal("75.000");
+      setTypeDuration("Day");
+    } else if (paket === "BULANAN 25JAM") {
+      setSubTotal("450.000");
+      setTypeDuration("Month");
+    } else if (paket === "BULANAN 50JAM") {
+      setSubTotal("650.000");
+      setTypeDuration("Month");
+    } else if (paket === "BULANAN 100JAM") {
+      setSubTotal("900.000");
+      setTypeDuration("Month");
+    } else if (paket === "BULANAN TANPA BATAS") {
+      setSubTotal("1.200.000");
+      setTypeDuration("Month");
+    } else {
+      setSubTotal("0");
+      // setTypeDuration("Empty");
+    }
+
+    console.log(paket);
+  };
+
+  const handleGetDateOrder = () => {
+    if (dataOrder.JatuhTempo != null) {
+      var dueDate = handleUnFormat(dataOrder.JatuhTempo);
+      dueDate.setDate(dueDate.getDate() - 2);
+      // console.log("Order Date", dueDate);
+      var result = handleFormatingDate(dueDate);
+      setDateOrder(result);
+    }
+  };
+
+  const handleUnFormat = (date) => {
+    // console.log(dataOrder.JatuhTempo);
+    if (date != null) {
+      // var bookingDate = dataOrder.JatuhTempo;
+      var d1 = date.split("-");
+      var unconverConvertDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+
+      // console.log("UnformatLog", ConvertBookingDate);
+      return unconverConvertDate;
+    }
+  };
+
+  const handleFormatingDate = (date) => {
+    let convertDate =
+      date.getDate() +
+      "-" +
+      parseInt(date.getMonth() + 1) +
+      "-" +
+      date.getFullYear();
+
+    return convertDate;
+  };
+
+  const handlePaymentStatus = () => {
+    if (dataOrder.Status != null) {
+      console.log(dataOrder.Status);
+      if (dataOrder.Status === "Active" || dataOrder.Status === "Selesai") {
+        setPaymentStatus(true);
+      } else if (
+        dataOrder.Status === "Menunggu Pembayaran" ||
+        dataOrder.Status === "Batal"
+      ) {
+        setPaymentStatus(false);
+      }
+    }
+  };
+
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
       <View style={styles.containerPaymentStatus}>
@@ -23,31 +189,51 @@ const CheckOut = ({ navigation }) => {
             },
           ]}
         />
-        <View
-          style={[
-            styles.lineStatusPayment,
-            {
-              backgroundColor: "rgba(217, 217, 217, 0.7)",
-              left: 180,
-            },
-          ]}
-        />
+        {paymentStatus ? (
+          <View
+            style={[
+              styles.lineStatusPayment,
+              {
+                backgroundColor: "#007BFF",
+                left: 180,
+              },
+            ]}
+          />
+        ) : (
+          <View
+            style={[
+              styles.lineStatusPayment,
+              {
+                backgroundColor: "rgba(217, 217, 217, 0.7)",
+                left: 180,
+              },
+            ]}
+          />
+        )}
 
         <View style={styles.containerCrycleStatusPayment}>
           <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
           <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
-          <View
-            style={[
-              styles.crycle,
-              { backgroundColor: "rgba(217, 217, 217, 0.7)" },
-            ]}
-          />
+          {paymentStatus ? (
+            <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
+          ) : (
+            <View
+              style={[
+                styles.crycle,
+                { backgroundColor: "rgba(217, 217, 217, 0.7)" },
+              ]}
+            />
+          )}
         </View>
 
         <View style={styles.containerIconCheck}>
           <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-          {/* <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-          <Image source={IconCheck} style={{ width: 10, height: 10 }} /> */}
+          {paymentStatus ? (
+            <>
+              <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+              <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+            </>
+          ) : null}
         </View>
 
         <View style={styles.containerTextStatusPayment}>
@@ -65,7 +251,8 @@ const CheckOut = ({ navigation }) => {
           <Text
             style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
           >
-            30/12/2022 - 23:59 WIB
+            {dateOrder}
+            {/* - 23:59 WIB */}
           </Text>
         </View>
         <View style={styles.containerDate}>
@@ -77,7 +264,8 @@ const CheckOut = ({ navigation }) => {
           <Text
             style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
           >
-            1/1/2022 - 23:59 WIB
+            {dataOrder.JatuhTempo}
+            {/* - 23:59 WIB */}
           </Text>
         </View>
       </View>
@@ -126,37 +314,38 @@ const CheckOut = ({ navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Monthly 50 Hours
+              {dataOrder?.Paket}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Shared Office Desk
+              {/* Shared Office Desk  */}
+              {dataOrder?.Ruangan}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Rp 650.000
+              Rp {subTotal}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              3 Month
+              {dataOrder?.JumlahPaket} {typeDuration}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Rp 1.950.000
+              Rp {dataOrder?.TotalPembayaran}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              1-1-2022
+              {dataOrder?.TanggalSewa}
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              1-4-2022
+              {dataOrder?.TanggalSelesai}
             </Text>
           </View>
         </View>
@@ -165,14 +354,14 @@ const CheckOut = ({ navigation }) => {
       <View style={styles.containerPaymentMethod}>
         <Text style={[styles.txtTitle, { width: "100%" }]}>Payment Method</Text>
         <Image
-          source={require("../../../assets/img/bca-bank-central-asia.png")}
+          source={require("../../assets/img/bca-bank-central-asia.png")}
           style={styles.imgBCA}
         />
         <View
           style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
         >
           <Image
-            source={require("../../../assets/icon/pngtree-email-vector-icon-png-image_355828.png")}
+            source={require("../../assets/icon/pngtree-email-vector-icon-png-image_355828.png")}
             style={styles.imgMail}
           />
           <Text>payment@kedasi.co.id</Text>

@@ -43,9 +43,12 @@ const CardRoom = (props) => {
           nav.navigate("DetaillRoom", {
             DataAvalRoom: props.dataBack.DataAvalRoom,
             type: props.dataBack.type,
-            ListDetailRoom: props.ListDetailRoom,
+            duration: props.dataBack.duration,
+            pickDate: props.dataBack.pickDate,
+            endDate: props.dataBack.endDate,
+
             room: props.room,
-            duration: props.duration,
+            ListDetailRoom: props.ListDetailRoom,
           })
         }
       >

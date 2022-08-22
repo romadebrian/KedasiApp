@@ -6,13 +6,17 @@ import {
   Image,
   TouchableOpacity,
   BackHandler,
+  Alert,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
-import { getDatabase, ref, set, child, get } from "firebase/database";
-import { async } from "@firebase/util";
+import { useSelector } from "react-redux";
+
+import { getDatabase, ref, set, child, get, push } from "firebase/database";
 
 const DetaillRoom = ({ route, navigation }) => {
+  const globalState = useSelector((state) => state);
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
@@ -22,27 +26,35 @@ const DetaillRoom = ({ route, navigation }) => {
   const [nextOrderId, setNextOrderId] = useState("");
   const [paket, setPaket] = useState("");
   const [totalPayment, setTotalPayment] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   useEffect(() => {
     console.log(route.params.room);
     console.log(route);
     console.log(dataOrder);
     // console.log(nextOrderId);
+    console.log("Date User", globalState.dataPengguna);
 
     if (!isLoad) {
       console.log("Didmount");
       handleCollectData();
       handleTypePaket();
-      setIsLoad(true);
 
       handleGetOrderID();
+      handleDueDate();
+
+      // handleFormatingDate();
+
+      setIsLoad(true);
     }
 
     const backAction = () => {
       navigation.navigate("Room", {
-        type: route.params.type,
         DataAvalRoom: route.params.DataAvalRoom,
+        type: route.params.type,
         duration: route.params.duration,
+        pickDate: route.params.pickDate,
+        endDate: route.params.endDate,
       });
       return true;
     };
@@ -74,25 +86,100 @@ const DetaillRoom = ({ route, navigation }) => {
       ? require(`../../assets/img/room3.jpg`)
       : null;
 
-  const handleBooking = () => {
+  const handleBookingPress = () => {
+    Alert.alert("Confirmation", "Are you sure you want to book a room?", [
+      {
+        text: "Cancel",
+        onPress: () => {
+          console.log("Cancel Pressed");
+          ToastAndroid.show("Cancelled", ToastAndroid.SHORT);
+        },
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          handleBooking();
+          handleSaveToProfile();
+        },
+      },
+    ]);
+  };
+
+  const handleBooking = async () => {
+    var nameUser = globalState.dataPengguna.displayName;
+    var duration = route.params.duration;
+    var room = route.params.room;
+    var paymentStatus = "Menunggu Pembayaran";
+    var startDate = handleFormatingDate(route.params.pickDate);
+    var endDate = handleFormatingDate(route.params.endDate);
+
     console.log("Order Id: ", nextOrderId);
     console.log("Paket: ", paket);
-    console.log("Jumlah Paket: ", totalPaket);
-    console.log("Nama Costumer: ", e.target[3].value);
-    console.log("Ruangan: ", e.target[4].value);
-    console.log("Tanggal Mulai: ", convertTglMulai);
-    console.log("Tanggal Selesai: ", tglSelesai);
-    console.log("StatusPembayaran: ", statusPembayaran);
+    console.log("Jumlah Paket: ", duration);
+    console.log("Nama Costumer: ", nameUser);
+    console.log("Ruangan: ", room);
+    console.log("Tanggal Mulai: ", startDate);
+    console.log("Tanggal Selesai: ", endDate);
+    console.log("StatusPembayaran: ", paymentStatus);
     console.log("Total Pembayaran", totalPayment);
-    console.log("Jatuh Tempo", jatuhTempo);
+    console.log("Jatuh Tempo", dueDate);
 
     const db = getDatabase();
-    set(ref(db, "users/" + userId), {
-      username: name,
-      email: email,
-      profile_picture: imageUrl,
-    });
-    // navigation.navigate("CheckOut");
+    const orderListRef = ref(db, "order");
+    const newOrderRef = push(orderListRef);
+
+    set(newOrderRef, {
+      OrderId: nextOrderId,
+      Paket: paket,
+      JumlahPaket: duration,
+      NamaPemesan: nameUser,
+      Ruangan: room,
+      TanggalSewa: startDate,
+      TanggalSelesai: endDate,
+      Status: paymentStatus,
+      TotalPembayaran: totalPayment,
+      BuktiPembayaran: "",
+      JatuhTempo: dueDate,
+    })
+      .then(() => {
+        // Data saved successfully!
+        ToastAndroid.show("Booking Success", ToastAndroid.SHORT);
+        console.log("Booking Success");
+        console.log(
+          "send value: ",
+          nextOrderId,
+          paket,
+          duration,
+          nameUser,
+          room,
+          startDate,
+          endDate,
+          paymentStatus,
+          totalPayment,
+          "",
+          dueDate
+        );
+
+        navigation.navigate("CheckOut", { orderID: nextOrderId });
+      })
+      .catch((error) => {
+        // The write failed...
+        alert("Gagal Simpan");
+      });
+  };
+
+  const handleSaveToProfile = () => {
+    var idUser = globalState.dataPengguna.uid;
+
+    const db = getDatabase();
+    const addOrder = ref(db, `users/${idUser}/order`);
+    const newOrderRef = push(addOrder);
+
+    set(newOrderRef, { OrderId: nextOrderId });
+
+    // const db = getDatabase();
+    // set(ref(db, `users/${idUser}/profile`), { nextOrderId });
   };
 
   const handleCollectData = async () => {
@@ -191,7 +278,42 @@ const DetaillRoom = ({ route, navigation }) => {
     // return console.log("Total Payment", totalPayment);
   };
 
-  const handleDueDate = () => {};
+  const handleDueDate = () => {
+    var dateNow = new Date();
+
+    // add a day
+    dateNow.setDate(dateNow.getDate() + 2);
+
+    console.log("Due Date", dateNow);
+
+    // return new Promise((resolve) => {
+    //   resolve(dateNow);
+    // });
+
+    var result = handleFormatingDate(dateNow);
+
+    return setDueDate(result);
+  };
+
+  const handleFormatingDate = (date) => {
+    // console.log("input date ", input);
+    // let date = route.params.pickDate;
+
+    // var date = new Date(
+    //   "Wed Aug 24 2022 14:45:03 GMT+0700 (Western Indonesia Time)"
+    // );
+
+    let convertDate =
+      date.getDate() +
+      "-" +
+      parseInt(date.getMonth() + 1) +
+      "-" +
+      date.getFullYear();
+
+    // console.log("Result Formating ", convertDate);
+    // setConvertTglMulai(convertDate);
+    return convertDate;
+  };
 
   return (
     <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
@@ -264,7 +386,7 @@ const DetaillRoom = ({ route, navigation }) => {
           </View>
           <TouchableOpacity
             style={styles.containerButton}
-            onPress={handleBooking}
+            onPress={handleBookingPress}
           >
             <Text style={styles.TxtButton}>Book now</Text>
           </TouchableOpacity>
