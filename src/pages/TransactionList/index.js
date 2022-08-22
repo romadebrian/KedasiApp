@@ -1,6 +1,6 @@
 import { StyleSheet, BackHandler, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import CardItemOrder from "./component/CardItemOrder";
+import CardItemTransaction from "./component/CardItemTransaction";
 
 const TransactionList = ({ navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
@@ -31,7 +31,7 @@ const TransactionList = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <CardItemOrder />
+      <CardItemTransaction />
     </ScrollView>
   );
 };
