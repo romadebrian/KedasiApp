@@ -97,7 +97,7 @@ const SideNav = (props) => {
 
       <TouchableOpacity
         style={styles.ContainerItemMenu}
-        onPress={() => alert("Transaction List Page Not Found")}
+        onPress={() => Nav.navigate("TransactionList")}
       >
         <Image
           source={IconList}
