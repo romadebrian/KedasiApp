@@ -50,7 +50,7 @@ const SideNav = (props) => {
   };
 
   const handleUpdatePhoto = () => {
-    console.log(globalState.dataPengguna.photoURL);
+    // console.log(globalState.dataPengguna.photoURL);
     if (globalState.dataPengguna.photoURL !== photo) {
       setPhoto(globalState.dataPengguna.photoURL + "?" + new Date());
     }
