@@ -7,7 +7,7 @@ import { auth } from "../../config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 import LogoNama from "../../assets/img/logo-header-putih.png";
-import ExampleProfilePicture from "../../assets/img/romadebrian.png";
+import ExampleProfilePicture from "../../assets/img/no-image.png";
 import IconBook from "../../assets/icon/book.png";
 import IconList from "../../assets/icon/list-solid.png";
 import IconBel from "../../assets/icon/bell-solid-full.png";
@@ -61,10 +61,20 @@ const SideNav = (props) => {
         style={styles.ContainerProfile}
         onPress={() => Nav.navigate("Profile")}
       >
-        <Image
-          source={ExampleProfilePicture}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-        />
+        {globalState.photoURL != null ? (
+          <Image
+            source={ExampleProfilePicture}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+        ) : (
+          <Image
+            source={{
+              uri: globalState.dataPengguna.photoURL + "?" + new Date(),
+            }}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+        )}
+
         <Text style={styles.TxtProfile}>
           {globalState.dataPengguna?.displayName}
         </Text>
