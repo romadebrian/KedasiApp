@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { useSelector } from "react-redux/es/exports";
 import { useSelector } from "react-redux";
 
@@ -19,7 +19,10 @@ const SideNav = (props) => {
 
   const globalState = useSelector((state) => state);
 
+  const [photo, setPhoto] = useState("");
+
   useEffect(() => {
+    handleUpdatePhoto();
     // console.log(globalState);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
@@ -29,7 +32,7 @@ const SideNav = (props) => {
     //     // User is signed out
     //   }
     // });
-  });
+  }, [globalState, Nav]);
 
   const handleLogout = () => {
     // auth.signOut();
@@ -44,6 +47,13 @@ const SideNav = (props) => {
         // An error happened.
         console.log(error);
       });
+  };
+
+  const handleUpdatePhoto = () => {
+    console.log(globalState.dataPengguna.photoURL);
+    if (globalState.dataPengguna.photoURL !== photo) {
+      setPhoto(globalState.dataPengguna.photoURL + "?" + new Date());
+    }
   };
 
   return (
@@ -61,16 +71,20 @@ const SideNav = (props) => {
         style={styles.ContainerProfile}
         onPress={() => Nav.navigate("Profile")}
       >
-        {globalState.photoURL != null ? (
+        {globalState.dataPengguna.photoURL != null ? (
           <Image
-            source={ExampleProfilePicture}
+            // source={{
+            //   uri: globalState.dataPengguna.photoURL + "?" + new Date(),
+            // }}
+            source={{
+              uri: photo,
+              cache: "reload",
+            }}
             style={{ width: 50, height: 50, borderRadius: 25 }}
           />
         ) : (
           <Image
-            source={{
-              uri: globalState.dataPengguna.photoURL + "?" + new Date(),
-            }}
+            source={ExampleProfilePicture}
             style={{ width: 50, height: 50, borderRadius: 25 }}
           />
         )}
