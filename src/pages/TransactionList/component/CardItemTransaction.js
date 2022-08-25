@@ -19,6 +19,7 @@ import {
 } from "firebase/database";
 
 const CardItemTransaction = (props) => {
+  const navigation = props.navigation;
   const [dataTansaction, setdataTansaction] = useState("");
   useEffect(() => {
     console.log(props);
@@ -54,7 +55,11 @@ const CardItemTransaction = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("CheckOut", { orderID: dataTansaction.OrderId })
+        }
+      >
         <Card>
           <View
             style={{

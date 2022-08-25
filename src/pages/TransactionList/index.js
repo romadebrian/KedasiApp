@@ -80,7 +80,10 @@ const TransactionList = ({ navigation }) => {
             console.log(roomData);
             return (
               <View key={roomData}>
-                <CardItemTransaction IDorder={roomData} />
+                <CardItemTransaction
+                  IDorder={roomData}
+                  navigation={navigation}
+                />
                 {/* <Text>{roomData}</Text> */}
               </View>
             );
