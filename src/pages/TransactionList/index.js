@@ -2,19 +2,9 @@ import { StyleSheet, BackHandler, ScrollView, View, Text } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  orderByChild,
-  equalTo,
-  get,
-  query,
-  child,
-} from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 import CardItemTransaction from "./component/CardItemTransaction";
-import { async } from "@firebase/util";
 
 const TransactionList = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
@@ -96,45 +86,6 @@ const TransactionList = ({ navigation }) => {
             );
           })
         : null}
-
-      {/* {listTransaction.map((orderId) => {
-        console.log(orderId);
-
-        // const resultDatabase = [];
-        var dataRoom = null;
-
-        console.log(orderId);
-        const db = getDatabase();
-        const DetailOrder = query(
-          ref(db, "order"),
-          orderByChild("OrderId"),
-          equalTo(orderId)
-        );
-
-        onValue(DetailOrder, (snapshot2) => {
-          Object.keys(snapshot2.val()).map((key) => {
-            // resultDatabase.push(snapshot2.val()[key]);
-
-            dataRoom = snapshot2.val()[key];
-            console.log(snapshot2.val()[key]);
-
-            // return resultDatabase;
-          });
-          console.log("dataRoom", dataRoom?.OrderId);
-        });
-
-        // console.log("dataRoom", dataRoom?.OrderId);
-        // setListTransaction(resultDatabase);
-
-        return (
-          <View key={orderId}>
-            <CardItemTransaction />
-            <Text>{dataRoom?.Ruangan}</Text>
-          </View>
-        );
-      })} */}
-
-      {/* <CardItemTransaction /> */}
     </ScrollView>
   );
 };
