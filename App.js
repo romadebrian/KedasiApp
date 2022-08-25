@@ -45,6 +45,7 @@ import PickDate from "./src/pages/RoomReservation/component/PickDate";
 import Room from "./src/pages/RoomReservation/component/Room";
 import DetaillRoom from "./src/pages/RoomReservation/DetaillRoom";
 import CheckOut from "./src/components/CheckOut";
+import TransactionList from "./src/pages/TransactionList";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
@@ -145,6 +146,7 @@ const App = (props) => {
           <Stack.Screen name="Room" component={Room} />
           <Stack.Screen name="DetaillRoom" component={DetaillRoom} />
           <Stack.Screen name="CheckOut" component={CheckOut} />
+          <Stack.Screen name="TransactionList" component={TransactionList} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

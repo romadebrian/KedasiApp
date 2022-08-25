@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { useSelector } from "react-redux/es/exports";
 import { useSelector } from "react-redux";
 
@@ -7,7 +7,7 @@ import { auth } from "../../config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 import LogoNama from "../../assets/img/logo-header-putih.png";
-import ExampleProfilePicture from "../../assets/img/romadebrian.png";
+import ExampleProfilePicture from "../../assets/img/no-image.png";
 import IconBook from "../../assets/icon/book.png";
 import IconList from "../../assets/icon/list-solid.png";
 import IconBel from "../../assets/icon/bell-solid-full.png";
@@ -19,7 +19,10 @@ const SideNav = (props) => {
 
   const globalState = useSelector((state) => state);
 
+  const [photo, setPhoto] = useState("");
+
   useEffect(() => {
+    handleUpdatePhoto();
     // console.log(globalState);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
@@ -29,7 +32,7 @@ const SideNav = (props) => {
     //     // User is signed out
     //   }
     // });
-  });
+  }, [globalState, Nav]);
 
   const handleLogout = () => {
     // auth.signOut();
@@ -44,6 +47,13 @@ const SideNav = (props) => {
         // An error happened.
         console.log(error);
       });
+  };
+
+  const handleUpdatePhoto = () => {
+    // console.log(globalState.dataPengguna.photoURL);
+    if (globalState.dataPengguna.photoURL !== photo) {
+      setPhoto(globalState.dataPengguna.photoURL + "?" + new Date());
+    }
   };
 
   return (
@@ -61,10 +71,24 @@ const SideNav = (props) => {
         style={styles.ContainerProfile}
         onPress={() => Nav.navigate("Profile")}
       >
-        <Image
-          source={ExampleProfilePicture}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-        />
+        {globalState.dataPengguna.photoURL != null ? (
+          <Image
+            // source={{
+            //   uri: globalState.dataPengguna.photoURL + "?" + new Date(),
+            // }}
+            source={{
+              uri: photo,
+              cache: "reload",
+            }}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+        ) : (
+          <Image
+            source={ExampleProfilePicture}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+        )}
+
         <Text style={styles.TxtProfile}>
           {globalState.dataPengguna?.displayName}
         </Text>
@@ -97,7 +121,7 @@ const SideNav = (props) => {
 
       <TouchableOpacity
         style={styles.ContainerItemMenu}
-        onPress={() => alert("Transaction List Page Not Found")}
+        onPress={() => Nav.navigate("TransactionList")}
       >
         <Image
           source={IconList}
