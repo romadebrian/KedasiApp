@@ -5,10 +5,53 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, Card, Button, Icon } from "@rneui/themed";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  orderByChild,
+  equalTo,
+  get,
+  query,
+  child,
+} from "firebase/database";
 
-const CardItemTransaction = () => {
+const CardItemTransaction = (props) => {
+  const [dataTansaction, setdataTansaction] = useState("");
+  useEffect(() => {
+    console.log(props);
+    getDetailRoom();
+  }, [props]);
+
+  const getDetailRoom = async () => {
+    var orderId = props.IDorder;
+    console.log(orderId);
+
+    const resultDatabase = [];
+
+    const db = getDatabase();
+    const DetailOrder = query(
+      ref(db, "order"),
+      orderByChild("OrderId"),
+      equalTo(orderId)
+    );
+
+    onValue(DetailOrder, (snapshot) => {
+      Object.keys(snapshot.val()).map((key) => {
+        setdataTansaction(snapshot.val()[key]);
+        console.log(snapshot.val()[key]);
+
+        // return
+      });
+    });
+
+    // console.log(dataTansaction);
+    // setListTransaction(resultDatabase);
+    // ListO = resultDatabase;
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -40,10 +83,12 @@ const CardItemTransaction = () => {
               }}
             >
               <Text style={{ color: "#b8b8b8", fontSize: 12 }}>
-                Order: #ORD0038
+                Order: #{dataTansaction?.OrderId}
               </Text>
-              <Text>BULANAN 50JAM</Text>
-              <Text style={{ color: "#b8b8b8", fontSize: 12 }}>ROOM 005</Text>
+              <Text>{dataTansaction?.Paket}</Text>
+              <Text style={{ color: "#b8b8b8", fontSize: 12 }}>
+                {dataTansaction?.Ruangan}
+              </Text>
             </View>
             <View
               style={{
@@ -53,7 +98,7 @@ const CardItemTransaction = () => {
               }}
             >
               <Text>Total</Text>
-              <Text>Rp 3,250,000</Text>
+              <Text>Rp {dataTansaction?.TotalPembayaran}</Text>
             </View>
             <View
               style={{
@@ -62,7 +107,9 @@ const CardItemTransaction = () => {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ textAlign: "center" }}>Menunggu Pembayaran</Text>
+              <Text style={{ textAlign: "center" }}>
+                {dataTansaction?.Status}
+              </Text>
             </View>
           </View>
         </Card>
@@ -77,5 +124,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: -8,
+    marginVertical: -5,
   },
 });
