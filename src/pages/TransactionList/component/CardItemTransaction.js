@@ -178,7 +178,7 @@ const CardItemTransaction = (props) => {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ textAlign: "center" }}>
+              <Text style={{ textAlign: "center", color: colors }}>
                 {dataTansaction?.Status}
               </Text>
             </View>
