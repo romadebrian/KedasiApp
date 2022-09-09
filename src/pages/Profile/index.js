@@ -10,7 +10,7 @@ import {
   BackHandler,
   Alert,
 } from "react-native";
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { app, auth, CheckCurrentUser } from "../../config/firebase";
