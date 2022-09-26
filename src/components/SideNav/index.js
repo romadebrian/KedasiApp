@@ -143,7 +143,7 @@ const SideNav = (props) => {
 
       <TouchableOpacity
         style={styles.ContainerItemMenu}
-        onPress={() => alert("Message List Page Not Found")}
+        onPress={() => Nav.navigate("Message")}
       >
         <Image
           source={IconChat}

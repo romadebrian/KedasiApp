@@ -47,6 +47,7 @@ import DetaillRoom from "./src/pages/RoomReservation/DetaillRoom";
 import CheckOut from "./src/components/CheckOut";
 import TransactionList from "./src/pages/TransactionList";
 import Notification from "./src/pages/Notification";
+import Message from "./src/pages/Message";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
@@ -149,6 +150,7 @@ const App = (props) => {
           <Stack.Screen name="CheckOut" component={CheckOut} />
           <Stack.Screen name="TransactionList" component={TransactionList} />
           <Stack.Screen name="Notification" component={Notification} />
+          <Stack.Screen name="Message" component={Message} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

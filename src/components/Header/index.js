@@ -27,9 +27,7 @@ const Header = (props) => {
             style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
           />
         </TouchableOpacity>
-        <Text style={{ fontSize: 14, fontWeight: "500" }}>
-          Detail Transaction
-        </Text>
+        <Text style={{ fontSize: 14, fontWeight: "500" }}>Notification</Text>
       </View>
       <View style={styles.containerBel}>
         <TouchableOpacity
