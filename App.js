@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -56,6 +56,7 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const App = (props) => {
+  const [isLogin] = useState(true);
   // console.log(props);
   // const dispatch = useDispatch();
 
@@ -115,7 +116,7 @@ const App = (props) => {
           // }}
           initialRouteName="SplashScreen"
           screenOptions={{ header: (props) => <Header {...props} /> }}
-          drawerContent={(props) => <SideNav {...props} />}
+          drawerContent={isLogin ? (props) => <SideNav {...props} /> : null}
         >
           <Stack.Screen name="Dashboard" component={Dashboard} />
 
