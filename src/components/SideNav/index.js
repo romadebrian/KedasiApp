@@ -132,7 +132,7 @@ const SideNav = (props) => {
 
       <TouchableOpacity
         style={styles.ContainerItemMenu}
-        onPress={() => alert("Notification List Page Not Found")}
+        onPress={() => Nav.navigate("Notification")}
       >
         <Image
           source={IconBel}

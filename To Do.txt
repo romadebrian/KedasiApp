@@ -1,3 +1,4 @@
+di detail transaksi jikga sudah bayar tombol upload payment hilang
 bikin table ID user dangan row profile, dan notifikasi
 update photo profile di side nav 
 ketika item side nav di klik backgroud nya berubah biru

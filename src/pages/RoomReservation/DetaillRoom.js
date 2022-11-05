@@ -15,6 +15,9 @@ import { useSelector } from "react-redux";
 
 import { getDatabase, ref, set, child, get, push } from "firebase/database";
 
+import "intl";
+import "intl/locale-data/jsonp/en";
+
 const DetaillRoom = ({ route, navigation }) => {
   const globalState = useSelector((state) => state);
   const detialTarget = route.params.ListDetailRoom.find(

@@ -22,6 +22,7 @@ const CardItemTransaction = (props) => {
   const navigation = props.navigation;
   const [dataTansaction, setdataTansaction] = useState("");
   const [dates, setDates] = useState("");
+  const [colors, setColors] = useState("");
 
   useEffect(() => {
     console.log(props);
@@ -57,6 +58,7 @@ const CardItemTransaction = (props) => {
         resultDatabase = snapshot.val()[key];
 
         handleDateType(snapshot.val()[key]);
+        handleColor(snapshot.val()[key].Status);
       });
 
       return resultDatabase;
@@ -101,6 +103,18 @@ const CardItemTransaction = (props) => {
     }
   };
 
+  const handleColor = (stat) => {
+    var Status = stat;
+
+    Status === "Active"
+      ? setColors("#28a745")
+      : Status === "Selesai"
+      ? setColors("#6c757d")
+      : Status === "Menunggu Pembayaran"
+      ? setColors("#ffc107")
+      : setColors("#dc3545");
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -125,31 +139,9 @@ const CardItemTransaction = (props) => {
                 {new Date(dates).getFullYear()}
               </Text>
 
-              {dataTansaction.Status === "Active" ? (
-                <Text
-                  style={{ color: "#28a745", fontSize: 20, fontWeight: "bold" }}
-                >
-                  {new Date(dates).getDate()}
-                </Text>
-              ) : dataTansaction.Status === "Selesai" ? (
-                <Text
-                  style={{ color: "#6c757d", fontSize: 20, fontWeight: "bold" }}
-                >
-                  {new Date(dates).getDate()}
-                </Text>
-              ) : dataTansaction.Status === "Menunggu Pembayaran" ? (
-                <Text
-                  style={{ color: "#ffc107", fontSize: 20, fontWeight: "bold" }}
-                >
-                  {new Date(dates).getDate()}
-                </Text>
-              ) : (
-                <Text
-                  style={{ color: "#dc3545", fontSize: 20, fontWeight: "bold" }}
-                >
-                  {new Date(dates).getDate()}
-                </Text>
-              )}
+              <Text style={{ color: colors, fontSize: 20, fontWeight: "bold" }}>
+                {new Date(dates).getDate()}
+              </Text>
 
               <Text style={{ color: "#b8b8b8" }}>
                 {new Date(dates).getMonth()}
@@ -186,7 +178,7 @@ const CardItemTransaction = (props) => {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ textAlign: "center" }}>
+              <Text style={{ textAlign: "center", color: colors }}>
                 {dataTansaction?.Status}
               </Text>
             </View>
