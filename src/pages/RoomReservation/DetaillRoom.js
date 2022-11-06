@@ -15,14 +15,12 @@ import { useSelector } from "react-redux";
 
 import { getDatabase, ref, set, child, get, push } from "firebase/database";
 
-import "intl";
-import "intl/locale-data/jsonp/en";
-
 const DetaillRoom = ({ route, navigation }) => {
   const globalState = useSelector((state) => state);
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
+  var CurrencyFormat = require("react-currency-format");
 
   const [isLoad, setIsLoad] = useState(false);
   const [dataOrder, setDataOrder] = useState();
@@ -257,22 +255,22 @@ const DetaillRoom = ({ route, navigation }) => {
 
   const handleTotalPayment = () => {
     var totalPaket = route.params.duration;
-    let ConvertToCurrency = Intl.NumberFormat("en-US");
+    // let ConvertToCurrency = Intl.NumberFormat("en-US");
 
     if (paket === "PERJAM") {
-      setTotalPayment(ConvertToCurrency.format(30000 * totalPaket));
+      setTotalPayment(currencyFormating(30000 * totalPaket));
     } else if (paket === "HARIAN") {
-      setTotalPayment(ConvertToCurrency.format(100000 * totalPaket));
+      setTotalPayment(currencyFormating(100000 * totalPaket));
     } else if (paket === "HARIAN(PELAJAR)") {
-      setTotalPayment(ConvertToCurrency.format(75000 * totalPaket));
+      setTotalPayment(currencyFormating(75000 * totalPaket));
     } else if (paket === "BULANAN 25JAM") {
-      setTotalPayment(ConvertToCurrency.format(450000 * totalPaket));
+      setTotalPayment(currencyFormating(450000 * totalPaket));
     } else if (paket === "BULANAN 50JAM") {
-      setTotalPayment(ConvertToCurrency.format(650000 * totalPaket));
+      setTotalPayment(currencyFormating(650000 * totalPaket));
     } else if (paket === "BULANAN 100JAM") {
-      setTotalPayment(ConvertToCurrency.format(900000 * totalPaket));
+      setTotalPayment(currencyFormating(900000 * totalPaket));
     } else if (paket === "BULANAN TANPA BATAS") {
-      setTotalPayment(ConvertToCurrency.format(1200000 * totalPaket));
+      setTotalPayment(currencyFormating(1200000 * totalPaket));
     } else {
       setTotalPayment(0);
     }
@@ -316,6 +314,11 @@ const DetaillRoom = ({ route, navigation }) => {
     // console.log("Result Formating ", convertDate);
     // setConvertTglMulai(convertDate);
     return convertDate;
+  };
+
+  const currencyFormating = (val) => {
+    let num = parseInt(val);
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
   };
 
   return (
@@ -384,7 +387,7 @@ const DetaillRoom = ({ route, navigation }) => {
           </View>
           <View style={{ alignItems: "center" }}>
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              Rp. {totalPayment}
+              Rp {totalPayment}
             </Text>
           </View>
           <TouchableOpacity
