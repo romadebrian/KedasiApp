@@ -20,7 +20,6 @@ const DetaillRoom = ({ route, navigation }) => {
   const detialTarget = route.params.ListDetailRoom.find(
     ({ id }) => id === route.params.room
   );
-  var CurrencyFormat = require("react-currency-format");
 
   const [isLoad, setIsLoad] = useState(false);
   const [dataOrder, setDataOrder] = useState();
