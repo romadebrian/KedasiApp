@@ -14,6 +14,7 @@ import {
   View,
   Dimensions,
   BackHandler,
+  Alert,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -49,6 +50,8 @@ import TransactionList from "./src/pages/TransactionList";
 import Notification from "./src/pages/Notification";
 import Message from "./src/pages/Message";
 
+import NotifService from "./src/config/Notification/NotifService";
+
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
 
@@ -56,6 +59,8 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const App = (props) => {
+  const [registerToken, setRegisterToken] = useState("");
+  const [fcmRegistered, setFcmRegistered] = useState(false);
   const [isLogin] = useState(true);
   // console.log(props);
   // const dispatch = useDispatch();
@@ -105,6 +110,23 @@ const App = (props) => {
   // });
 
   CheckCurrentUser();
+
+  // Notification System
+  const onRegister = (token) => {
+    setRegisterToken(token.token);
+    setFcmRegistered(true);
+  };
+
+  const onNotif = (notif) => {
+    // Alert.alert(notif.title, notif.message);
+    handleCreateNotification(notif.title, notif.message);
+  };
+
+  const notif = new NotifService(onRegister, onNotif);
+
+  const handleCreateNotification = (ValTitle, ValMessage) => {
+    notif.localNotif(ValTitle, ValMessage);
+  };
 
   return (
     <Provider store={store}>

@@ -1,25 +1,11 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, Card } from "@rneui/themed";
 import { getDatabase, ref, push, set, update, child } from "firebase/database";
 import { useSelector } from "react-redux";
 
-import NotifService from "../../../config/Notification/NotifService";
-
 const CardItemNotification = (props) => {
   const globalState = useSelector((state) => state);
-
-  const [registerToken, setRegisterToken] = useState("");
-  const [fcmRegistered, setFcmRegistered] = useState(false);
-
-  const onRegister = (token) => {
-    setRegisterToken(token.token);
-    setFcmRegistered(true);
-  };
-  const onNotif = (notif) => {
-    Alert.alert(notif.title, notif.message);
-  };
-  const notif = new NotifService(onRegister, onNotif);
 
   useEffect(() => {
     console.log(globalState);
@@ -34,8 +20,6 @@ const CardItemNotification = (props) => {
     } else {
       console.log("Pemberitahuan");
       handleSetWasRead();
-
-      notif.localNotif();
     }
   };
 
@@ -87,6 +71,7 @@ const CardItemNotification = (props) => {
 
     return update(ref(db), updates);
   };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => handlePress()}>
