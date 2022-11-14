@@ -283,6 +283,7 @@ const Profile = ({ navigation }) => {
   };
 
   return (
+    // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
     <ScrollView>
       <View style={styles.containerProfile}>
         <Image source={BackGround} style={{ width: "100%", height: 150 }} />

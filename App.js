@@ -50,7 +50,7 @@ import TransactionList from "./src/pages/TransactionList";
 import Notification from "./src/pages/Notification";
 import Message from "./src/pages/Message";
 
-import NotifService from "./src/config/Notification/NotifService";
+// import NotifService from "./src/config/Notification/NotifService";
 
 var FullWidth = Dimensions.get("window").width; //full width
 var FullHeight = Dimensions.get("window").height; //full height
@@ -62,7 +62,7 @@ const App = (props) => {
   const [registerToken, setRegisterToken] = useState("");
   const [fcmRegistered, setFcmRegistered] = useState(false);
   const [isLogin] = useState(true);
-  // console.log(props);
+  // console.log("Props Apps", props);
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -112,21 +112,40 @@ const App = (props) => {
   CheckCurrentUser();
 
   // Notification System
-  const onRegister = (token) => {
-    setRegisterToken(token.token);
-    setFcmRegistered(true);
-  };
+  // const onRegister = (token) => {
+  //   setRegisterToken(token.token);
+  //   setFcmRegistered(true);
+  // };
 
-  const onNotif = (notif) => {
-    // Alert.alert(notif.title, notif.message);
-    handleCreateNotification(notif.title, notif.message);
-  };
+  // const onNotif = (notif) => {
+  //   // Alert.alert(notif.title, notif.message);
+  //   handleCreateNotification(notif.title, notif.message);
+  // };
 
-  const notif = new NotifService(onRegister, onNotif);
+  // const notif = new NotifService(onRegister, onNotif);
 
-  const handleCreateNotification = (ValTitle, ValMessage) => {
-    notif.localNotif(ValTitle, ValMessage);
-  };
+  // const handleCreateNotification = (ValTitle, ValMessage) => {
+  //   notif.localNotif(ValTitle, ValMessage, Nav);
+  //   // notif.localNotif([
+  //   //   {
+  //   //     id: "userAction",
+  //   //     actions: [
+  //   //       { id: "open", title: "Open", options: { foreground: true } },
+  //   //       {
+  //   //         id: "ignore",
+  //   //         title: "Desruptive",
+  //   //         options: { foreground: true, destructive: true },
+  //   //       },
+  //   //       {
+  //   //         id: "text",
+  //   //         title: "Text Input",
+  //   //         options: { foreground: true },
+  //   //         textInput: { buttonTitle: "Send" },
+  //   //       },
+  //   //     ],
+  //   //   },
+  //   // ]);
+  // };
 
   return (
     <Provider store={store}>

@@ -32,7 +32,7 @@ const CardItemNotification = (props) => {
     const newOrderRef = push(addOrder);
 
     set(newOrderRef, {
-      Aksi: "Detail_Transaksi",
+      Aksi: "CheckOut",
       Isi: "Pembayaran telah di konfirmasi",
       Judul: "Konfirmasi Pembayaran",
       Status: "Unread",

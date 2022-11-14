@@ -1,11 +1,40 @@
 import PushNotification from "react-native-push-notification";
 
 class NotificationHandler {
+  Nav = "";
+
   onNotification(notification) {
     console.log("NotificationHandler OnNotification :", notification);
+    // console.log("Notifikasi di tekan");
+    // console.log("Result onNotification", notification.data.OrderID);
 
     if (typeof this._onNotification === "function") {
       this._onNotification(notification);
+    }
+
+    if (notification.tag != null) {
+      console.log("Di Klik", notification.data);
+
+      if (notification.data.Action === "CheckOut") {
+        this.Nav.navigate("CheckOut", { orderID: notification.data.OrderID });
+      } else if (notification.data.Action === "Chat") {
+        this.Nav.navigate("Message");
+      } else if (notification.data.Action === "Notification") {
+        this.Nav.navigate("Notification");
+      }
+
+      PushNotification.cancelAllLocalNotifications();
+
+      // notification.Navigation.navigate("Profile", {
+      //   screen: "Settings",
+      //   params: { user: "jane" },
+      //   user: {
+      //     id: "jane",
+      //     firstName: "Jane",
+      //     lastName: "Done",
+      //     age: 25,
+      //   },
+      // });
     }
   }
 
@@ -25,6 +54,15 @@ class NotificationHandler {
     if (notification.action === "Yes") {
       PushNotification.invokeApp(notification);
     }
+  }
+
+  handleNav(notification) {
+    console.log("Get Props NAV:", notification);
+
+    this.Nav = notification;
+    // if (notification.OrderID != null) {
+    //   PushNotification.invokeApp(notification);
+    // }
   }
 
   // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
@@ -55,6 +93,8 @@ PushNotification.configure({
 
   // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
   onRegistrationError: handler.onRegistrationError.bind(handler),
+
+  // handleNav: handler.handleNav.bind(handler),
 
   // IOS ONLY (optional): default: all - Permissions to register.
   permissions: {
