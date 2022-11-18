@@ -11,21 +11,60 @@ import {
   Button,
   TouchableWithoutFeedback,
   Keyboard,
+  BackHandler,
 } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 import NoImage from "../../assets/img/no-image.png";
+import ChatUser from "./component/ChatUser";
+import ChatAdmin from "./component/ChatAdmin";
 
 var DeviceWidth = Dimensions.get("window").width; //full width
 var DeviceHeight = Dimensions.get("window").height; //full height
 
 var ChatHeight = (DeviceHeight * 80) / 100;
 
-const Message = () => {
+const Message = ({ navigation }) => {
+  const globalState = useSelector((state) => state.dataPengguna);
+
   const [modeType, setModeType] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
+  const [listMessege, setListMessege] = useState([]);
 
   const inputRef = useRef(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      // console.log(globalState);
+      if (!isLoad) {
+        console.log("Is Load");
+        handleGetMessege();
+        setIsLoad(true);
+      }
+
+      const backAction = () => {
+        navigation.navigate("Dashboard");
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", backAction);
+
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
+      };
+    })
+  );
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoad(false);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -47,99 +86,66 @@ const Message = () => {
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  const handleGetMessege = () => {
+    const userID = globalState.uid;
+    var ListO = "";
+
+    const db = getDatabase();
+
+    const starCountRef = ref(db, `chat/${userID}`);
+    // const starCountRef = ref(db, `chat/zAhbiHR06ZQbwSdTiT6ftB91BH62`);
+    onValue(starCountRef, async (snapshot) => {
+      const ListT = [];
+      if (snapshot.exists()) {
+        Object.keys(snapshot.val()).map((key) => {
+          ListT.push({
+            id: key,
+            data: snapshot.val()[key],
+          });
+
+          // console.log(ListT);
+          console.log(ListT);
+        });
+
+        setListMessege(ListT);
+        ListO = ListT;
+      } else {
+        console.log("No data available");
+      }
+
+      console.log(ListT);
+      return ListT;
+    });
+
+    return ListO;
+  };
+
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <ScrollView style={{ flex: 1 }}>
-        <View style={{ marginHorizontal: 5 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={{ fontWeight: "bold" }}>Kedasi</Text>
-            <Text>Mon, 10 Jan 2022 17:36:43 GMT</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              //   backgroundColor: "red",
-            }}
-          >
-            <Image
-              //   source={NoImage}
-              source={require("../../assets/img/kedasi_logo.png")}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                marginRight: 10,
-              }}
-            />
-            <Text
-              style={{
-                height: 40,
-                flex: 1,
-                borderRadius: 10,
-                backgroundColor: "#d2d6de",
-                textAlignVertical: "center",
-                paddingLeft: 5,
-              }}
-            >
-              Hallo selamat siang
-            </Text>
-          </View>
-        </View>
-
-        <View style={{ marginHorizontal: 5 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text>Mon, 10 Jan 2022 17:37:10 GMT</Text>
-            <Text style={{ fontWeight: "bold" }}>Roma Debrian</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              //   backgroundColor: "red",
-            }}
-          >
-            <Text
-              style={{
-                height: 40,
-                flex: 1,
-                borderRadius: 10,
-                color: "white",
-                backgroundColor: "#007bff",
-                textAlignVertical: "center",
-                textAlign: "right",
-                paddingRight: 5,
-              }}
-            >
-              Selamat siang
-            </Text>
-            <Image
-              //   source={NoImage}
-              source={require("../../assets/img/romadebrian.png")}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                marginLeft: 10,
-              }}
-            />
-          </View>
-        </View>
+        {listMessege.length > 0
+          ? listMessege.map((MessageData) => {
+              console.log(MessageData);
+              if (MessageData.data.IDUser === globalState.uid) {
+                return (
+                  <View key={MessageData.id}>
+                    {/* Name User and Photo user based on global state for use current name and foto */}
+                    <ChatUser
+                      Data={MessageData.data}
+                      Name={globalState.displayName}
+                      Photo={globalState.photoURL}
+                    />
+                  </View>
+                );
+              } else {
+                return <ChatAdmin Data={MessageData.data} />;
+              }
+            })
+          : null}
       </ScrollView>
 
       <View style={{ flexDirection: "row", margin: 5 }}>
@@ -175,7 +181,7 @@ const Message = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      {isKeyboardVisible ? <View style={{ width: 50, height: 80 }} /> : null}
+      {/* {isKeyboardVisible ? <View style={{ width: 50, height: 0 }} /> : null} */}
     </KeyboardAvoidingView>
   );
 };
