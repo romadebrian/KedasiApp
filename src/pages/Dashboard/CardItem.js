@@ -21,10 +21,34 @@ import {
 
 const CardItem = ({ IDRoom, navigation }) => {
   const [dataOrder, setDataOrder] = useState("");
+  const [detailCard, setDetailCard] = useState({
+    bgCard: "",
+    txtColor: "",
+  });
 
-  useEffect(() => {}, []);
+  // Startup or IsLoad
+  useEffect(() => {
+    // handleGetDetailOrder().then((result) => {
+    //   console.log(result);
+    // });
+    handleGetDetailOrder();
+  }, []);
 
-  const handleGetDetailOrder = () => {
+  useEffect(() => {
+    if (dataOrder.Status === "Active") {
+      setDetailCard({
+        bgCard: "#28A745",
+        txtColor: "white",
+      });
+    } else {
+      setDetailCard({
+        bgCard: "#FFC107",
+        txtColor: "black",
+      });
+    }
+  }, [dataOrder]);
+
+  const handleGetDetailOrder = async () => {
     const orderID = IDRoom;
 
     const db = getDatabase();
@@ -33,6 +57,8 @@ const CardItem = ({ IDRoom, navigation }) => {
       orderByChild("OrderId"),
       equalTo(orderID)
     );
+
+    var result = "";
 
     try {
       onValue(DetailOrder, async (snapshot) => {
@@ -43,6 +69,7 @@ const CardItem = ({ IDRoom, navigation }) => {
           });
 
           setDataOrder(resultDatabase[0].data);
+          result = resultDatabase[0].data;
           console.log(resultDatabase[0].data);
           // console.log(snapshot.val()[key]);
 
@@ -52,6 +79,14 @@ const CardItem = ({ IDRoom, navigation }) => {
     } catch (error) {
       console.log(error);
     }
+
+    return result;
+  };
+
+  const changeFormatDate = (date) => {
+    var D = new Date(date).toLocaleDateString();
+    // console.log(D);
+    return D;
   };
 
   return (
@@ -62,17 +97,21 @@ const CardItem = ({ IDRoom, navigation }) => {
         style={[
           styles.ContainerItem,
           styles.shadow,
-          { backgroundColor: "#28A745" },
+          { backgroundColor: detailCard.bgCard },
         ]}
       >
-        <Text style={[styles.TitleItem, { color: "white" }]}>
-          Active Orders
+        <Text style={[styles.TitleItem, { color: detailCard.txtColor }]}>
+          {dataOrder.Status === "Active" ? "Active Orders" : "Unpaid Orders"}
         </Text>
-        <Text style={[styles.DetailItem, { color: "white" }]}>
-          ROOM 001 MONTHLY 50 HOURS
+        <Text style={[styles.DetailItem, { color: detailCard.txtColor }]}>
+          {dataOrder.Ruangan} {dataOrder.Paket}
         </Text>
-        <Text style={[styles.DetailTimeItem, { color: "white" }]}>
-          1/01/2022 - 30/12/2022
+        <Text style={[styles.DetailTimeItem, { color: detailCard.txtColor }]}>
+          {dataOrder.Status === "Active"
+            ? `${changeFormatDate(dataOrder.TanggalSewa)} - ${changeFormatDate(
+                dataOrder.TanggalSelesai
+              )}`
+            : `Payment Due : ${changeFormatDate(dataOrder.JatuhTempo)}`}
         </Text>
       </View>
     </TouchableOpacity>

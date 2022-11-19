@@ -83,7 +83,7 @@ const Dashboard = ({ navigation }) => {
           Data.push(snapshot.val()[key].OrderId);
 
           // console.log(Data);
-          console.log(snapshot.val()[key]);
+          // console.log(snapshot.val()[key]);
         });
 
         setListTransaction(Data);
