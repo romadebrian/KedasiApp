@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 
 const ChatAdmin = (props) => {
-  console.log(props);
+  // console.log(props);
   return (
     <View style={{ marginHorizontal: 5 }}>
       <View
