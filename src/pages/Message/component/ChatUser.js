@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     //   backgroundColor: "red",
   },
   txtPesan: {
-    height: 40,
+    minHeight: 40,
     flex: 1,
     borderRadius: 10,
     color: "white",
