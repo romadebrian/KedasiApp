@@ -16,11 +16,12 @@ import {
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, push, set } from "firebase/database";
 
 import NoImage from "../../assets/img/no-image.png";
 import ChatUser from "./component/ChatUser";
 import ChatAdmin from "./component/ChatAdmin";
+import { FormattingDateTime } from "../../config/formattingDateTime";
 
 var DeviceWidth = Dimensions.get("window").width; //full width
 var DeviceHeight = Dimensions.get("window").height; //full height
@@ -33,7 +34,8 @@ const Message = ({ navigation }) => {
   const [modeType, setModeType] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
-  const [listMessege, setListMessege] = useState([]);
+  const [listMessage, listMessagesetListMessge] = useState([]);
+  const [valMessege, setValMessage] = useState([]);
 
   const inputRef = useRef(null);
 
@@ -67,6 +69,8 @@ const Message = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(() => {
+    FormattingDateTime(new Date());
+
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
@@ -105,20 +109,38 @@ const Message = ({ navigation }) => {
           });
 
           // console.log(ListT);
-          console.log(ListT);
         });
 
-        setListMessege(ListT);
+        listMessagesetListMessge(ListT);
         ListO = ListT;
       } else {
         console.log("No data available");
       }
 
-      console.log(ListT);
+      // console.log(ListT);
       return ListT;
     });
 
     return ListO;
+  };
+
+  const handleSendMessage = () => {
+    var idUser = globalState.uid;
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    if (valMessege != "") {
+      const db = getDatabase();
+      const addOrder = ref(db, `chat/${idUser}`);
+      const newOrderRef = push(addOrder);
+
+      set(newOrderRef, {
+        IDUser: idUser,
+        Pesan: valMessege,
+        Waktu: DateTimeNow,
+      });
+
+      setValMessage("");
+    }
   };
 
   return (
@@ -127,9 +149,9 @@ const Message = ({ navigation }) => {
       style={styles.container}
     >
       <ScrollView style={{ flex: 1 }}>
-        {listMessege.length > 0
-          ? listMessege.map((MessageData) => {
-              console.log(MessageData);
+        {listMessage.length > 0
+          ? listMessage.map((MessageData) => {
+              // console.log(MessageData);
               if (MessageData.data.IDUser === globalState.uid) {
                 return (
                   <View key={MessageData.id}>
@@ -142,7 +164,11 @@ const Message = ({ navigation }) => {
                   </View>
                 );
               } else {
-                return <ChatAdmin Data={MessageData.data} />;
+                return (
+                  <View key={MessageData.id}>
+                    <ChatAdmin Data={MessageData.data} />
+                  </View>
+                );
               }
             })
           : null}
@@ -158,11 +184,11 @@ const Message = ({ navigation }) => {
             borderColor: "#ced4da",
           }}
           onPress={() => setModeType(true)}
-          //   value="{password}"
-          //   onChangeText={setPassword}
+          value={valMessege}
+          onChangeText={setValMessage}
         />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleSendMessage}>
           <Text
             style={{
               flex: 1,
