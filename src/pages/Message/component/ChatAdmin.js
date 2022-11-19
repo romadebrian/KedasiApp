@@ -14,36 +14,13 @@ const ChatAdmin = (props) => {
         <Text style={{ fontWeight: "bold" }}>Kedasi</Text>
         <Text>{props.Data.Waktu}</Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          //   backgroundColor: "red",
-        }}
-      >
+      <View style={styles.rowSecond}>
         <Image
           //   source={NoImage}
           source={require("../../../assets/img/kedasi_logo.png")}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            marginRight: 10,
-          }}
+          style={styles.img}
         />
-        <Text
-          style={{
-            height: 40,
-            flex: 1,
-            borderRadius: 10,
-            backgroundColor: "#d2d6de",
-            textAlignVertical: "center",
-            paddingLeft: 5,
-          }}
-        >
-          {props.Data.Pesan}
-        </Text>
+        <Text style={styles.txtPesan}>{props.Data.Pesan}</Text>
       </View>
     </View>
   );
@@ -51,4 +28,25 @@ const ChatAdmin = (props) => {
 
 export default ChatAdmin;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  rowSecond: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    //   backgroundColor: "red",
+  },
+  img: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  txtPesan: {
+    minHeight: 40,
+    flex: 1,
+    borderRadius: 10,
+    backgroundColor: "#d2d6de",
+    textAlignVertical: "center",
+    paddingLeft: 5,
+  },
+});
