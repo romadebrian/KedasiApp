@@ -44,29 +44,31 @@ const Header = (props) => {
   };
 
   return (
-    <View style={styles.header}>
-      <View style={styles.containerBtnMenu}>
-        <TouchableOpacity
-          onPress={props.showMenu}
-          onPressIn={() => Navigation.openDrawer()}
-        >
-          <Image
-            source={Bars}
-            style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
-          />
-        </TouchableOpacity>
-        <Text style={{ fontSize: 14, fontWeight: "500" }}>Message</Text>
+    <>
+      <View style={[styles.header, styles.shadow]}>
+        <View style={styles.containerBtnMenu}>
+          <TouchableOpacity
+            onPress={props.showMenu}
+            onPressIn={() => Navigation.openDrawer()}
+          >
+            <Image
+              source={Bars}
+              style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
+            />
+          </TouchableOpacity>
+          <Text style={{ fontSize: 14, fontWeight: "500" }}>Message</Text>
+        </View>
+        <View style={styles.containerBel}>
+          <TouchableOpacity
+            style={{ flexDirection: "row-reverse" }}
+            onPress={handleClickBell}
+          >
+            <Image source={Bel} style={styles.iconLonceng} />
+            <Text style={styles.TextLonceng}>99</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.containerBel}>
-        <TouchableOpacity
-          style={{ flexDirection: "row-reverse" }}
-          onPress={handleClickBell}
-        >
-          <Image source={Bel} style={styles.iconLonceng} />
-          <Text style={styles.TextLonceng}>99</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </>
   );
 };
 
@@ -112,5 +114,13 @@ const styles = StyleSheet.create({
     left: 12,
     fontFamily: "Poppins",
     fontWeight: "bold",
+  },
+  shadow: {
+    borderBottomColor: "#b8b8b8",
+    borderBottomWidth: 1,
+    // overflow: "hidden",
+    shadowColor: "#b8b8b8",
+    shadowRadius: 10,
+    shadowOpacity: 1,
   },
 });

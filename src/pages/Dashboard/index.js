@@ -11,21 +11,25 @@ import {
 import React, { Component, useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
+import { getDatabase, ref, onValue } from "firebase/database";
+
 import { useSelector, connect } from "react-redux";
 
 import { auth } from "../../config/firebase";
 
 import Header from "../../components/Header";
 import SideNav from "../../components/SideNav";
+import CardItem from "./CardItem";
 
 const Dashboard = ({ navigation }) => {
-  // globalState = useSelector((state) => state);
-  // navigation = this.props.navigation;
+  const globalState = useSelector((state) => state.dataPengguna);
   const [isLoad, setIsLoad] = useState(false);
   const [countBack, setCountBack] = useState(1);
+  const [listTransaction, setListTransaction] = useState([]);
 
   useEffect(() => {
     if (isLoad === false) {
+      handleGetListOrder();
       setIsLoad(true);
     }
 
@@ -64,75 +68,73 @@ const Dashboard = ({ navigation }) => {
     return true;
   };
 
+  const handleGetListOrder = () => {
+    const userID = globalState.uid;
+
+    var ListOrder = "";
+
+    const db = getDatabase();
+
+    const starCountRef = ref(db, `users/${userID}/order`);
+    onValue(starCountRef, async (snapshot) => {
+      const Data = [];
+      if (snapshot.exists()) {
+        Object.keys(snapshot.val()).map((key) => {
+          Data.push(snapshot.val()[key].OrderId);
+
+          // console.log(Data);
+          // console.log(snapshot.val()[key]);
+        });
+
+        setListTransaction(Data);
+        ListOrder = Data;
+      } else {
+        console.log("No order found");
+      }
+
+      // console.log(Data);
+      return Data;
+    });
+
+    return ListOrder;
+  };
+
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%", width: "100%" }}>
       {/* List Order */}
       <ScrollView style={{ position: "relative" }}>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("CheckOut", { orderID: "ORD0038" })
-            }
-          >
-            <View
-              style={[
-                styles.ContainerItem,
-                styles.shadow,
-                { backgroundColor: "#28A745" },
-              ]}
+        <View style={{ alignItems: "center", marginBottom: 20 }}>
+          {listTransaction.length > 0 ? (
+            listTransaction.map((IDRoom) => {
+              // console.log(IDRoom);
+              return (
+                <CardItem
+                  key={IDRoom}
+                  IDRoom={IDRoom}
+                  navigation={navigation}
+                />
+              );
+            })
+          ) : (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("RoomReservation")}
             >
-              <Text style={[styles.TitleItem, { color: "white" }]}>
-                Active Orders
-              </Text>
-              <Text style={[styles.DetailItem, { color: "white" }]}>
-                ROOM 001 MONTHLY 50 HOURS
-              </Text>
-              <Text style={[styles.DetailTimeItem, { color: "white" }]}>
-                1/01/2022 - 30/12/2022
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("CheckOut", { orderID: "ORD0038" })
-            }
-          >
-            <View
-              style={[
-                styles.ContainerItem,
-                styles.shadow,
-                { backgroundColor: "#FFC107" },
-              ]}
-            >
-              <Text style={[styles.TitleItem, { color: "black" }]}>
-                Unpaid Orders
-              </Text>
-              <Text style={[styles.DetailItem, { color: "black" }]}>
-                ROOM 001 MONTHLY 50 HOURS
-              </Text>
-              <Text style={[styles.DetailTimeItem, { color: "black" }]}>
-                Payment Due : 30/12/2022
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View
-              style={[
-                styles.ContainerItemUnorder,
-                styles.shadow,
-                { backgroundColor: "#6C757D" },
-              ]}
-            >
-              <Text style={[styles.TitleItem, { color: "white" }]}>
-                You don't have orders
-              </Text>
-              <Text style={[styles.DetailItem, { color: "white" }]}>
-                Order Now
-              </Text>
-            </View>
-          </TouchableOpacity>
+              <View
+                style={[
+                  styles.ContainerItemUnorder,
+                  styles.shadow,
+                  { backgroundColor: "#6C757D" },
+                ]}
+              >
+                <Text style={[styles.TitleItem, { color: "white" }]}>
+                  You don't have orders
+                </Text>
+                <Text style={[styles.DetailItem, { color: "white" }]}>
+                  Order Now
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -149,9 +151,6 @@ mapStateToProps = (state) => {
 export default Dashboard;
 
 const styles = StyleSheet.create({
-  ////////////////////
-  //   Item Order
-  ////////////////////
   ContainerItem: {
     width: 300,
     height: 150,
