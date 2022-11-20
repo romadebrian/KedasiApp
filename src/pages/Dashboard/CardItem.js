@@ -89,33 +89,40 @@ const CardItem = ({ IDRoom, navigation }) => {
     return D;
   };
 
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("CheckOut", { orderID: "ORD0038" })}
-    >
-      <View
-        style={[
-          styles.ContainerItem,
-          styles.shadow,
-          { backgroundColor: detailCard.bgCard },
-        ]}
+  if (
+    dataOrder.Status === "Active" ||
+    dataOrder.Status === "Menunggu Pembayaran"
+  ) {
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.navigate("CheckOut", { orderID: "ORD0038" })}
       >
-        <Text style={[styles.TitleItem, { color: detailCard.txtColor }]}>
-          {dataOrder.Status === "Active" ? "Active Orders" : "Unpaid Orders"}
-        </Text>
-        <Text style={[styles.DetailItem, { color: detailCard.txtColor }]}>
-          {dataOrder.Ruangan} {dataOrder.Paket}
-        </Text>
-        <Text style={[styles.DetailTimeItem, { color: detailCard.txtColor }]}>
-          {dataOrder.Status === "Active"
-            ? `${changeFormatDate(dataOrder.TanggalSewa)} - ${changeFormatDate(
-                dataOrder.TanggalSelesai
-              )}`
-            : `Payment Due : ${changeFormatDate(dataOrder.JatuhTempo)}`}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  );
+        <View
+          style={[
+            styles.ContainerItem,
+            styles.shadow,
+            { backgroundColor: detailCard.bgCard },
+          ]}
+        >
+          <Text style={[styles.TitleItem, { color: detailCard.txtColor }]}>
+            {dataOrder.Status === "Active" ? "Active Orders" : "Unpaid Orders"}
+          </Text>
+          <Text style={[styles.DetailItem, { color: detailCard.txtColor }]}>
+            {dataOrder.Ruangan} {dataOrder.Paket}
+          </Text>
+          <Text style={[styles.DetailTimeItem, { color: detailCard.txtColor }]}>
+            {dataOrder.Status === "Active"
+              ? `${changeFormatDate(
+                  dataOrder.TanggalSewa
+                )} - ${changeFormatDate(dataOrder.TanggalSelesai)}`
+              : `Payment Due : ${changeFormatDate(dataOrder.JatuhTempo)}`}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  } else {
+    null;
+  }
 };
 
 export default CardItem;
