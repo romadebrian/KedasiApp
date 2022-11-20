@@ -70,7 +70,7 @@ const CardItem = ({ IDRoom, navigation }) => {
 
           setDataOrder(resultDatabase[0].data);
           result = resultDatabase[0].data;
-          console.log(resultDatabase[0].data);
+          //   console.log(resultDatabase[0].data);
           // console.log(snapshot.val()[key]);
 
           return resultDatabase;
