@@ -21,8 +21,8 @@ const Header = (props) => {
   useEffect(() => {
     console.log(props);
     // console.log(Navigation);
-    handleGetListNotification().then((res) => setNotificationCount(res));
-  });
+    handleGetListNotification();
+  }, []);
 
   const handleClickBell = () => {
     // dispatch({ type: "SET_NAME" });
@@ -50,27 +50,24 @@ const Header = (props) => {
 
   const handleGetListNotification = async () => {
     const userID = dataPengguna.uid;
-    let i = 0;
 
     const db = getDatabase();
 
     const starCountRef = ref(db, `users/${userID}/notifikasi`);
     onValue(starCountRef, async (snapshot) => {
       const ListT = [];
+      let i = 0;
       if (snapshot.exists()) {
         Object.keys(snapshot.val()).map((key) => {
           if (snapshot.val()[key].Status === "Unread") {
-            i = i + 1;
+            i++;
+            setNotificationCount(i);
           }
         });
       } else {
         console.log("No data available");
       }
-
-      return i;
     });
-
-    return i;
   };
 
   return (
