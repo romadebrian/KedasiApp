@@ -90,7 +90,7 @@ const Header = (props) => {
         <View style={styles.containerBel}>
           <TouchableOpacity
             style={{ flexDirection: "row-reverse" }}
-            onPress={handleClickBell}
+            onPress={() => Navigation.navigate("Notification")}
           >
             <Image source={Bel} style={styles.iconLonceng} />
             <Text style={styles.TextLonceng}>{notificationCount}</Text>

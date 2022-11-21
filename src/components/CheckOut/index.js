@@ -22,6 +22,9 @@ import {
 import IconCheck from "../../assets/icon/check-white.png";
 import { async } from "@firebase/util";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const CheckOut = ({ route, navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [dataOrder, setDataOrder] = useState("");
@@ -37,7 +40,7 @@ const CheckOut = ({ route, navigation }) => {
     if (!isLoad) {
       console.log("Didmount");
       handleGetOrderDetail();
-
+      store.dispatch(setCurentPage("Order Detail"));
       setIsLoad(true);
     }
 

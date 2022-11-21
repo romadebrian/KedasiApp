@@ -5,6 +5,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { getDatabase, ref, onValue } from "firebase/database";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const Notification = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
 
@@ -17,7 +20,7 @@ const Notification = ({ navigation }) => {
       if (!isLoad) {
         console.log("Is Load");
         handleGetListNotification();
-
+        store.dispatch(setCurentPage("Notification"));
         setIsLoad(true);
       }
 

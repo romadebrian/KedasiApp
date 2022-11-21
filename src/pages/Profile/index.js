@@ -33,6 +33,9 @@ import ExamplePhotoProfile from "../../assets/img/romadebrian.png";
 import { useFocusEffect } from "@react-navigation/native";
 import { async } from "@firebase/util";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const Profile = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
 
@@ -62,6 +65,7 @@ const Profile = ({ navigation }) => {
       if (isLoad === false) {
         handleCollectDataUser();
         setIsLoad(true);
+        store.dispatch(setCurentPage("Profile"));
       }
 
       const backAction = () => {

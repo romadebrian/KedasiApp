@@ -34,7 +34,6 @@ const Dashboard = ({ navigation }) => {
     if (isLoad === false) {
       handleGetListOrder();
       setIsLoad(true);
-      store.dispatch(setCurentPage("Dashboard"));
     }
 
     const unsubscribe = navigation.addListener("focus", () => {
@@ -48,6 +47,7 @@ const Dashboard = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
+      store.dispatch(setCurentPage("Dashboard"));
       // console.log(globalState);
       BackHandler.addEventListener("hardwareBackPress", () =>
         handleBackButton()

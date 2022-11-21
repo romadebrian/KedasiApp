@@ -13,6 +13,9 @@ import Casual from "./component/Casual";
 import Monthly from "./component/Monthly";
 import { useFocusEffect } from "@react-navigation/native";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const RoomReservation = ({ navigation }) => {
   const [typeMenu, setTypeMenu] = useState("Casual");
   const [txtCasual, setTxtCasual] = useState("#007BFF");
@@ -46,6 +49,7 @@ const RoomReservation = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       // console.log(navigation);
+      store.dispatch(setCurentPage("Room Reservation"));
     })
   );
 

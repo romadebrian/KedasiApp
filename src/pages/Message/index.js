@@ -23,6 +23,9 @@ import ChatUser from "./component/ChatUser";
 import ChatAdmin from "./component/ChatAdmin";
 import { FormattingDateTime } from "../../config/formattingDateTime";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 var DeviceWidth = Dimensions.get("window").width; //full width
 var DeviceHeight = Dimensions.get("window").height; //full height
 
@@ -46,6 +49,7 @@ const Message = ({ navigation }) => {
         console.log("Is Load");
         handleGetMessege();
         setIsLoad(true);
+        store.dispatch(setCurentPage("Message"));
       }
 
       const backAction = () => {
