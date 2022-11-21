@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 import NotifService from "../../config/Notification/NotifService";
 
@@ -9,14 +10,17 @@ import Bel from "../../assets/img/bell-regular.png";
 
 const Header = (props) => {
   var Navigation = props.navigation;
-  const dispatch = useDispatch();
+  const globalState = useSelector((state) => state.dataPengguna);
+  // const dispatch = useDispatch();
 
   const [registerToken, setRegisterToken] = useState("");
   const [fcmRegistered, setFcmRegistered] = useState(false);
+  const [notificationCount, setNotificationCount] = useState("");
 
   useEffect(() => {
-    // console.log(props);
+    console.log(props);
     // console.log(Navigation);
+    handleGetListNotification().then((res) => setNotificationCount(res));
   });
 
   const handleClickBell = () => {
@@ -43,6 +47,31 @@ const Header = (props) => {
     // notif.handleNav(Navigation);
   };
 
+  const handleGetListNotification = async () => {
+    const userID = globalState.uid;
+    let i = 0;
+
+    const db = getDatabase();
+
+    const starCountRef = ref(db, `users/${userID}/notifikasi`);
+    onValue(starCountRef, async (snapshot) => {
+      const ListT = [];
+      if (snapshot.exists()) {
+        Object.keys(snapshot.val()).map((key) => {
+          if (snapshot.val()[key].Status === "Read") {
+            i = i + 1;
+          }
+        });
+      } else {
+        console.log("No data available");
+      }
+
+      return i;
+    });
+
+    return i;
+  };
+
   return (
     <>
       <View style={[styles.header, styles.shadow]}>
@@ -64,7 +93,7 @@ const Header = (props) => {
             onPress={handleClickBell}
           >
             <Image source={Bel} style={styles.iconLonceng} />
-            <Text style={styles.TextLonceng}>99</Text>
+            <Text style={styles.TextLonceng}>{notificationCount}</Text>
           </TouchableOpacity>
         </View>
       </View>
