@@ -58,7 +58,7 @@ const Header = (props) => {
       const ListT = [];
       if (snapshot.exists()) {
         Object.keys(snapshot.val()).map((key) => {
-          if (snapshot.val()[key].Status === "Read") {
+          if (snapshot.val()[key].Status === "Unread") {
             i = i + 1;
           }
         });
