@@ -10,7 +10,8 @@ import Bel from "../../assets/img/bell-regular.png";
 
 const Header = (props) => {
   var Navigation = props.navigation;
-  const globalState = useSelector((state) => state.dataPengguna);
+  const dataPengguna = useSelector((state) => state.dataPengguna);
+  const globalState = useSelector((state) => state.someGlobalData);
   // const dispatch = useDispatch();
 
   const [registerToken, setRegisterToken] = useState("");
@@ -48,7 +49,7 @@ const Header = (props) => {
   };
 
   const handleGetListNotification = async () => {
-    const userID = globalState.uid;
+    const userID = dataPengguna.uid;
     let i = 0;
 
     const db = getDatabase();
@@ -85,7 +86,9 @@ const Header = (props) => {
               style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 14, fontWeight: "500" }}>Message</Text>
+          <Text style={{ fontSize: 14, fontWeight: "500" }}>
+            {globalState.curentPage}
+          </Text>
         </View>
         <View style={styles.containerBel}>
           <TouchableOpacity

@@ -21,6 +21,9 @@ import Header from "../../components/Header";
 import SideNav from "../../components/SideNav";
 import CardItem from "./CardItem";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const Dashboard = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
   const [isLoad, setIsLoad] = useState(false);
@@ -31,6 +34,7 @@ const Dashboard = ({ navigation }) => {
     if (isLoad === false) {
       handleGetListOrder();
       setIsLoad(true);
+      store.dispatch(setCurentPage("Dashboard"));
     }
 
     const unsubscribe = navigation.addListener("focus", () => {
