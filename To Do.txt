@@ -1,13 +1,13 @@
-
 icon aplikasi
 bikin gak bisa di rotasi
 tambah token notifikasi di database
-nama di sideNav berdasarkan database
 
 di detail transaksi jikga sudah bayar tombol upload payment hilang
 
 add notifikasi ke admin ketika user order, order selesai bayar, user nulis pesan
 add notifikasi ke user ketika user order (pesanan di terima), pesanan selesai
+
+sideNav gak bisa di buka di splashscreen, login, register, dan lupa password. (App.js 160 isLogin?)
 
 update photo profile di side nav 
 
