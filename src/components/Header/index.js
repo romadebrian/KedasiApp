@@ -19,7 +19,7 @@ const Header = (props) => {
   const [notificationCount, setNotificationCount] = useState("");
 
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
     // console.log(Navigation);
     handleGetListNotification();
   }, []);
@@ -62,10 +62,12 @@ const Header = (props) => {
           if (snapshot.val()[key].Status === "Unread") {
             i++;
             setNotificationCount(i);
+            // console.log(i);
           }
         });
       } else {
-        console.log("No data available");
+        setNotificationCount(i);
+        console.log("No Notification");
       }
     });
   };
@@ -93,7 +95,9 @@ const Header = (props) => {
             onPress={() => Navigation.navigate("Notification")}
           >
             <Image source={Bel} style={styles.iconLonceng} />
-            <Text style={styles.TextLonceng}>{notificationCount}</Text>
+            {notificationCount <= 0 ? null : (
+              <Text style={styles.TextLonceng}>{notificationCount}</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
