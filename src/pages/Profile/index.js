@@ -150,12 +150,12 @@ const Profile = ({ navigation }) => {
       .then(() => {
         // Profile updated!
         console.log("Berhasil Simpan");
-        ToastAndroid.show("Profile Updated", ToastAndroid.SHORT);
+        ToastAndroid.show("Profile Updated Successfully", ToastAndroid.SHORT);
       })
       .catch((error) => {
         // An error occurred
-        console.log("Gagal Simpan", error);
-        alert("Gagal Simpan");
+        console.log("Profile Updated Failled", error);
+        alert("Profile Updated Failled");
       });
 
     updateProfile(auth.currentUser, {

@@ -9,9 +9,6 @@ add notifikasi ke user ketika user order (pesanan di terima), pesanan selesai
 
 sideNav gak bisa di buka di splashscreen, login, register, dan lupa password. (App.js 160 isLogin?)
 
-update photo profile di side nav 
-
-
 menu casual dan monthly bisa di swipe/slide
 benerin link navigasinya () (untuk order ruangan gak usah)
 
