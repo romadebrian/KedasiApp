@@ -1,16 +1,25 @@
+
+icon aplikasi
+bikin gak bisa di rotasi
+tambah token notifikasi di database
+nama di sideNav berdasarkan database
+
 di detail transaksi jikga sudah bayar tombol upload payment hilang
-bikin table ID user dangan row profile, dan notifikasi
+
+add notifikasi ke admin ketika user order, order selesai bayar, user nulis pesan
+add notifikasi ke user ketika user order (pesanan di terima), pesanan selesai
+
 update photo profile di side nav 
-ketika item side nav di klik backgroud nya berubah biru
+
+
 menu casual dan monthly bisa di swipe/slide
 benerin link navigasinya () (untuk order ruangan gak usah)
-bikin gak bisa di rotasi
+
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
 ganti update profile jadi users/${idUser}/profile
 
-add notifikasi ke admin ketika user order, order selesai bayar, user nulis pesan
-add notifikasi ke user ketika user order (pesanan di terima), pesanan selesai
+
 
 
 onPress={() => {
