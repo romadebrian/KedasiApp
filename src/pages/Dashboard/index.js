@@ -21,6 +21,9 @@ import Header from "../../components/Header";
 import SideNav from "../../components/SideNav";
 import CardItem from "./CardItem";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const Dashboard = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
   const [isLoad, setIsLoad] = useState(false);
@@ -44,6 +47,7 @@ const Dashboard = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
+      store.dispatch(setCurentPage("Dashboard"));
       // console.log(globalState);
       BackHandler.addEventListener("hardwareBackPress", () =>
         handleBackButton()

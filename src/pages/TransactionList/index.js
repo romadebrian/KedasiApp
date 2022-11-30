@@ -6,6 +6,9 @@ import { getDatabase, ref, onValue } from "firebase/database";
 
 import CardItemTransaction from "./component/CardItemTransaction";
 
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 const TransactionList = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
 
@@ -18,7 +21,7 @@ const TransactionList = ({ navigation }) => {
       if (!isLoad) {
         console.log("Is Load");
         handleGetListTransaction();
-
+        store.dispatch(setCurentPage("Transaction List"));
         setIsLoad(true);
       }
 

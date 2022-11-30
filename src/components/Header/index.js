@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 import NotifService from "../../config/Notification/NotifService";
 
@@ -9,15 +10,19 @@ import Bel from "../../assets/img/bell-regular.png";
 
 const Header = (props) => {
   var Navigation = props.navigation;
-  const dispatch = useDispatch();
+  const dataPengguna = useSelector((state) => state.dataPengguna);
+  const globalState = useSelector((state) => state.someGlobalData);
+  // const dispatch = useDispatch();
 
   const [registerToken, setRegisterToken] = useState("");
   const [fcmRegistered, setFcmRegistered] = useState(false);
+  const [notificationCount, setNotificationCount] = useState("");
 
   useEffect(() => {
-    // console.log(props);
+    console.log(props);
     // console.log(Navigation);
-  });
+    handleGetListNotification();
+  }, []);
 
   const handleClickBell = () => {
     // dispatch({ type: "SET_NAME" });
@@ -43,6 +48,28 @@ const Header = (props) => {
     // notif.handleNav(Navigation);
   };
 
+  const handleGetListNotification = async () => {
+    const userID = dataPengguna.uid;
+
+    const db = getDatabase();
+
+    const starCountRef = ref(db, `users/${userID}/notifikasi`);
+    onValue(starCountRef, async (snapshot) => {
+      const ListT = [];
+      let i = 0;
+      if (snapshot.exists()) {
+        Object.keys(snapshot.val()).map((key) => {
+          if (snapshot.val()[key].Status === "Unread") {
+            i++;
+            setNotificationCount(i);
+          }
+        });
+      } else {
+        console.log("No data available");
+      }
+    });
+  };
+
   return (
     <>
       <View style={[styles.header, styles.shadow]}>
@@ -56,15 +83,17 @@ const Header = (props) => {
               style={{ width: 20, height: 20, marginLeft: 12, marginRight: 10 }}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 14, fontWeight: "500" }}>Message</Text>
+          <Text style={{ fontSize: 14, fontWeight: "500" }}>
+            {globalState.curentPage}
+          </Text>
         </View>
         <View style={styles.containerBel}>
           <TouchableOpacity
             style={{ flexDirection: "row-reverse" }}
-            onPress={handleClickBell}
+            onPress={() => Navigation.navigate("Notification")}
           >
             <Image source={Bel} style={styles.iconLonceng} />
-            <Text style={styles.TextLonceng}>99</Text>
+            <Text style={styles.TextLonceng}>{notificationCount}</Text>
           </TouchableOpacity>
         </View>
       </View>
