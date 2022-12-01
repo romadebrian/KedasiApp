@@ -48,25 +48,26 @@ const Header = (props) => {
     // notif.handleNav(Navigation);
   };
 
-  const handleGetListNotification = async () => {
+  const handleGetListNotification = () => {
     const userID = dataPengguna.uid;
 
     const db = getDatabase();
 
     const starCountRef = ref(db, `users/${userID}/notifikasi`);
     onValue(starCountRef, async (snapshot) => {
-      const ListT = [];
+      // const ListT = [];
       let i = 0;
       if (snapshot.exists()) {
         Object.keys(snapshot.val()).map((key) => {
           if (snapshot.val()[key].Status === "Unread") {
             i++;
             setNotificationCount(i);
-            // console.log(i);
+            console.log(i);
+          } else {
+            setNotificationCount(0);
           }
         });
       } else {
-        setNotificationCount(i);
         console.log("No Notification");
       }
     });
