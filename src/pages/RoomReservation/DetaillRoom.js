@@ -77,13 +77,28 @@ const DetaillRoom = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  const img =
-    detialTarget.img === "room1"
+  // const img =
+  //   detialTarget.img === "room1"
+  //     ? require("../../assets/img/room1.jpg")
+  //     : detialTarget.img === "room2"
+  //     ? require("../../assets/img/room2.jpg")
+  //     : detialTarget.img === "room3"
+  //     ? require(`../../assets/img/room3.jpg`)
+  //     : null;
+
+  var img =
+    detialTarget.img === "room0"
+      ? require("../../assets/img/room0.jpg")
+      : detialTarget.img === "room1"
       ? require("../../assets/img/room1.jpg")
       : detialTarget.img === "room2"
-      ? require("../../assets/img/room2.jpg")
+      ? require(`../../assets/img/room2.jpg`)
       : detialTarget.img === "room3"
       ? require(`../../assets/img/room3.jpg`)
+      : detialTarget.img === "room4"
+      ? require(`../../assets/img/room4.jpg`)
+      : detialTarget.img === "room5"
+      ? require(`../../assets/img/room5.jpg`)
       : null;
 
   const handleBookingPress = () => {
@@ -318,6 +333,28 @@ const DetaillRoom = ({ route, navigation }) => {
   const currencyFormating = (val) => {
     let num = parseInt(val);
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  };
+
+  const handleCreateNotification = () => {
+    var idUser = globalState.dataPengguna.uid;
+    var DateTimeNow = new Date().toUTCString();
+
+    const db = getDatabase();
+    const addOrder = ref(db, `users/${idUser}/notifikasi`);
+    const newOrderRef = push(addOrder);
+
+    set(newOrderRef, {
+      Aksi: "Detail_Transaksi",
+      Isi: "Pemesanan ruangan berhasil, pesanan menunggu pembayaran",
+      Judul: "Pemesanan Ruangan Berhasil",
+      Status: "Unread",
+      Target: idUser,
+      Meta_Data: "ORD0046",
+      Date: DateTimeNow,
+    });
+
+    // const db = getDatabase();
+    // set(ref(db, `users/${idUser}/profile`), { nextOrderId });
   };
 
   return (

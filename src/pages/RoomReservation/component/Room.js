@@ -13,23 +13,23 @@ const Room = ({ route, navigation }) => {
   const [dataRoom] = useState([
     {
       id: "ROOM 000",
-      img: "room1",
+      img: "room0",
       title: "Shared Office Desk",
-      desc: "Shared office room with sitting position facing each other",
-      people: "6",
+      desc: "Shared desk room in main hall",
+      people: "8",
     },
     {
       id: "ROOM 001",
       img: "room1",
       title: "Shared Office Desk",
       desc: "Shared office room with sitting position facing each other",
-      people: "6",
+      people: "7",
     },
     {
       id: "ROOM 002",
       img: "room2",
-      title: "Shared Office Desk",
-      desc: "Office by sitting facing the wall",
+      title: "Dedicated Office Desk",
+      desc: "Private office by sitting facing the wall",
       people: "4",
     },
     {
@@ -37,21 +37,21 @@ const Room = ({ route, navigation }) => {
       img: "room3",
       title: "Shared Office Desk",
       desc: "Aesthetic office space",
-      people: "5",
+      people: "6",
     },
     {
       id: "ROOM 004",
-      img: "room3",
-      title: "Shared Office Desk",
-      desc: "Test 4",
-      people: "5",
+      img: "room4",
+      title: "Dedicated Office Desk",
+      desc: "Dedicated desk room in main hall",
+      people: "2",
     },
     {
       id: "ROOM 005",
-      img: "room3",
-      title: "Shared Office Desk",
-      desc: "Test 5",
-      people: "5",
+      img: "room5",
+      title: "Dedicated Office Desk",
+      desc: "Dedicated desk room in private office",
+      people: "2",
     },
   ]);
 
@@ -78,7 +78,7 @@ const Room = ({ route, navigation }) => {
   ]);
 
   return (
-    <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
+    <ScrollView style={{ backgroundColor: "#FEF7EF", paddingTop: 10 }}>
       {route.params.DataAvalRoom.map((data) => {
         const dataDetail = dataRoom.find(({ id }) => id === data);
         console.log(dataDetail);
@@ -102,6 +102,7 @@ const Room = ({ route, navigation }) => {
           />
         );
       })}
+      <View style={{ width: "100%", height: 10 }} />
     </ScrollView>
   );
 };
