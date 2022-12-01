@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 
 import { getDatabase, ref, set, child, get, push } from "firebase/database";
 
+import { FormattingDateTime } from "../../config/formattingDateTime";
+
 const DetaillRoom = ({ route, navigation }) => {
   const globalState = useSelector((state) => state);
   const detialTarget = route.params.ListDetailRoom.find(
@@ -175,6 +177,8 @@ const DetaillRoom = ({ route, navigation }) => {
           "",
           dueDate
         );
+        handleCreateNotification();
+        handleCreateNotificationToAdmin();
 
         navigation.navigate("CheckOut", { orderID: nextOrderId });
       })
@@ -337,24 +341,44 @@ const DetaillRoom = ({ route, navigation }) => {
 
   const handleCreateNotification = () => {
     var idUser = globalState.dataPengguna.uid;
-    var DateTimeNow = new Date().toUTCString();
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    console.log(DateTimeNow);
 
     const db = getDatabase();
-    const addOrder = ref(db, `users/${idUser}/notifikasi`);
-    const newOrderRef = push(addOrder);
+    const addNotification = ref(db, `users/${idUser}/notifikasi`);
+    const newNotificationRef = push(addNotification);
 
-    set(newOrderRef, {
+    set(newNotificationRef, {
       Aksi: "Detail_Transaksi",
       Isi: "Pemesanan ruangan berhasil, pesanan menunggu pembayaran",
       Judul: "Pemesanan Ruangan Berhasil",
       Status: "Unread",
       Target: idUser,
-      Meta_Data: "ORD0046",
+      Meta_Data: nextOrderId,
       Date: DateTimeNow,
     });
+  };
 
-    // const db = getDatabase();
-    // set(ref(db, `users/${idUser}/profile`), { nextOrderId });
+  const handleCreateNotificationToAdmin = () => {
+    var idUser = globalState.dataPengguna.uid;
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    console.log(DateTimeNow);
+
+    const db = getDatabase();
+    const addNotification = ref(db, `notifikasi`);
+    const newNotificationRef = push(addNotification);
+
+    set(newNotificationRef, {
+      Aksi: "Detail_Transaksi",
+      Isi: `Pemesanan ruangan dengan ID ${nextOrderId}`,
+      Judul: "Pemesanan Ruangan",
+      Status: "Unread",
+      Target: idUser,
+      Meta_Data: nextOrderId,
+      Date: DateTimeNow,
+    });
   };
 
   return (
