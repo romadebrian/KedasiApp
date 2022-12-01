@@ -14,11 +14,14 @@ const CardItemNotification = (props) => {
   const handlePress = () => {
     var IDorder = props.Meta_Data;
 
-    if (props.Action === "Detail_Transaksi") {
+    if (props.Action === "CheckOut") {
       handleSetWasRead();
       props.navigation.navigate("CheckOut", { orderID: IDorder });
-    } else {
-      console.log("Pemberitahuan");
+    } else if (props.Action === "Chat") {
+      handleSetWasRead();
+      props.navigation.navigate("Message");
+    } else if (props.Action === "Notification") {
+      console.log("Notification");
       handleSetWasRead();
     }
   };
