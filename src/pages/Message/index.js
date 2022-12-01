@@ -143,8 +143,30 @@ const Message = ({ navigation }) => {
         Waktu: DateTimeNow,
       });
 
+      handleCreateNotificationToAdmin();
       setValMessage("");
     }
+  };
+
+  const handleCreateNotificationToAdmin = () => {
+    var idUser = globalState.uid;
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    // console.log(DateTimeNow);
+
+    const db = getDatabase();
+    const addNotification = ref(db, `notifikasi`);
+    const newNotificationRef = push(addNotification);
+
+    set(newNotificationRef, {
+      Aksi: "Chat",
+      Isi: "Anda mendapat pesan baru",
+      Judul: "Pesan Baru",
+      Status: "Unread",
+      Target: idUser,
+      Meta_Data: idUser,
+      Date: DateTimeNow,
+    });
   };
 
   return (
