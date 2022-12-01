@@ -19,7 +19,7 @@ import {
   query,
 } from "firebase/database";
 
-const CardItem = ({ IDRoom, navigation }) => {
+const CardItem = ({ IDOrder, navigation }) => {
   const [dataOrder, setDataOrder] = useState("");
   const [detailCard, setDetailCard] = useState({
     bgCard: "",
@@ -49,7 +49,7 @@ const CardItem = ({ IDRoom, navigation }) => {
   }, [dataOrder]);
 
   const handleGetDetailOrder = async () => {
-    const orderID = IDRoom;
+    const orderID = IDOrder;
 
     const db = getDatabase();
     const DetailOrder = query(
@@ -95,7 +95,7 @@ const CardItem = ({ IDRoom, navigation }) => {
   ) {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("CheckOut", { orderID: "ORD0038" })}
+        onPress={() => navigation.navigate("CheckOut", { orderID: IDOrder })}
       >
         <View
           style={[
