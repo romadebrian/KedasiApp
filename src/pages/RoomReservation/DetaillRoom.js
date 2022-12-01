@@ -350,7 +350,7 @@ const DetaillRoom = ({ route, navigation }) => {
     const newNotificationRef = push(addNotification);
 
     set(newNotificationRef, {
-      Aksi: "Detail_Transaksi",
+      Aksi: "CheckOut",
       Isi: "Pemesanan ruangan berhasil, pesanan menunggu pembayaran",
       Judul: "Pemesanan Ruangan Berhasil",
       Status: "Unread",
@@ -364,14 +364,14 @@ const DetaillRoom = ({ route, navigation }) => {
     var idUser = globalState.dataPengguna.uid;
     var DateTimeNow = FormattingDateTime(new Date());
 
-    console.log(DateTimeNow);
+    // console.log(DateTimeNow);
 
     const db = getDatabase();
     const addNotification = ref(db, `notifikasi`);
     const newNotificationRef = push(addNotification);
 
     set(newNotificationRef, {
-      Aksi: "Detail_Transaksi",
+      Aksi: "CheckOut",
       Isi: `Pemesanan ruangan dengan ID ${nextOrderId}`,
       Judul: "Pemesanan Ruangan",
       Status: "Unread",
