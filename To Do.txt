@@ -2,19 +2,21 @@ icon aplikasi
 bikin gak bisa di rotasi
 tambah token notifikasi di database
 
-di detail transaksi jikga sudah bayar tombol upload payment hilang
-
-add notifikasi ke admin ketika user order, order selesai bayar, user nulis pesan
-add notifikasi ke user ketika user order (pesanan di terima), pesanan selesai
-
-sideNav gak bisa di buka di splashscreen, login, register, dan lupa password. (App.js 160 isLogin?)
-
 menu casual dan monthly bisa di swipe/slide
 benerin link navigasinya () (untuk order ruangan gak usah)
 
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
 ganti update profile jadi users/${idUser}/profile
+
+=== notifikasi config ===
+CheckOut
+Chat
+Notification
+
+
+=== Pembayaran lewat email dan menggunakan email yang sama dengan akun yang di pakai ====
+di detail transaksi jika sudah bayar tombol upload payment hilang
 
 
 
