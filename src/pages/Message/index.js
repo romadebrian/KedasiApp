@@ -48,8 +48,8 @@ const Message = ({ navigation }) => {
       if (!isLoad) {
         console.log("Is Load");
         handleGetMessege();
-        setIsLoad(true);
         store.dispatch(setCurentPage("Message"));
+        setIsLoad(true);
       }
 
       const backAction = () => {
