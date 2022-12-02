@@ -15,7 +15,7 @@ export const someGlobalData = createSlice({
       state.curentPage = action.payload;
     },
     setTokenNotif: (state, action) => {
-      console.log("Redux Action Log", action.payload);
+      // console.log("Redux Action Log", action.payload);
       state.tokenNotif = action.payload;
     },
   },
