@@ -1,4 +1,6 @@
 import PushNotification from "react-native-push-notification";
+import store from "../redux";
+import { setTokenNotif } from "../someGlobalData";
 
 class NotificationHandler {
   Nav = "";
@@ -39,7 +41,8 @@ class NotificationHandler {
   }
 
   onRegister(token) {
-    console.log("NotificationHandler Register:", token);
+    console.log("NotificationHandler Register :", token);
+    store.dispatch(setTokenNotif(token.token));
 
     if (typeof this._onRegister === "function") {
       this._onRegister(token);

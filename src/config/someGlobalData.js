@@ -4,6 +4,7 @@ export const someGlobalData = createSlice({
   name: "globalData",
   initialState: {
     curentPage: "",
+    tokenNotif: "",
   },
   reducers: {
     tesReducer: (state) => {
@@ -13,9 +14,14 @@ export const someGlobalData = createSlice({
       //   console.log(action.payload);
       state.curentPage = action.payload;
     },
+    setTokenNotif: (state, action) => {
+      console.log("Redux Action Log", action.payload);
+      state.tokenNotif = action.payload;
+    },
   },
 });
 
-export const { tesReducer, setCurentPage } = someGlobalData.actions;
+export const { tesReducer, setCurentPage, setTokenNotif } =
+  someGlobalData.actions;
 
 export default someGlobalData.reducer;
