@@ -1,8 +1,10 @@
-icon aplikasi
 bikin gak bisa di rotasi
 tambah token notifikasi di database
 
+fixing ukuran di emulator
+
 menu casual dan monthly bisa di swipe/slide
+
 benerin link navigasinya () (untuk order ruangan gak usah)
 
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
