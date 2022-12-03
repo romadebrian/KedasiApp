@@ -15,6 +15,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import { getDatabase, ref, set, update } from "firebase/database";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setDataPengguna, increment } from "../../config/dataUser";
@@ -96,7 +97,8 @@ const Login = ({ navigation }) => {
           // Signed in
           const user = userCredential.user;
 
-          ToastAndroid.show("Login Successfully", ToastAndroid.SHORT);
+          handleSetTokenNotification(user.uid);
+          ToastAndroid.show("Login Successfully", ToastAndroid.LONG);
           console.log("Login Successfully", user);
           navigation.navigate("Dashboard");
         })
@@ -106,7 +108,7 @@ const Login = ({ navigation }) => {
           console.log("Gagal", errorCode, errorMessage);
           // alert("Login Fail");
 
-          ToastAndroid.show("Login Fail", ToastAndroid.SHORT);
+          ToastAndroid.show("Login Fail", ToastAndroid.LONG);
         });
     }
   };
@@ -123,6 +125,30 @@ const Login = ({ navigation }) => {
       "hardwareBackPress"
       // setCountBack(countBack - 1)
     );
+  };
+
+  const handleSetTokenNotification = (userID) => {
+    const db = getDatabase();
+
+    // A post entry.
+    const postData = globalState.someGlobalData.tokenNotif;
+
+    // Get a key for a new Post.
+    // const newPostKey = push(child(ref(db), 'posts')).key;
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    // updates['/posts/' + newPostKey] = postData;
+    updates["users/" + userID + "/" + "TokenNotif"] = postData;
+
+    return update(ref(db), updates)
+      .then(() => {
+        // Data saved successfully!
+        console.log("Data saved successfully!");
+      })
+      .catch((error) => {
+        // The write failed...
+      });
   };
 
   return (
