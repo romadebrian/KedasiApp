@@ -127,7 +127,7 @@ const Login = ({ navigation }) => {
     );
   };
 
-  const handleSetTokenNotification = (userID) => {
+  const handleSetTokenNotification = async (userID) => {
     const db = getDatabase();
 
     // A post entry.
