@@ -161,7 +161,7 @@ const DetaillRoom = ({ route, navigation }) => {
     })
       .then(() => {
         // Data saved successfully!
-        ToastAndroid.show("Booking Success", ToastAndroid.SHORT);
+        ToastAndroid.show("Booking Success", ToastAndroid.LONG);
         console.log("Booking Success");
         console.log(
           "send value: ",

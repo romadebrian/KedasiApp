@@ -189,7 +189,7 @@ const PickDate = ({ route, navigation }) => {
         });
       } else {
         console.log("tidak ada ruangan yang tersedia");
-        ToastAndroid.show(`No Room Available`, ToastAndroid.SHORT);
+        ToastAndroid.show(`No Room Available`, ToastAndroid.LONG);
       }
     }
   };

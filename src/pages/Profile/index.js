@@ -150,7 +150,7 @@ const Profile = ({ navigation }) => {
       .then(() => {
         // Profile updated!
         console.log("Berhasil Simpan");
-        ToastAndroid.show("Profile Updated Successfully", ToastAndroid.SHORT);
+        ToastAndroid.show("Profile Updated Successfully", ToastAndroid.LONG);
       })
       .catch((error) => {
         // An error occurred
@@ -238,7 +238,7 @@ const Profile = ({ navigation }) => {
         getDownloadURL((await uploadBytes(storageRef, bytes)).ref).then(
           (downloadURL) => {
             console.log("File available at", downloadURL);
-            ToastAndroid.show("Foto Uploaded", ToastAndroid.SHORT);
+            ToastAndroid.show("Foto Uploaded", ToastAndroid.LONG);
 
             setPhoto(downloadURL);
             HandleSave();
