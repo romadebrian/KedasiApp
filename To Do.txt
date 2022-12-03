@@ -1,7 +1,3 @@
-tambah token notifikasi di database
-
-test ketika semua orderan selesai apakah beranda ter update?
-
 fixing ukuran di emulator
 
 menu casual dan monthly bisa di swipe/slide
