@@ -47,6 +47,7 @@ const Profile = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [photo, setPhoto] = useState("");
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     // handleCollectDataUser();
@@ -125,6 +126,7 @@ const Profile = ({ navigation }) => {
           console.log("Data Database", data);
           setAddress(data?.Alamat);
           setPhoneNumber(data?.Telepon);
+          setToken(data?.TokenNotif);
         } else {
           console.log("No data available");
         }
@@ -146,6 +148,7 @@ const Profile = ({ navigation }) => {
       Telepon: phoneNumber,
       Alamat: address,
       Profile_Picture: photo,
+      TokenNotif: token,
     })
       .then(() => {
         // Profile updated!
