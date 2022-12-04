@@ -19,7 +19,7 @@ const Header = (props) => {
   const [notificationCount, setNotificationCount] = useState("");
 
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
     // console.log(Navigation);
     handleGetListNotification();
   }, []);
@@ -48,24 +48,27 @@ const Header = (props) => {
     // notif.handleNav(Navigation);
   };
 
-  const handleGetListNotification = async () => {
+  const handleGetListNotification = () => {
     const userID = dataPengguna.uid;
 
     const db = getDatabase();
 
     const starCountRef = ref(db, `users/${userID}/notifikasi`);
     onValue(starCountRef, async (snapshot) => {
-      const ListT = [];
+      // const ListT = [];
       let i = 0;
       if (snapshot.exists()) {
         Object.keys(snapshot.val()).map((key) => {
           if (snapshot.val()[key].Status === "Unread") {
             i++;
             setNotificationCount(i);
+            console.log(i);
+          } else {
+            setNotificationCount(0);
           }
         });
       } else {
-        console.log("No data available");
+        console.log("No Notification");
       }
     });
   };
@@ -93,7 +96,9 @@ const Header = (props) => {
             onPress={() => Navigation.navigate("Notification")}
           >
             <Image source={Bel} style={styles.iconLonceng} />
-            <Text style={styles.TextLonceng}>{notificationCount}</Text>
+            {notificationCount <= 0 ? null : (
+              <Text style={styles.TextLonceng}>{notificationCount}</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

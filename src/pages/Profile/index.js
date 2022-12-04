@@ -47,6 +47,7 @@ const Profile = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [photo, setPhoto] = useState("");
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     // handleCollectDataUser();
@@ -125,6 +126,7 @@ const Profile = ({ navigation }) => {
           console.log("Data Database", data);
           setAddress(data?.Alamat);
           setPhoneNumber(data?.Telepon);
+          setToken(data?.TokenNotif);
         } else {
           console.log("No data available");
         }
@@ -146,16 +148,17 @@ const Profile = ({ navigation }) => {
       Telepon: phoneNumber,
       Alamat: address,
       Profile_Picture: photo,
+      TokenNotif: token,
     })
       .then(() => {
         // Profile updated!
         console.log("Berhasil Simpan");
-        ToastAndroid.show("Profile Updated", ToastAndroid.SHORT);
+        ToastAndroid.show("Profile Updated Successfully", ToastAndroid.LONG);
       })
       .catch((error) => {
         // An error occurred
-        console.log("Gagal Simpan", error);
-        alert("Gagal Simpan");
+        console.log("Profile Updated Failled", error);
+        alert("Profile Updated Failled");
       });
 
     updateProfile(auth.currentUser, {
@@ -238,7 +241,7 @@ const Profile = ({ navigation }) => {
         getDownloadURL((await uploadBytes(storageRef, bytes)).ref).then(
           (downloadURL) => {
             console.log("File available at", downloadURL);
-            ToastAndroid.show("Foto Uploaded", ToastAndroid.SHORT);
+            ToastAndroid.show("Foto Uploaded", ToastAndroid.LONG);
 
             setPhoto(downloadURL);
             HandleSave();

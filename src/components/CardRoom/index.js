@@ -23,12 +23,18 @@ const CardRoom = (props) => {
   });
 
   var img =
-    props.img === "room1"
+    props.img === "room0"
+      ? require("../../assets/img/room0.jpg")
+      : props.img === "room1"
       ? require("../../assets/img/room1.jpg")
       : props.img === "room2"
-      ? require("../../assets/img/room2.jpg")
+      ? require(`../../assets/img/room2.jpg`)
       : props.img === "room3"
       ? require(`../../assets/img/room3.jpg`)
+      : props.img === "room4"
+      ? require(`../../assets/img/room4.jpg`)
+      : props.img === "room5"
+      ? require(`../../assets/img/room5.jpg`)
       : null;
 
   // const handleImg = () => {

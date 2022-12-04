@@ -15,8 +15,9 @@ import {
   onValue,
   orderByChild,
   equalTo,
-  get,
+  set,
   query,
+  push,
 } from "firebase/database";
 
 import IconCheck from "../../assets/icon/check-white.png";
@@ -24,8 +25,11 @@ import { async } from "@firebase/util";
 
 import store from "../../config/redux";
 import { setCurentPage } from "../../config/someGlobalData";
+import { useSelector } from "react-redux";
 
 const CheckOut = ({ route, navigation }) => {
+  const globalState = useSelector((state) => state.dataPengguna);
+
   const [isLoad, setIsLoad] = useState(false);
   const [dataOrder, setDataOrder] = useState("");
   const [subTotal, setSubTotal] = useState();
@@ -178,6 +182,31 @@ const CheckOut = ({ route, navigation }) => {
         setPaymentStatus(false);
       }
     }
+  };
+
+  const handleSendPayment = () => {
+    handleCreateNotificationToAdmin();
+  };
+
+  const handleCreateNotificationToAdmin = () => {
+    var idUser = globalState.uid;
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    // console.log(DateTimeNow);
+
+    const db = getDatabase();
+    const addNotification = ref(db, `notifikasi`);
+    const newNotificationRef = push(addNotification);
+
+    set(newNotificationRef, {
+      Aksi: "Chat",
+      Isi: "Anda mendapat pesan baru",
+      Judul: "Pesan Baru",
+      Status: "Unread",
+      Target: idUser,
+      Meta_Data: idUser,
+      Date: DateTimeNow,
+    });
   };
 
   return (
@@ -378,7 +407,7 @@ const CheckOut = ({ route, navigation }) => {
         >
           <Text style={styles.txtButton}>Dashboard</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[styles.containerItemButton, { backgroundColor: "#28A745" }]}
         >
           <Text
@@ -391,7 +420,7 @@ const CheckOut = ({ route, navigation }) => {
           >
             Upload Payment
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );

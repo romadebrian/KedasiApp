@@ -61,11 +61,11 @@ const Drawer = createDrawerNavigator();
 const App = (props) => {
   const [registerToken, setRegisterToken] = useState("");
   const [fcmRegistered, setFcmRegistered] = useState(false);
-  const [isLogin] = useState(true);
   // console.log("Props Apps", props);
   // const dispatch = useDispatch();
 
   useEffect(() => {
+    // console.log(globalState);
     // store.dispatch(setDataPengguna("Roma Debrians123")); //  Bisa
     const backAction = () => {
       // Alert.alert("Hold on!", "Are you sure you want to go back?", [
@@ -87,27 +87,6 @@ const App = (props) => {
 
     return () => backHandler.remove();
   }, []);
-
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   console.log(currentUser);
-
-  //   // store.dispatch({ type: "SET_DATA", input: currentUser });
-  //   //   const dispatch = useDispatch();
-
-  //   if (currentUser !== null) {
-  //     store.dispatch(setUID(currentUser.uid));
-  //     store.dispatch(setEmail(currentUser.email));
-  //     store.dispatch(setName(currentUser.displayName));
-  //     store.dispatch(setPhoneNumber(currentUser.phoneNumber));
-  //     store.dispatch(setPhotoUrl(currentUser.photoURL));
-  //   } else {
-  //     store.dispatch(setUID(null));
-  //     store.dispatch(setEmail(null));
-  //     store.dispatch(setName(null));
-  //     store.dispatch(setPhoneNumber(null));
-  //     store.dispatch(setPhotoUrl(null));
-  //   }
-  // });
 
   CheckCurrentUser();
 
@@ -157,7 +136,13 @@ const App = (props) => {
           // }}
           initialRouteName="SplashScreen"
           screenOptions={{ header: (props) => <Header {...props} /> }}
-          drawerContent={isLogin ? (props) => <SideNav {...props} /> : null}
+          drawerContent={(props) => <SideNav {...props} />}
+          // screenOptions={{
+          //   drawerStyle: {
+          //     backgroundColor: '#c6cbef',
+          //     width: 240,
+          //   },
+          // }}
         >
           <Stack.Screen name="Dashboard" component={Dashboard} />
 
@@ -165,24 +150,24 @@ const App = (props) => {
             name="SplashScreen"
             component={SplashScreen}
             // options={{ title: "Welcome" }}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, swipeEnabled: false }}
           />
 
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, swipeEnabled: false }}
           />
 
           <Stack.Screen
             name="ForgotPassword"
             component={ForgotPassword}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, swipeEnabled: false }}
           />
           <Stack.Screen
             name="Register"
             component={Register}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, swipeEnabled: false }}
           />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="RoomReservation" component={RoomReservation} />

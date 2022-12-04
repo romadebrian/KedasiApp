@@ -109,12 +109,12 @@ const Dashboard = ({ navigation }) => {
       <ScrollView style={{ position: "relative" }}>
         <View style={{ alignItems: "center", marginBottom: 20 }}>
           {listTransaction.length > 0 ? (
-            listTransaction.map((IDRoom) => {
+            listTransaction.map((IDOrder) => {
               // console.log(IDRoom);
               return (
                 <CardItem
-                  key={IDRoom}
-                  IDRoom={IDRoom}
+                  key={IDOrder}
+                  IDOrder={IDOrder}
                   navigation={navigation}
                 />
               );

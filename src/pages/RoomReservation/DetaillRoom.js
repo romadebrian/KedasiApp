@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 
 import { getDatabase, ref, set, child, get, push } from "firebase/database";
 
+import { FormattingDateTime } from "../../config/formattingDateTime";
+
 const DetaillRoom = ({ route, navigation }) => {
   const globalState = useSelector((state) => state);
   const detialTarget = route.params.ListDetailRoom.find(
@@ -77,13 +79,28 @@ const DetaillRoom = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  const img =
-    detialTarget.img === "room1"
+  // const img =
+  //   detialTarget.img === "room1"
+  //     ? require("../../assets/img/room1.jpg")
+  //     : detialTarget.img === "room2"
+  //     ? require("../../assets/img/room2.jpg")
+  //     : detialTarget.img === "room3"
+  //     ? require(`../../assets/img/room3.jpg`)
+  //     : null;
+
+  var img =
+    detialTarget.img === "room0"
+      ? require("../../assets/img/room0.jpg")
+      : detialTarget.img === "room1"
       ? require("../../assets/img/room1.jpg")
       : detialTarget.img === "room2"
-      ? require("../../assets/img/room2.jpg")
+      ? require(`../../assets/img/room2.jpg`)
       : detialTarget.img === "room3"
       ? require(`../../assets/img/room3.jpg`)
+      : detialTarget.img === "room4"
+      ? require(`../../assets/img/room4.jpg`)
+      : detialTarget.img === "room5"
+      ? require(`../../assets/img/room5.jpg`)
       : null;
 
   const handleBookingPress = () => {
@@ -144,7 +161,7 @@ const DetaillRoom = ({ route, navigation }) => {
     })
       .then(() => {
         // Data saved successfully!
-        ToastAndroid.show("Booking Success", ToastAndroid.SHORT);
+        ToastAndroid.show("Booking Success", ToastAndroid.LONG);
         console.log("Booking Success");
         console.log(
           "send value: ",
@@ -160,6 +177,8 @@ const DetaillRoom = ({ route, navigation }) => {
           "",
           dueDate
         );
+        handleCreateNotification();
+        handleCreateNotificationToAdmin();
 
         navigation.navigate("CheckOut", { orderID: nextOrderId });
       })
@@ -318,6 +337,48 @@ const DetaillRoom = ({ route, navigation }) => {
   const currencyFormating = (val) => {
     let num = parseInt(val);
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  };
+
+  const handleCreateNotification = () => {
+    var idUser = globalState.dataPengguna.uid;
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    console.log(DateTimeNow);
+
+    const db = getDatabase();
+    const addNotification = ref(db, `users/${idUser}/notifikasi`);
+    const newNotificationRef = push(addNotification);
+
+    set(newNotificationRef, {
+      Aksi: "CheckOut",
+      Isi: "Pemesanan ruangan berhasil, pesanan menunggu pembayaran",
+      Judul: "Pemesanan Ruangan Berhasil",
+      Status: "Unread",
+      Target: idUser,
+      Meta_Data: nextOrderId,
+      Date: DateTimeNow,
+    });
+  };
+
+  const handleCreateNotificationToAdmin = () => {
+    var idUser = globalState.dataPengguna.uid;
+    var DateTimeNow = FormattingDateTime(new Date());
+
+    // console.log(DateTimeNow);
+
+    const db = getDatabase();
+    const addNotification = ref(db, `notifikasi`);
+    const newNotificationRef = push(addNotification);
+
+    set(newNotificationRef, {
+      Aksi: "CheckOut",
+      Isi: `Pemesanan ruangan dengan ID ${nextOrderId}`,
+      Judul: "Pemesanan Ruangan",
+      Status: "Unread",
+      Target: idUser,
+      Meta_Data: nextOrderId,
+      Date: DateTimeNow,
+    });
   };
 
   return (
