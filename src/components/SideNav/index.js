@@ -23,7 +23,7 @@ const SideNav = (props) => {
 
   useEffect(() => {
     handleUpdatePhoto();
-    // console.log(globalState);
+    console.log(globalState);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
     //     const uid = user.uid;
@@ -71,7 +71,7 @@ const SideNav = (props) => {
         style={styles.ContainerProfile}
         onPress={() => Nav.navigate("Profile")}
       >
-        {globalState.dataPengguna.photoURL != null || photo != "" ? (
+        {globalState.dataPengguna.photoURL != null ? (
           <Image
             // source={{
             //   uri: globalState.dataPengguna.photoURL + "?" + new Date(),
