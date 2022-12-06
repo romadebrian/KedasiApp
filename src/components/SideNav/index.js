@@ -71,7 +71,7 @@ const SideNav = (props) => {
         style={styles.ContainerProfile}
         onPress={() => Nav.navigate("Profile")}
       >
-        {globalState.dataPengguna.photoURL != null || photo != "" ? (
+        {globalState.dataPengguna.photoURL != null ? (
           <Image
             // source={{
             //   uri: globalState.dataPengguna.photoURL + "?" + new Date(),

@@ -11,11 +11,16 @@ import {
 import React, { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
-import { updateProfile } from "firebase/auth";
+import { auth, CheckCurrentUser } from "../../config/firebase";
+import { getDatabase, ref, update } from "firebase/database";
+import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+
+import { useSelector } from "react-redux";
 
 const Register = ({ navigation }) => {
+  const globalState = useSelector((state) => state);
+
   const [fullName, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,6 +65,8 @@ const Register = ({ navigation }) => {
           const user = userCredential.user;
           console.log("Berhasil");
 
+          handleSetTokenNotification(user.uid);
+
           ToastAndroid.showWithGravityAndOffset(
             "Registration Successful",
             ToastAndroid.LONG,
@@ -68,6 +75,8 @@ const Register = ({ navigation }) => {
             50
           );
 
+          // ToastAndroid.show("Login Successfully", ToastAndroid.LONG);
+
           updateProfile(auth.currentUser, {
             displayName: fullName,
             // photoURL: "https://example.com/jane-q-user/profile.jpg",
@@ -75,11 +84,11 @@ const Register = ({ navigation }) => {
           })
             .then(() => {
               // Profile updated!
-              // ...
+              CheckCurrentUser();
             })
             .catch((error) => {
               // An error occurred
-              // ...
+              console.log(error);
             });
 
           navigation.navigate("Login");
@@ -90,6 +99,25 @@ const Register = ({ navigation }) => {
           console.log("Gagal", errorCode, errorMessage);
         });
   };
+
+  const handleSetTokenNotification = async (userID) => {
+    const db = getDatabase();
+
+    const postData = globalState.someGlobalData.tokenNotif;
+
+    const updates = {};
+    // updates['/posts/' + newPostKey] = postData;
+    updates["users/" + userID + "/" + "TokenNotif"] = postData;
+
+    return update(ref(db), updates)
+      .then(() => {
+        console.log("Data saved successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%" }}>
       <View style={{ alignItems: "center" }}>
