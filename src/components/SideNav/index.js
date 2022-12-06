@@ -23,7 +23,7 @@ const SideNav = (props) => {
 
   useEffect(() => {
     handleUpdatePhoto();
-    console.log(globalState);
+    // console.log(globalState);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
     //     const uid = user.uid;
