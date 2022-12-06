@@ -145,8 +145,8 @@ const Profile = ({ navigation }) => {
     set(ref(db, "users/" + userID), {
       Nama: fullName,
       Email: email,
-      Telepon: phoneNumber,
-      Alamat: address,
+      Telepon: phoneNumber ? phoneNumber : "",
+      Alamat: address ? address : "",
       Profile_Picture: photo,
       TokenNotif: token,
     })
