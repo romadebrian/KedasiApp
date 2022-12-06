@@ -83,10 +83,24 @@ const CardItem = ({ IDOrder, navigation }) => {
     return result;
   };
 
-  const changeFormatDate = (date) => {
-    var D = new Date(date).toLocaleDateString();
-    // console.log(D);
-    return D;
+  const changeFormatDate = (dateData) => {
+    // var D = new Date(dateData).toLocaleDateString();
+    // console.log("log D", Date.parse(dateData));
+
+    const arr = dateData.split("");
+    let totArr = arr.length;
+
+    for (let i = 0; i < totArr; i++) {
+      // console.log(arr[i]);
+      if (arr[i] === "-") {
+        arr[i] = "/";
+      }
+    }
+
+    let joins = arr.join("");
+
+    // console.log("result", joins);
+    return joins;
   };
 
   if (
