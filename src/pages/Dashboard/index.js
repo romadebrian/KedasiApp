@@ -94,6 +94,7 @@ const Dashboard = ({ navigation }) => {
         ListOrder = Data;
       } else {
         console.log("No order found");
+        setListTransaction(Data);
       }
 
       // console.log(Data);
