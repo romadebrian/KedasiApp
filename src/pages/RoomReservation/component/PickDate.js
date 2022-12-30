@@ -111,20 +111,30 @@ const PickDate = ({ route, navigation }) => {
 
         var ListOrder = [];
         await get(DetailOrder).then((snapshot) => {
-          // console.log(snapshot);
+          // console.log(snapshot.exists());
+          if (snapshot.exists()) {
+            snapshot.forEach((childsnapshot) => {
+              ListOrder.push(childsnapshot.val());
 
-          snapshot.forEach((childsnapshot) => {
-            ListOrder.push(childsnapshot.val());
-
-            // console.log(ListOrder[0]);
-            // console.log(childsnapshot.val());
-          });
+              // console.log(ListOrder[0]);
+              // console.log(childsnapshot.val());
+              checkStatusAvaliable();
+            });
+          } else {
+            // if no transaction found, room code will push in avaliable room immediately
+            console.log("No transactions");
+            avalRoom.push(Room);
+          }
 
           // console.log(ListOrder);
         });
 
         console.log("result", ListOrder);
 
+        i++;
+      } while (i < r);
+
+      const checkStatusAvaliable = () => {
         var i2 = 0;
         var statusAvaliable = true;
         // console.log(ListOrder.length);
@@ -144,11 +154,11 @@ const PickDate = ({ route, navigation }) => {
 
           // console.log(from);
 
-          // if Pick Date in inside booking start from Database order
+          // if Pick Date in inside booking start to booking end from Database order
           var result1 =
             pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
 
-          // If Database Booking Date inside of
+          // If Database Booking Date inside of pinck date start and end
           var result2 =
             ConvertBookingDate >= pickDate &&
             ConvertBookingDate <= ResultDateAfterIncresed;
@@ -171,9 +181,7 @@ const PickDate = ({ route, navigation }) => {
 
         console.log("statusAvaliable", statusAvaliable);
         statusAvaliable ? avalRoom.push(Room) : null;
-
-        i++;
-      } while (i < r);
+      };
 
       console.log(avalRoom);
       // setAvaliableRoom(avalRoom);
