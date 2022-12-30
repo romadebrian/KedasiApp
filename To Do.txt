@@ -1,3 +1,7 @@
+tidak bisa order ruangan ketika list ruangan kosong
+
+Updtae profile tambahin item order dan notifikasi
+
 fixing ukuran di emulator
 
 menu casual dan monthly bisa di swipe/slide
@@ -7,6 +11,10 @@ benerin link navigasinya () (untuk order ruangan gak usah)
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
 ganti update profile jadi users/${idUser}/profile
+
+pelanggan bisa cancel pesanan
+
+notifikasi gak sesuai ketika dari lock screen lalu ke aplikasi atau dari dapat, buka aplikasi dulu baru buka notifikasi
 
 === notifikasi config ===
 CheckOut
