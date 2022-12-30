@@ -118,7 +118,62 @@ const PickDate = ({ route, navigation }) => {
 
               // console.log(ListOrder[0]);
               // console.log(childsnapshot.val());
-              checkStatusAvaliable();
+
+              ///// Check Status Avaliable /////
+              var i2 = 0;
+              var statusAvaliable = true;
+              // console.log(ListOrder.length);
+              do {
+                console.log("Order", i2);
+
+                console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
+                console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
+                var bookingDate = ListOrder[i2].TanggalSewa;
+                var dueDate = ListOrder[i2].TanggalSelesai;
+
+                var d1 = bookingDate.split("-");
+                var d2 = dueDate.split("-");
+
+                var ConvertBookingDate = new Date(
+                  d1[2],
+                  parseInt(d1[1]) - 1,
+                  d1[0]
+                ); // -1 because months are from 0 to 11
+                var ConvertDueDate = new Date(
+                  d2[2],
+                  parseInt(d2[1]) - 1,
+                  d2[0]
+                );
+
+                // console.log(from);
+
+                // if Pick Date in inside booking start to booking end from Database order
+                var result1 =
+                  pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
+
+                // If Database Booking Date inside of pinck date start and end
+                var result2 =
+                  ConvertBookingDate >= pickDate &&
+                  ConvertBookingDate <= ResultDateAfterIncresed;
+
+                // var resultStart = check1 >= from && check1 <= to;
+                // var resultStart2 = from >= check1 && from <= check2;
+
+                console.log(result1);
+                console.log(result2);
+
+                // use or (||) operator
+                if (statusAvaliable === true) {
+                  if (result1 === true || result2 === true) {
+                    statusAvaliable = false;
+                  }
+                }
+
+                i2++;
+              } while (i2 < ListOrder.length);
+
+              console.log("statusAvaliable", statusAvaliable);
+              statusAvaliable ? avalRoom.push(Room) : null; // if status avaliable true, add this room for send to list room avaliable
             });
           } else {
             // if no transaction found, room code will push in avaliable room immediately
@@ -133,55 +188,6 @@ const PickDate = ({ route, navigation }) => {
 
         i++;
       } while (i < r);
-
-      const checkStatusAvaliable = () => {
-        var i2 = 0;
-        var statusAvaliable = true;
-        // console.log(ListOrder.length);
-        do {
-          console.log("Order", i2);
-
-          console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
-          console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
-          var bookingDate = ListOrder[i2].TanggalSewa;
-          var dueDate = ListOrder[i2].TanggalSelesai;
-
-          var d1 = bookingDate.split("-");
-          var d2 = dueDate.split("-");
-
-          var ConvertBookingDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
-          var ConvertDueDate = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
-
-          // console.log(from);
-
-          // if Pick Date in inside booking start to booking end from Database order
-          var result1 =
-            pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
-
-          // If Database Booking Date inside of pinck date start and end
-          var result2 =
-            ConvertBookingDate >= pickDate &&
-            ConvertBookingDate <= ResultDateAfterIncresed;
-
-          // var resultStart = check1 >= from && check1 <= to;
-          // var resultStart2 = from >= check1 && from <= check2;
-
-          console.log(result1);
-          console.log(result2);
-
-          // use or (||) operator
-          if (statusAvaliable === true) {
-            if (result1 === true || result2 === true) {
-              statusAvaliable = false;
-            }
-          }
-
-          i2++;
-        } while (i2 < ListOrder.length);
-
-        console.log("statusAvaliable", statusAvaliable);
-        statusAvaliable ? avalRoom.push(Room) : null;
-      };
 
       console.log(avalRoom);
       // setAvaliableRoom(avalRoom);
