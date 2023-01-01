@@ -1,5 +1,3 @@
-Updtae profile tambahin item order dan notifikasi
-
 ketika daftar langsung input data nama, email, dll ke database
 
 fixing ukuran di emulator
