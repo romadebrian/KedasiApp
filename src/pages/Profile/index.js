@@ -142,7 +142,7 @@ const Profile = ({ navigation }) => {
     //
   };
 
-  const HandleSave = () => {
+  const handleSave = () => {
     // console.log(this.props);
 
     const db = getDatabase();
@@ -250,7 +250,7 @@ const Profile = ({ navigation }) => {
             ToastAndroid.show("Foto Uploaded", ToastAndroid.LONG);
 
             setPhoto(downloadURL);
-            HandleSave();
+            handleSave();
           }
         );
         //
@@ -364,7 +364,7 @@ const Profile = ({ navigation }) => {
                 styles.containerButton,
                 { marginRight: 5, backgroundColor: "#007BFF" },
               ]}
-              onPress={HandleSave}
+              onPress={handleSave}
             >
               <Text style={[styles.TxtButton, { color: "white" }]}>SAVE</Text>
             </TouchableOpacity>
