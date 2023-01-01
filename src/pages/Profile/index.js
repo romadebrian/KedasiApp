@@ -48,6 +48,8 @@ const Profile = ({ navigation }) => {
   const [address, setAddress] = useState("");
   const [photo, setPhoto] = useState("");
   const [token, setToken] = useState("");
+  const [notification, setNotification] = useState([]);
+  const [order, setOrder] = useState([]);
 
   useEffect(() => {
     // handleCollectDataUser();
@@ -127,6 +129,8 @@ const Profile = ({ navigation }) => {
           setAddress(data?.Alamat);
           setPhoneNumber(data?.Telepon);
           setToken(data?.TokenNotif);
+          setNotification(data?.notifikasi);
+          setOrder(data?.order);
         } else {
           console.log("No data available");
         }
@@ -149,6 +153,8 @@ const Profile = ({ navigation }) => {
       Alamat: address ? address : "",
       Profile_Picture: photo,
       TokenNotif: token,
+      notifikasi: notification ? notification : [],
+      order: order ? order : [],
     })
       .then(() => {
         // Profile updated!
@@ -289,6 +295,11 @@ const Profile = ({ navigation }) => {
     });
   };
 
+  useEffect(() => {
+    console.log("======", notification);
+    console.log("======", order);
+  }, [notification, order]);
+
   return (
     // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
     <ScrollView>
@@ -378,11 +389,6 @@ const Profile = ({ navigation }) => {
     </ScrollView>
   );
 };
-
-const mapStateToProps = ({ dataPengguna }) => ({
-  // globalState: dataPengguna,
-  dataPengguna,
-});
 
 export default Profile;
 
