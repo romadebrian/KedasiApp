@@ -295,11 +295,6 @@ const Profile = ({ navigation }) => {
     });
   };
 
-  useEffect(() => {
-    console.log("======", notification);
-    console.log("======", order);
-  }, [notification, order]);
-
   return (
     // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
     <ScrollView>
