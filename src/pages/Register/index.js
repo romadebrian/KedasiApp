@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { auth, CheckCurrentUser } from "../../config/firebase";
-import { getDatabase, ref, update } from "firebase/database";
+import { getDatabase, ref, update, set } from "firebase/database";
 import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
 // import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -65,7 +65,8 @@ const Register = ({ navigation }) => {
           const user = userCredential.user;
           console.log("Berhasil");
 
-          handleSetTokenNotification(user.uid);
+          // handleSetTokenNotification(user.uid);
+          handleSaveToDatabase(user.uid);
 
           ToastAndroid.showWithGravityAndOffset(
             "Registration Successful",
@@ -100,21 +101,47 @@ const Register = ({ navigation }) => {
         });
   };
 
-  const handleSetTokenNotification = async (userID) => {
+  // const handleSetTokenNotification = async (userID) => {
+  //   const db = getDatabase();
+
+  //   const postData = globalState.someGlobalData.tokenNotif;
+
+  //   const updates = {};
+  //   // updates['/posts/' + newPostKey] = postData;
+  //   updates["users/" + userID + "/" + "TokenNotif"] = postData;
+
+  //   return update(ref(db), updates)
+  //     .then(() => {
+  //       console.log("Data saved successfully!");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const handleSaveToDatabase = (userID) => {
+    const token = globalState.someGlobalData.tokenNotif;
+
     const db = getDatabase();
-
-    const postData = globalState.someGlobalData.tokenNotif;
-
-    const updates = {};
-    // updates['/posts/' + newPostKey] = postData;
-    updates["users/" + userID + "/" + "TokenNotif"] = postData;
-
-    return update(ref(db), updates)
+    set(ref(db, "users/" + userID), {
+      Nama: fullName,
+      Email: email,
+      Telepon: "",
+      Alamat: "",
+      Profile_Picture: "",
+      TokenNotif: token,
+      notifikasi: [],
+      order: [],
+    })
       .then(() => {
-        console.log("Data saved successfully!");
+        // Profile updated!
+        console.log("Save Sucess");
+        // ToastAndroid.show("Profile Updated Successfully", ToastAndroid.LONG);
       })
       .catch((error) => {
-        console.log(error);
+        // An error occurred
+        console.log("Profile Updated Failled", error);
+        alert("Profile Updated Failled");
       });
   };
 

@@ -1,7 +1,3 @@
-tidak bisa order ruangan ketika list ruangan kosong
-
-Updtae profile tambahin item order dan notifikasi
-
 fixing ukuran di emulator
 
 menu casual dan monthly bisa di swipe/slide

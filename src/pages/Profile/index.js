@@ -48,6 +48,8 @@ const Profile = ({ navigation }) => {
   const [address, setAddress] = useState("");
   const [photo, setPhoto] = useState("");
   const [token, setToken] = useState("");
+  const [notification, setNotification] = useState([]);
+  const [order, setOrder] = useState([]);
 
   useEffect(() => {
     // handleCollectDataUser();
@@ -127,6 +129,8 @@ const Profile = ({ navigation }) => {
           setAddress(data?.Alamat);
           setPhoneNumber(data?.Telepon);
           setToken(data?.TokenNotif);
+          setNotification(data?.notifikasi);
+          setOrder(data?.order);
         } else {
           console.log("No data available");
         }
@@ -138,7 +142,7 @@ const Profile = ({ navigation }) => {
     //
   };
 
-  const HandleSave = () => {
+  const handleSave = () => {
     // console.log(this.props);
 
     const db = getDatabase();
@@ -149,6 +153,8 @@ const Profile = ({ navigation }) => {
       Alamat: address ? address : "",
       Profile_Picture: photo,
       TokenNotif: token,
+      notifikasi: notification ? notification : [],
+      order: order ? order : [],
     })
       .then(() => {
         // Profile updated!
@@ -244,7 +250,7 @@ const Profile = ({ navigation }) => {
             ToastAndroid.show("Foto Uploaded", ToastAndroid.LONG);
 
             setPhoto(downloadURL);
-            HandleSave();
+            handleSave();
           }
         );
         //
@@ -353,7 +359,7 @@ const Profile = ({ navigation }) => {
                 styles.containerButton,
                 { marginRight: 5, backgroundColor: "#007BFF" },
               ]}
-              onPress={HandleSave}
+              onPress={handleSave}
             >
               <Text style={[styles.TxtButton, { color: "white" }]}>SAVE</Text>
             </TouchableOpacity>
@@ -378,11 +384,6 @@ const Profile = ({ navigation }) => {
     </ScrollView>
   );
 };
-
-const mapStateToProps = ({ dataPengguna }) => ({
-  // globalState: dataPengguna,
-  dataPengguna,
-});
 
 export default Profile;
 
