@@ -62,7 +62,7 @@ const Header = (props) => {
           if (snapshot.val()[key].Status === "Unread") {
             i++;
             setNotificationCount(i);
-            console.log(i);
+            // console.log(i);
           } else {
             setNotificationCount(0);
           }
