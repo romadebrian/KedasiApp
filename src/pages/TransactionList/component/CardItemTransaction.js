@@ -115,6 +115,13 @@ const CardItemTransaction = (props) => {
       : setColors("#dc3545");
   };
 
+  useEffect(() => {
+    console.log(dates);
+    if (dates != null) {
+      console.log(new Date(dates).getMonth() + 1);
+    }
+  }, [dates]);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -144,7 +151,7 @@ const CardItemTransaction = (props) => {
               </Text>
 
               <Text style={{ color: "#b8b8b8" }}>
-                {new Date(dates).getMonth()}
+                {new Date(dates).getMonth() + 1}
               </Text>
             </View>
             <View
