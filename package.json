@@ -29,6 +29,7 @@
     "react-native-reanimated": "^2.9.1",
     "react-native-safe-area-context": "^4.3.1",
     "react-native-screens": "^3.15.0",
+    "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0"
@@ -45,6 +46,9 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "moduleNameMapper": {
+    "^react-native$": "<rootDir>/node_modules/react-native"
   },
   "prettier": {
     "arrowParens": "always"
