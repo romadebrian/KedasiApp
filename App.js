@@ -33,14 +33,16 @@ import {
 } from "./src/config/dataUser";
 import store from "./src/config/redux";
 
+import Header from "./src/components/Header";
+import SideNav from "./src/components/SideNav";
+
 import SplashScreen from "./src/pages/SplashScreen";
 import Login from "./src/pages/Login";
 import Register from "./src/pages/Register";
 import ForgotPassword from "./src/pages/ForgotPassword";
 import Dashboard from "./src/pages/Dashboard";
 import Profile from "./src/pages/Profile";
-import Header from "./src/components/Header";
-import SideNav from "./src/components/SideNav";
+
 import RoomReservation from "./src/pages/RoomReservation";
 import PickDate from "./src/pages/RoomReservation/component/PickDate";
 import Room from "./src/pages/RoomReservation/component/Room";
