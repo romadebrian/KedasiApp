@@ -56,116 +56,126 @@ const SideNav = (props) => {
     }
   };
 
-  return (
-    <View style={styles.ContainerSideNav}>
-      <TouchableOpacity onPress={() => Nav.navigate("Dashboard")}>
-        <Image
-          source={LogoNama}
-          style={{ width: 250, height: 55, marginVertical: 20 }}
-        />
-      </TouchableOpacity>
-
-      <View style={{ backgroundColor: "white", width: "100%", height: 1 }} />
-
-      <TouchableOpacity
-        style={styles.ContainerProfile}
-        onPress={() => Nav.navigate("Profile")}
-      >
-        {globalState.dataPengguna.photoURL != null ? (
+  if (globalState.dataPengguna.email === null) {
+    // console.log("Side Nav Di Sembunyikan");
+    // console.log(globalState.dataPengguna.email);
+  } else {
+    // console.log("Side Nav Di Tampilkan");
+    // console.log(globalState.dataPengguna.email);
+    return (
+      <View style={styles.ContainerSideNav}>
+        <TouchableOpacity onPress={() => Nav.navigate("Dashboard")}>
           <Image
-            // source={{
-            //   uri: globalState.dataPengguna.photoURL + "?" + new Date(),
-            // }}
-            source={{
-              uri: photo,
-              cache: "reload",
+            source={LogoNama}
+            style={{ width: 250, height: 55, marginVertical: 20 }}
+          />
+        </TouchableOpacity>
+
+        <View style={{ backgroundColor: "white", width: "100%", height: 1 }} />
+
+        <TouchableOpacity
+          style={styles.ContainerProfile}
+          onPress={() => Nav.navigate("Profile")}
+        >
+          {globalState.dataPengguna.photoURL != null ? (
+            <Image
+              // source={{
+              //   uri: globalState.dataPengguna.photoURL + "?" + new Date(),
+              // }}
+              source={{
+                uri: photo,
+                cache: "reload",
+              }}
+              style={{ width: 50, height: 50, borderRadius: 25 }}
+            />
+          ) : (
+            <Image
+              source={ExampleProfilePicture}
+              style={{ width: 50, height: 50, borderRadius: 25 }}
+            />
+          )}
+
+          <Text style={styles.TxtProfile}>
+            {globalState.dataPengguna?.displayName}
+          </Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            backgroundColor: "white",
+            width: "100%",
+            height: 1,
+            marginBottom: 10,
+          }}
+        />
+
+        <TouchableOpacity
+          style={[styles.ContainerItemMenu, { backgroundColor: "#007BFF" }]}
+          onPress={() => Nav.navigate("RoomReservation")}
+        >
+          <Image
+            source={IconBook}
+            style={{
+              width: 25,
+              height: 25,
+              marginLeft: 15,
+              resizeMode: "stretch",
             }}
-            style={{ width: 50, height: 50, borderRadius: 25 }}
           />
-        ) : (
+          <Text style={styles.TxtItemMenu}>Room Reservation</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.ContainerItemMenu}
+          onPress={() => Nav.navigate("TransactionList")}
+        >
           <Image
-            source={ExampleProfilePicture}
-            style={{ width: 50, height: 50, borderRadius: 25 }}
+            source={IconList}
+            style={{ width: 25, height: 20, marginLeft: 15 }}
           />
-        )}
+          <Text style={styles.TxtItemMenu}>Transaction List</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.TxtProfile}>
-          {globalState.dataPengguna?.displayName}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.ContainerItemMenu}
+          onPress={() => Nav.navigate("Notification")}
+        >
+          <Image
+            source={IconBel}
+            style={{ width: 25, height: 25, marginLeft: 15 }}
+          />
+          <Text style={styles.TxtItemMenu}>Notification</Text>
+        </TouchableOpacity>
 
-      <View
-        style={{
-          backgroundColor: "white",
-          width: "100%",
-          height: 1,
-          marginBottom: 10,
-        }}
-      />
+        <TouchableOpacity
+          style={styles.ContainerItemMenu}
+          onPress={() => Nav.navigate("Message")}
+        >
+          <Image
+            source={IconChat}
+            style={{ width: 30, height: 30, marginLeft: 15 }}
+          />
+          <Text style={styles.TxtItemMenu}>Message</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.ContainerItemMenu, { backgroundColor: "#007BFF" }]}
-        onPress={() => Nav.navigate("RoomReservation")}
-      >
-        <Image
-          source={IconBook}
-          style={{
-            width: 25,
-            height: 25,
-            marginLeft: 15,
-            resizeMode: "stretch",
-          }}
-        />
-        <Text style={styles.TxtItemMenu}>Room Reservation</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.ContainerItemMenu}
-        onPress={() => Nav.navigate("TransactionList")}
-      >
-        <Image
-          source={IconList}
-          style={{ width: 25, height: 20, marginLeft: 15 }}
-        />
-        <Text style={styles.TxtItemMenu}>Transaction List</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.ContainerItemMenu}
-        onPress={() => Nav.navigate("Notification")}
-      >
-        <Image
-          source={IconBel}
-          style={{ width: 25, height: 25, marginLeft: 15 }}
-        />
-        <Text style={styles.TxtItemMenu}>Notification</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.ContainerItemMenu}
-        onPress={() => Nav.navigate("Message")}
-      >
-        <Image
-          source={IconChat}
-          style={{ width: 30, height: 30, marginLeft: 15 }}
-        />
-        <Text style={styles.TxtItemMenu}>Message</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.ContainerItemMenu} onPress={handleLogout}>
-        <Image
-          source={IconLogout}
-          style={{
-            width: 30,
-            height: 30,
-            marginLeft: 15,
-            resizeMode: "stretch",
-          }}
-        />
-        <Text style={styles.TxtItemMenu}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
+        <TouchableOpacity
+          style={styles.ContainerItemMenu}
+          onPress={handleLogout}
+        >
+          <Image
+            source={IconLogout}
+            style={{
+              width: 30,
+              height: 30,
+              marginLeft: 15,
+              resizeMode: "stretch",
+            }}
+          />
+          <Text style={styles.TxtItemMenu}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 };
 
 export default SideNav;
