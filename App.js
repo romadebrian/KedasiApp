@@ -21,16 +21,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { auth, CheckCurrentUser } from "./src/config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 
 import { Provider } from "react-redux";
-import {
-  setUID,
-  setEmail,
-  setName,
-  setPhoneNumber,
-  setPhotoUrl,
-} from "./src/config/dataUser";
 import store from "./src/config/redux";
 
 import Header from "./src/components/Header";
@@ -63,6 +55,7 @@ const Drawer = createDrawerNavigator();
 const App = (props) => {
   const [registerToken, setRegisterToken] = useState("");
   const [fcmRegistered, setFcmRegistered] = useState(false);
+
   // console.log("Props Apps", props);
   // const dispatch = useDispatch();
 
