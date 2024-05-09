@@ -84,7 +84,7 @@ export default CardRoom;
 const styles = StyleSheet.create({
   container: {
     width: "90%",
-    height: 250,
+    // height: 250,
     backgroundColor: "white",
   },
   TxtTitle: {
@@ -118,16 +118,18 @@ const styles = StyleSheet.create({
   },
   containerMoreInfo: {
     backgroundColor: "#4099f7",
-    width: 88,
+    // width: 88,
     height: 25,
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
+    marginRight: 10,
+    paddingRight: 8,
   },
   TxtMoreInfo: {
     color: "white",
     marginLeft: 8,
-    marginRight: 4,
+    marginRight: 10,
     fontFamily: "Poppins",
     fontSize: 12,
     fontWeight: "400",
