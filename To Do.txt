@@ -1,8 +1,4 @@
-hilangkan gambar scrool di daftar paket
-
 fixing ukuran di emulator
-
-menu casual dan monthly bisa di swipe/slide
 
 benerin link navigasinya () (untuk order ruangan gak usah)
 
