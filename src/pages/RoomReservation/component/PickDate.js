@@ -212,7 +212,7 @@ const PickDate = ({ route, navigation }) => {
     <View
       style={{
         alignItems: "center",
-        justifyContent: "center",
+        // justifyContent: "center",
         backgroundColor: "#FEF7EF",
         height: "100%",
       }}
@@ -221,7 +221,7 @@ const PickDate = ({ route, navigation }) => {
         date={pickDate}
         onDateChange={setPickDate}
         mode="date"
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", height: 300, marginTop: 20 }}
       />
       <View
         style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
