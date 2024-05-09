@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 
 import IconCheck from "../../../assets/icon/check-solid.png";
 
-const Casual = (nav) => {
+const Casual = ({ nav }) => {
   useEffect(() => {
     console.log("Log casual", nav);
   });
@@ -18,6 +18,7 @@ const Casual = (nav) => {
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Casual 1" })}
+        // onPress={() => nav.jumpTo("PickDate", { type: "Casual 1" })}
         style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
