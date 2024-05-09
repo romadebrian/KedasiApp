@@ -12,9 +12,13 @@ import IconCheck from "../../../assets/icon/check-solid.png";
 
 const Monthly = ({ nav }) => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Monthly 1" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -66,6 +70,7 @@ const Monthly = ({ nav }) => {
 
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Monthly 2" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -117,6 +122,7 @@ const Monthly = ({ nav }) => {
 
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Monthly 3" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -168,6 +174,7 @@ const Monthly = ({ nav }) => {
 
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Monthly 4" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -225,11 +232,16 @@ const Monthly = ({ nav }) => {
 export default Monthly;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#FEF7EF",
+    alignItems: "center",
+  },
   cardContainer: {
-    width: 300,
-    height: 350,
+    // width: 300,
+    // height: 350,
     backgroundColor: "white",
     marginTop: 10,
+    paddingBottom: 20,
     alignItems: "center",
     borderWidth: 1,
     borderRadius: 10,
