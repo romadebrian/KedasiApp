@@ -15,7 +15,7 @@ const Casual = ({ nav }) => {
     // console.log(nav);
   });
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Casual 1" })}
       >

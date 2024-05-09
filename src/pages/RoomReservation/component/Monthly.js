@@ -12,7 +12,7 @@ import IconCheck from "../../../assets/icon/check-solid.png";
 
 const Monthly = ({ nav }) => {
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Monthly 1" })}
       >
