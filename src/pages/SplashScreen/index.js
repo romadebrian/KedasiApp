@@ -1,10 +1,11 @@
 import { Text, StyleSheet, View, Image } from "react-native";
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Logo from "../../assets/img/Logo&Name.png";
-import { useState } from "react";
 
 const SplashScreen = ({ navigation }) => {
+  const globalState = useSelector((state) => state);
+
   const [isLoad, setIsLoad] = useState(false);
   const [status, setStatus] = useState(0);
   const [widthLoading, setWidthLoading] = useState(0);
@@ -15,6 +16,19 @@ const SplashScreen = ({ navigation }) => {
       statusLoading();
     }
   });
+
+  useEffect(() => {
+    // console.log("Splashscreen log", globalState.dataPengguna.email);
+    if (status === 100) {
+      if (globalState.dataPengguna.email !== null) {
+        // console.log(globalState);
+        navigation.navigate("Dashboard");
+      } else {
+        // console.log(globalState);
+        navigation.navigate("Login");
+      }
+    }
+  }, [globalState, status]);
 
   const statusLoading = () => {
     var i = 0; //  set your counter to 1
@@ -29,8 +43,6 @@ const SplashScreen = ({ navigation }) => {
         i++;
         if (i < 101) {
           myLoop();
-        } else {
-          navigation.navigate("Login");
         }
       }, 0);
     }
