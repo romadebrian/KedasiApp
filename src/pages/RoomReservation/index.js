@@ -1,5 +1,16 @@
 import * as React from "react";
-import { View, useWindowDimensions, StyleSheet } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import {
+  View,
+  useWindowDimensions,
+  StyleSheet,
+  BackHandler,
+} from "react-native";
+
+import store from "../../config/redux";
+import { setCurentPage } from "../../config/someGlobalData";
+
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 import ItemCasual from "./component/Casual";
@@ -21,6 +32,27 @@ const RoomReservation = ({ navigation }) => {
     { key: "casual", title: "Casual" },
     { key: "monthly", title: "Monthly" },
   ]);
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate("Dashboard");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      // console.log(navigation);
+      store.dispatch(setCurentPage("Room Reservation"));
+    })
+  );
 
   const renderTabBar = (props) => (
     <TabBar
