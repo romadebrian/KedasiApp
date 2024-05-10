@@ -9,6 +9,8 @@ import {
   ToastAndroid,
   BackHandler,
   Alert,
+  useWindowDimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,6 +40,7 @@ import { setCurentPage } from "../../config/someGlobalData";
 
 const Profile = ({ navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
+  const layout = useWindowDimensions();
 
   const [isLoad, setIsLoad] = useState(false);
 
@@ -295,9 +298,20 @@ const Profile = ({ navigation }) => {
     });
   };
 
+  console.log("Layout", layout);
+
   return (
     // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
-    <ScrollView>
+    // <ScrollView style={{ backgroundColor: "#FEF7EF", height: 10000 }}>
+
+    // Scrollview gak bisa pakai flex box
+    <ScrollView
+      style={{
+        backgroundColor: "#FEF7EF",
+        flex: 1,
+        flexDirection: "column",
+      }}
+    >
       <View style={styles.containerProfile}>
         <Image source={BackGround} style={{ width: "100%", height: 150 }} />
         <TouchableOpacity
@@ -351,9 +365,15 @@ const Profile = ({ navigation }) => {
           value={address}
           onChangeText={(value) => setAddress(value)}
         />
+      </View>
 
-        <View style={styles.containerFooter}>
-          <View style={{ flexDirection: "row" }}>
+      <View style={styles.containerFooter}>
+        <View style={{ flexDirection: "row", height: 40 }}>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
             <TouchableOpacity
               style={[
                 styles.containerButton,
@@ -389,9 +409,8 @@ export default Profile;
 
 const styles = StyleSheet.create({
   containerProfile: {
-    backgroundColor: "#FEF7EF",
+    // backgroundColor: "#FEF7EF",
     alignItems: "center",
-    height: "100%",
   },
   photoProfile: {
     width: 145,
@@ -425,10 +444,11 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   containerFooter: {
-    // width: 300,
+    // flex: 1,
     marginLeft: "8%",
-    marginBottom: 10,
-    flexDirection: "row",
+    marginBottom: 5,
+    padding: 5,
+    // flexDirection: "column-reverse",
   },
   containerButton: {
     width: 80,
