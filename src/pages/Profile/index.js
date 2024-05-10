@@ -357,7 +357,7 @@ const Profile = ({ navigation }) => {
             <TouchableOpacity
               style={[
                 styles.containerButton,
-                { marginRight: 5, backgroundColor: "#007BFF" },
+                { marginRight: 10, backgroundColor: "#007BFF" },
               ]}
               onPress={handleSave}
             >
@@ -373,7 +373,7 @@ const Profile = ({ navigation }) => {
 
           <View style={{ width: "45%", flexDirection: "row-reverse" }}>
             <TouchableOpacity
-              style={[styles.containerButton, { backgroundColor: "#28A745" }]}
+              style={{ justifyContent: "center" }}
               onPress={handleChangePassword}
             >
               <Text style={styles.TxtBtnChangePassword}>Change Password</Text>
@@ -425,13 +425,15 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   containerFooter: {
-    width: 300,
+    // width: 300,
+    marginLeft: "8%",
     marginBottom: 10,
     flexDirection: "row",
   },
   containerButton: {
     width: 80,
     height: 40,
+    borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -442,7 +444,7 @@ const styles = StyleSheet.create({
   },
   TxtBtnChangePassword: {
     textAlign: "center",
-    color: "white",
+    color: "#4da3ff",
     fontFamily: "Poppins",
     fontWeight: "bold",
     fontSize: 13,
