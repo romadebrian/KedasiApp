@@ -1,38 +1,39 @@
+import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
-  Text,
-  StyleSheet,
   View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
+  useWindowDimensions,
+  StyleSheet,
   BackHandler,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
-
-import Casual from "./component/Casual";
-import Monthly from "./component/Monthly";
-import { useFocusEffect } from "@react-navigation/native";
 
 import store from "../../config/redux";
 import { setCurentPage } from "../../config/someGlobalData";
 
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+
+import ItemCasual from "./component/Casual";
+import ItemMonthly from "./component/Monthly";
+
 const RoomReservation = ({ navigation }) => {
-  const [typeMenu, setTypeMenu] = useState("Casual");
-  const [txtCasual, setTxtCasual] = useState("#007BFF");
-  const [txtMonthly, setTxtMonthly] = useState("black");
-  const [locLineMenu, setLocLineMenu] = useState(35);
+  const layout = useWindowDimensions();
+
+  const RouteCasual = () => <ItemCasual nav={navigation} />;
+  const RouteMonthly = () => <ItemMonthly nav={navigation} />;
+
+  const renderScene = SceneMap({
+    casual: RouteCasual,
+    monthly: RouteMonthly,
+  });
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: "casual", title: "Casual" },
+    { key: "monthly", title: "Monthly" },
+  ]);
 
   useEffect(() => {
-    if (typeMenu === "Casual") {
-      setLocLineMenu(35);
-      setTxtCasual("#007BFF");
-      setTxtMonthly("black");
-    } else {
-      setLocLineMenu(105);
-      setTxtCasual("black");
-      setTxtMonthly("#007BFF");
-    }
-
     const backAction = () => {
       navigation.navigate("Dashboard");
       return true;
@@ -44,7 +45,7 @@ const RoomReservation = ({ navigation }) => {
     );
 
     return () => backHandler.remove();
-  }, [typeMenu]);
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -53,73 +54,32 @@ const RoomReservation = ({ navigation }) => {
     })
   );
 
+  const renderTabBar = (props) => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: "white" }}
+      style={styles.tabBar}
+      activeColor="#007BFF"
+      inactiveColor="#b8ecf5"
+      labelStyle={{ fontSize: 14, fontWeight: "bold" }}
+    />
+  );
+
+  // console.log("Log Roomreservation", navigation);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.containerTypeMenu}>
-        <View style={styles.rowMenu}>
-          <TouchableOpacity onPress={() => setTypeMenu("Casual")}>
-            <Text
-              style={{
-                color: txtCasual,
-                fontSize: 14,
-                fontWeight: "600",
-              }}
-            >
-              Casual
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setTypeMenu("Monthly")}>
-            <Text
-              style={{
-                marginLeft: 25,
-                color: txtMonthly,
-                fontSize: 14,
-                fontWeight: "600",
-              }}
-            >
-              Monthly
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            width: 70,
-            height: 1,
-            backgroundColor: "#007BFF",
-            marginLeft: locLineMenu,
-            marginTop: 10,
-          }}
-        />
-      </View>
-
-      {typeMenu === "Casual" ? (
-        <Casual nav={navigation} />
-      ) : typeMenu === "Monthly" ? (
-        <Monthly nav={navigation} />
-      ) : null}
-    </View>
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+      renderTabBar={renderTabBar}
+    />
   );
 };
 
 export default RoomReservation;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#FEF7EF",
-    alignItems: "center",
-    // height: '100%',
-    flex: 1,
-  },
-  containerTypeMenu: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "white",
-    justifyContent: "center",
-  },
-  rowMenu: {
-    marginLeft: 50,
-    alignItems: "center",
-    flexDirection: "row",
-  },
+  tabBar: { backgroundColor: "white" },
 });

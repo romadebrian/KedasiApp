@@ -129,7 +129,13 @@ const CardItemTransaction = (props) => {
           navigation.navigate("CheckOut", { orderID: dataTansaction.OrderId })
         }
       >
-        <Card>
+        <Card
+          containerStyle={{
+            margin: 0,
+            paddingHorizontal: 2,
+            paddingVertical: 5,
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
@@ -140,6 +146,7 @@ const CardItemTransaction = (props) => {
                 flex: 0.5,
                 alignItems: "center",
                 justifyContent: "center",
+                marginRight: 5,
               }}
             >
               <Text style={{ color: "#b8b8b8" }}>
@@ -163,7 +170,7 @@ const CardItemTransaction = (props) => {
               <Text style={{ color: "#b8b8b8", fontSize: 12 }}>
                 Order: #{dataTansaction?.OrderId}
               </Text>
-              <Text>{dataTansaction?.Paket}</Text>
+              <Text style={{ fontSize: 12 }}>{dataTansaction?.Paket}</Text>
               <Text style={{ color: "#b8b8b8", fontSize: 12 }}>
                 {dataTansaction?.Ruangan}
               </Text>
@@ -185,7 +192,7 @@ const CardItemTransaction = (props) => {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ textAlign: "center", color: colors }}>
+              <Text style={{ textAlign: "center", color: colors, width: 100 }}>
                 {dataTansaction?.Status}
               </Text>
             </View>
@@ -200,8 +207,10 @@ export default CardItemTransaction;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: -8,
-    marginVertical: -5,
+    // flex: 1,
+    width: "100%",
+    // marginHorizontal: -8,
+    // marginVertical: -5,
+    backgroundColor: "red",
   },
 });

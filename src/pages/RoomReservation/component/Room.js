@@ -1,12 +1,11 @@
 import {
-  Text,
   StyleSheet,
   View,
   ScrollView,
   BackHandler,
   LogBox,
 } from "react-native";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardRoom from "../../../components/CardRoom";
 
 const Room = ({ route, navigation }) => {

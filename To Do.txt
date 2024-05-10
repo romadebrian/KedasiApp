@@ -1,11 +1,3 @@
-hilangkan gambar scrool di daftar paket
-
-fixing ukuran di emulator
-
-menu casual dan monthly bisa di swipe/slide
-
-benerin link navigasinya () (untuk order ruangan gak usah)
-
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
 ganti update profile jadi users/${idUser}/profile

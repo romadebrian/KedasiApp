@@ -217,7 +217,7 @@ const CheckOut = ({ route, navigation }) => {
             styles.lineStatusPayment,
             {
               backgroundColor: "#007BFF",
-              left: 55,
+              left: "15%",
             },
           ]}
         />
@@ -227,7 +227,7 @@ const CheckOut = ({ route, navigation }) => {
               styles.lineStatusPayment,
               {
                 backgroundColor: "#007BFF",
-                left: 180,
+                left: "50%",
               },
             ]}
           />
@@ -237,7 +237,7 @@ const CheckOut = ({ route, navigation }) => {
               styles.lineStatusPayment,
               {
                 backgroundColor: "rgba(217, 217, 217, 0.7)",
-                left: 180,
+                left: "50%",
               },
             ]}
           />
@@ -305,7 +305,7 @@ const CheckOut = ({ route, navigation }) => {
       <View style={styles.containerDetail}>
         <Text style={styles.txtTitle}>Transaction Details</Text>
         <View style={styles.containerItemDetail}>
-          <View style={{ flex: 1, height: 100 }}>
+          <View style={{ flex: 1 }}>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
@@ -431,14 +431,14 @@ export default CheckOut;
 const styles = StyleSheet.create({
   containerPaymentStatus: {
     width: "100%",
-    height: 130,
+    // height: 130,
     marginBottom: 10,
     backgroundColor: "white",
     borderBottomColor: "rgba(0, 0, 0, 0.10)",
     borderBottomWidth: 4,
   },
   lineStatusPayment: {
-    width: 125,
+    width: "35%",
     height: 5,
     position: "absolute",
     top: 20,
@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
 
   containerDetail: {
     width: "100%",
-    height: 210,
+    // height: 210,
     backgroundColor: "white",
     marginBottom: 10,
     borderBottomColor: "rgba(0, 0, 0, 0.10)",
@@ -500,12 +500,13 @@ const styles = StyleSheet.create({
 
   containerPaymentMethod: {
     // width: '100%',
-    height: 150,
+    // height: 150,
     backgroundColor: "white",
+    alignItems: "center",
     marginBottom: 10,
+    paddingBottom: 10,
     borderBottomColor: "rgba(0, 0, 0, 0.10)",
     borderBottomWidth: 4,
-    alignItems: "center",
   },
   imgBCA: {
     width: 120,

@@ -123,6 +123,7 @@ const Dashboard = ({ navigation }) => {
           ) : (
             <TouchableOpacity
               onPress={() => navigation.navigate("RoomReservation")}
+              style={{ width: "85%" }}
             >
               <View
                 style={[
@@ -157,14 +158,15 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   ContainerItem: {
-    width: 300,
-    height: 150,
+    // width: 300,
+    // height: 150,
     borderRadius: 10,
     marginTop: 10,
   },
   ContainerItemUnorder: {
-    width: 300,
-    height: 100,
+    // width: "100%",
+    // height: 100,
+    paddingBottom: 20,
     borderRadius: 10,
     marginTop: 10,
   },

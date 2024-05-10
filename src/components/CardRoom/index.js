@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 
 import IconPeople from "../../assets/icon/user-group-solid.png";
 import IconArrow from "../../assets/icon/circle-arrow-right-solid.png";
-import Room1 from "../../assets/img/room1.jpg";
 
 const CardRoom = (props) => {
   // console.log(props.img);
@@ -66,7 +65,7 @@ const CardRoom = (props) => {
         <Text style={styles.TxtDesc}>{props.desc}</Text>
         <View style={styles.containerPeople}>
           <View style={{ flexDirection: "row" }}>
-            <Image source={IconPeople} style={{ width: 20, height: 20 }} />
+            <Image source={IconPeople} style={{ width: 25, height: 20 }} />
             <Text style={styles.TxtPeople}>{props.people}</Text>
           </View>
           <View style={styles.containerMoreInfo}>
@@ -84,7 +83,7 @@ export default CardRoom;
 const styles = StyleSheet.create({
   container: {
     width: "90%",
-    height: 250,
+    // height: 250,
     backgroundColor: "white",
   },
   TxtTitle: {
@@ -118,16 +117,19 @@ const styles = StyleSheet.create({
   },
   containerMoreInfo: {
     backgroundColor: "#4099f7",
-    width: 88,
+    // width: 88,
     height: 25,
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
+    marginRight: 5,
+    marginBottom: 5,
+    paddingRight: 8,
   },
   TxtMoreInfo: {
     color: "white",
     marginLeft: 8,
-    marginRight: 4,
+    marginRight: 10,
     fontFamily: "Poppins",
     fontSize: 12,
     fontWeight: "400",

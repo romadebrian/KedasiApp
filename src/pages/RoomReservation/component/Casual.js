@@ -12,12 +12,17 @@ import IconCheck from "../../../assets/icon/check-solid.png";
 
 const Casual = ({ nav }) => {
   useEffect(() => {
-    // console.log(nav);
+    console.log("Log casual", nav);
   });
   return (
-    <ScrollView>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Casual 1" })}
+        // onPress={() => nav.jumpTo("PickDate", { type: "Casual 1" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -49,6 +54,7 @@ const Casual = ({ nav }) => {
 
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Casual 2" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -84,6 +90,7 @@ const Casual = ({ nav }) => {
 
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Casual 3" })}
+        style={{ width: "80%" }}
       >
         <View style={styles.cardContainer}>
           <Text style={{ fontSize: 10, fontWeight: "400", marginTop: 20 }}>
@@ -125,11 +132,16 @@ const Casual = ({ nav }) => {
 export default Casual;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#FEF7EF",
+    alignItems: "center",
+  },
   cardContainer: {
-    width: 300,
-    height: 250,
+    // width: 300,
+    // height: 250,
     backgroundColor: "white",
     marginTop: 10,
+    paddingBottom: 20,
     alignItems: "center",
     borderWidth: 1,
     borderRadius: 10,
