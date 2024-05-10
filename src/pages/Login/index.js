@@ -59,7 +59,7 @@ const Login = ({ navigation }) => {
       // console.log(globalState);
 
       if (globalState.dataPengguna.email !== null) {
-        // console.log(globalState);
+        console.log("Log Login", globalState);
         navigation.navigate("Dashboard");
       } else {
         // console.log(globalState);
