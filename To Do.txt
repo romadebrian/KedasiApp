@@ -1,7 +1,3 @@
-fixing ukuran di emulator
-
-benerin link navigasinya () (untuk order ruangan gak usah)
-
 di splashscreen jika state global masih loading... dan bukan null/ada data belum bisa navigate
 
 ganti update profile jadi users/${idUser}/profile
