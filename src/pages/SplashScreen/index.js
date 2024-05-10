@@ -18,7 +18,7 @@ const SplashScreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    console.log("Splashscreen log", globalState.dataPengguna.email);
+    // console.log("Splashscreen log", globalState.dataPengguna.email);
     if (status === 100) {
       if (globalState.dataPengguna.email !== null) {
         // console.log(globalState);
