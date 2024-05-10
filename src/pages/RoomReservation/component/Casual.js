@@ -15,7 +15,10 @@ const Casual = ({ nav }) => {
     console.log("Log casual", nav);
   });
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
       <TouchableOpacity
         onPress={() => nav.navigate("PickDate", { type: "Casual 1" })}
         // onPress={() => nav.jumpTo("PickDate", { type: "Casual 1" })}
