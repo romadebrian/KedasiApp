@@ -211,6 +211,6 @@ const styles = StyleSheet.create({
     width: "100%",
     // marginHorizontal: -8,
     // marginVertical: -5,
-    backgroundColor: "red",
+    // backgroundColor: "red",
   },
 });
