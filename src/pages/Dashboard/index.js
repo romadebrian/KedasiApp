@@ -157,13 +157,13 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   ContainerItem: {
-    width: 300,
+    // width: 300,
     height: 150,
     borderRadius: 10,
     marginTop: 10,
   },
   ContainerItemUnorder: {
-    width: 300,
+    // width: 300,
     height: 100,
     borderRadius: 10,
     marginTop: 10,

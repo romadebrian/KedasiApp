@@ -110,6 +110,7 @@ const CardItem = ({ IDOrder, navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate("CheckOut", { orderID: IDOrder })}
+        style={{ width: "100%", alignItems: "center" }}
       >
         <View
           style={[
@@ -143,7 +144,7 @@ export default CardItem;
 
 const styles = StyleSheet.create({
   ContainerItem: {
-    width: 300,
+    width: "85%",
     // height: 150,
     borderRadius: 10,
     marginTop: 10,
