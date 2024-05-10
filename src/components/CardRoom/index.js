@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 
 import IconPeople from "../../assets/icon/user-group-solid.png";
 import IconArrow from "../../assets/icon/circle-arrow-right-solid.png";
-import Room1 from "../../assets/img/room1.jpg";
 
 const CardRoom = (props) => {
   // console.log(props.img);
@@ -66,7 +65,7 @@ const CardRoom = (props) => {
         <Text style={styles.TxtDesc}>{props.desc}</Text>
         <View style={styles.containerPeople}>
           <View style={{ flexDirection: "row" }}>
-            <Image source={IconPeople} style={{ width: 20, height: 20 }} />
+            <Image source={IconPeople} style={{ width: 25, height: 20 }} />
             <Text style={styles.TxtPeople}>{props.people}</Text>
           </View>
           <View style={styles.containerMoreInfo}>
@@ -123,7 +122,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
-    marginRight: 10,
+    marginRight: 5,
+    marginBottom: 5,
     paddingRight: 8,
   },
   TxtMoreInfo: {
