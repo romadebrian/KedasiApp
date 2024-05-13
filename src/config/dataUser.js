@@ -4,7 +4,7 @@ export const dataUser = createSlice({
   name: "dataUser",
   initialState: {
     uid: null,
-    email: "loading...",
+    email: null,
     displayName: null,
     phoneNumber: null,
     photoURL: null,
