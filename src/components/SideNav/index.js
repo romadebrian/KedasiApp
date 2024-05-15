@@ -19,11 +19,9 @@ const SideNav = (props) => {
 
   const globalState = useSelector((state) => state);
   const [photo, setPhoto] = useState("");
-  const [nameFontSize, setNameFontSize] = useState(20);
 
   useEffect(() => {
     handleUpdatePhoto();
-    hanldeNameFontSize();
     // console.log(globalState);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
@@ -54,15 +52,6 @@ const SideNav = (props) => {
     // console.log(globalState.dataPengguna.photoURL);
     if (globalState.dataPengguna.photoURL !== photo) {
       setPhoto(globalState.dataPengguna.photoURL + "?" + new Date());
-    }
-  };
-
-  const hanldeNameFontSize = () => {
-    if (globalState.dataPengguna?.displayName) {
-      if (globalState.dataPengguna?.displayName.length > 15) {
-        let lengthName = globalState.dataPengguna?.displayName.length - 16;
-        setNameFontSize(nameFontSize - lengthName);
-      }
     }
   };
 
@@ -105,14 +94,13 @@ const SideNav = (props) => {
             />
           )}
 
-          <Text
-            numberOfLines={1}
-            style={[styles.TxtProfile, { fontSize: nameFontSize }]}
-          >
-            {/* {globalState.dataPengguna.displayName.length < 15
+          <Text numberOfLines={1} style={styles.TxtProfile}>
+            {globalState.dataPengguna.displayName === null
+              ? null
+              : globalState.dataPengguna?.displayName.length < 14
               ? `${globalState.dataPengguna?.displayName}`
-              : `${globalState.dataPengguna?.displayName.substring(0, 15)}...`} */}
-            {globalState.dataPengguna?.displayName}
+              : `${globalState.dataPengguna?.displayName.substring(0, 14)}...`}
+            {/* {globalState.dataPengguna?.displayName} */}
           </Text>
         </TouchableOpacity>
 
@@ -217,7 +205,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     color: "white",
     fontFamily: "Poppins",
-    // fontSize: 20,
+    fontSize: 20,
     fontWeight: "700",
   },
   ContainerItemMenu: {
