@@ -1,5 +1,7 @@
 import { Text, StyleSheet, View, Image } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 import Logo from "../../assets/img/Logo&Name.png";
 import { useState } from "react";
@@ -16,6 +18,22 @@ const SplashScreen = ({ navigation }) => {
     }
   });
 
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // console.log("Splashscreen log", globalState.dataPengguna.email);
+      if (status === 100) {
+        if (globalState.dataPengguna.email !== null) {
+          // console.log(globalState);
+          navigation.navigate("Dashboard");
+        } else {
+          // console.log(globalState);
+          navigation.navigate("Login");
+        }
+      }
+    }, [globalState, status])
+  );
+
   const statusLoading = () => {
     var i = 0; //  set your counter to 1
     var wid = 0;
@@ -30,7 +48,6 @@ const SplashScreen = ({ navigation }) => {
         if (i < 101) {
           myLoop();
         } else {
-          navigation.navigate("Login");
         }
       }, 0);
     }

@@ -124,7 +124,7 @@ const Profile = ({ navigation }) => {
 
     var user = await globalState.uid;
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `users/${user}`))
+    get(child(dbRef, `users/${user}/profile`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
@@ -149,15 +149,15 @@ const Profile = ({ navigation }) => {
     // console.log(this.props);
 
     const db = getDatabase();
-    set(ref(db, "users/" + userID), {
+    set(ref(db, "users/" + userID + "/profile"), {
       Nama: fullName,
       Email: email,
       Telepon: phoneNumber ? phoneNumber : "",
       Alamat: address ? address : "",
       Profile_Picture: photo,
       TokenNotif: token,
-      notifikasi: notification ? notification : [],
-      order: order ? order : [],
+      // notifikasi: notification ? notification : [],
+      // order: order ? order : [],
     })
       .then(() => {
         // Profile updated!
@@ -298,7 +298,7 @@ const Profile = ({ navigation }) => {
     });
   };
 
-  console.log("Layout", layout);
+  // console.log("Layout", layout);
 
   return (
     // return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;

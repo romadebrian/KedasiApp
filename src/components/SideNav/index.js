@@ -18,7 +18,6 @@ const SideNav = (props) => {
   var Nav = props.navigation;
 
   const globalState = useSelector((state) => state);
-
   const [photo, setPhoto] = useState("");
 
   useEffect(() => {
@@ -95,8 +94,13 @@ const SideNav = (props) => {
             />
           )}
 
-          <Text style={styles.TxtProfile}>
-            {globalState.dataPengguna?.displayName}
+          <Text numberOfLines={1} style={styles.TxtProfile}>
+            {globalState.dataPengguna.displayName === null
+              ? null
+              : globalState.dataPengguna?.displayName.length < 14
+              ? `${globalState.dataPengguna?.displayName}`
+              : `${globalState.dataPengguna?.displayName.substring(0, 14)}...`}
+            {/* {globalState.dataPengguna?.displayName} */}
           </Text>
         </TouchableOpacity>
 

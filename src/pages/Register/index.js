@@ -123,7 +123,7 @@ const Register = ({ navigation }) => {
     const token = globalState.someGlobalData.tokenNotif;
 
     const db = getDatabase();
-    set(ref(db, "users/" + userID), {
+    set(ref(db, "users/" + userID + "/profile"), {
       Nama: fullName,
       Email: email,
       Telepon: "",

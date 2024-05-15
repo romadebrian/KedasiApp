@@ -139,7 +139,7 @@ const Login = ({ navigation }) => {
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
     // updates['/posts/' + newPostKey] = postData;
-    updates["users/" + userID + "/" + "TokenNotif"] = postData;
+    updates["users/" + userID + "/profile/" + "TokenNotif"] = postData;
 
     return update(ref(db), updates)
       .then(() => {
