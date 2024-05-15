@@ -1,5 +1,3 @@
-ganti update profile jadi users/${idUser}/profile
-
 pelanggan bisa cancel pesanan
 
 tgl jatuh tempo, tgl sewa, tanggal selesai simpan di database tanpa di format
