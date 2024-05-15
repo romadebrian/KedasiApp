@@ -39,7 +39,7 @@ export const auth = initializeAuth(app, {
 
 export const CheckCurrentUser = () => {
   onAuthStateChanged(auth, (currentUser) => {
-    // console.log(currentUser);
+    // console.log("log config firebase", currentUser);
 
     // store.dispatch({ type: "SET_DATA", input: currentUser });
     //   const dispatch = useDispatch();
