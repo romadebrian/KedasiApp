@@ -58,13 +58,13 @@ const Login = ({ navigation }) => {
     React.useCallback(() => {
       // console.log(globalState);
 
-      // if (globalState.dataPengguna.email !== null) {
-      //   // console.log("Log Login", globalState);
-      //   navigation.navigate("Dashboard");
-      // } else {
-      //   // console.log(globalState);
-      //   // navigation.navigate("Dashboard");
-      // }
+      if (globalState.dataPengguna.email !== null) {
+        // console.log(globalState);
+        navigation.navigate("Dashboard");
+      } else {
+        // console.log(globalState);
+        // navigation.navigate("Dashboard");
+      }
 
       const onBackPress = () => {
         if (countBack > 0) {
