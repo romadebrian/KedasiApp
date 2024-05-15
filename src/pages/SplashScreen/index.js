@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
 import Logo from "../../assets/img/Logo&Name.png";
-import { useState } from "react";
 
 const SplashScreen = ({ navigation }) => {
+  const globalState = useSelector((state) => state);
+
   const [isLoad, setIsLoad] = useState(false);
   const [status, setStatus] = useState(0);
   const [widthLoading, setWidthLoading] = useState(0);
@@ -17,7 +18,6 @@ const SplashScreen = ({ navigation }) => {
       statusLoading();
     }
   });
-
 
   useFocusEffect(
     React.useCallback(() => {
