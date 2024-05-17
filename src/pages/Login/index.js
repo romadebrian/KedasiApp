@@ -100,6 +100,8 @@ const Login = ({ navigation }) => {
           handleSetTokenNotification(user.uid);
           ToastAndroid.show("Login Successfully", ToastAndroid.LONG);
           console.log("Login Successfully", user);
+          setEmail("");
+          setPassword("");
           navigation.navigate("Dashboard");
         })
         .catch((error) => {
@@ -130,13 +132,8 @@ const Login = ({ navigation }) => {
   const handleSetTokenNotification = async (userID) => {
     const db = getDatabase();
 
-    // A post entry.
     const postData = globalState.someGlobalData.tokenNotif;
 
-    // Get a key for a new Post.
-    // const newPostKey = push(child(ref(db), 'posts')).key;
-
-    // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
     // updates['/posts/' + newPostKey] = postData;
     updates["users/" + userID + "/profile/" + "TokenNotif"] = postData;

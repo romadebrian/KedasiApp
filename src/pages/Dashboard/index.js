@@ -1,24 +1,20 @@
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   ScrollView,
   BackHandler,
   ToastAndroid,
+  RefreshControl,
 } from "react-native";
-import React, { Component, useCallback, useEffect, useState } from "react";
+
 import { useFocusEffect } from "@react-navigation/native";
 
 import { getDatabase, ref, onValue } from "firebase/database";
 
-import { useSelector, connect } from "react-redux";
-
-import { auth } from "../../config/firebase";
-
-import Header from "../../components/Header";
-import SideNav from "../../components/SideNav";
+import { useSelector } from "react-redux";
 import CardItem from "./CardItem";
 
 import store from "../../config/redux";
@@ -29,6 +25,8 @@ const Dashboard = ({ navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [countBack, setCountBack] = useState(1);
   const [listTransaction, setListTransaction] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
+  const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {
     if (isLoad === false) {
@@ -48,10 +46,17 @@ const Dashboard = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       store.dispatch(setCurentPage("Dashboard"));
-      // console.log(globalState);
+      // console.log("log Dashboard globalState", globalState);
+
+      if (currentUser !== globalState.uid) {
+        handleGetListOrder();
+        setCurrentUser(globalState.uid);
+      }
+
       BackHandler.addEventListener("hardwareBackPress", () =>
         handleBackButton()
       );
+
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", () =>
           handleBackButton()
@@ -72,7 +77,7 @@ const Dashboard = ({ navigation }) => {
     return true;
   };
 
-  const handleGetListOrder = () => {
+  const handleGetListOrder = async () => {
     const userID = globalState.uid;
 
     var ListOrder = "";
@@ -104,10 +109,23 @@ const Dashboard = ({ navigation }) => {
     return ListOrder;
   };
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    handleGetListOrder().then(() => setRefreshing(false));
+    // setTimeout(() => {
+    //   setRefreshing(false);
+    // }, 2000);
+  }, []);
+
   return (
     <View style={{ backgroundColor: "#FEF7EF", height: "100%", width: "100%" }}>
       {/* List Order */}
-      <ScrollView style={{ position: "relative" }}>
+      <ScrollView
+        style={{ position: "relative" }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={{ alignItems: "center", marginBottom: 20 }}>
           {listTransaction.length > 0 ? (
             listTransaction.map((IDOrder) => {

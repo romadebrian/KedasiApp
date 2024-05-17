@@ -1,8 +1,8 @@
-pelanggan bisa cancel pesanan
-
 tgl jatuh tempo, tgl sewa, tanggal selesai simpan di database tanpa di format
 
 notifikasi gak sesuai ketika dari lock screen lalu ke aplikasi atau dari dapat, buka aplikasi dulu baru buka notifikasi
+
+perbaiki navigasi checkout "const (route before, ...) => () "
 
 === notifikasi config ===
 CheckOut
