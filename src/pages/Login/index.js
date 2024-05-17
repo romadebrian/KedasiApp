@@ -100,6 +100,8 @@ const Login = ({ navigation }) => {
           handleSetTokenNotification(user.uid);
           ToastAndroid.show("Login Successfully", ToastAndroid.LONG);
           console.log("Login Successfully", user);
+          setEmail("");
+          setPassword("");
           navigation.navigate("Dashboard");
         })
         .catch((error) => {
