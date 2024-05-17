@@ -2,23 +2,17 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   ScrollView,
   BackHandler,
   ToastAndroid,
 } from "react-native";
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { getDatabase, ref, onValue } from "firebase/database";
 
-import { useSelector, connect } from "react-redux";
-
-import { auth } from "../../config/firebase";
-
-import Header from "../../components/Header";
-import SideNav from "../../components/SideNav";
+import { useSelector } from "react-redux";
 import CardItem from "./CardItem";
 
 import store from "../../config/redux";
@@ -29,6 +23,7 @@ const Dashboard = ({ navigation }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [countBack, setCountBack] = useState(1);
   const [listTransaction, setListTransaction] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
     if (isLoad === false) {
@@ -48,10 +43,17 @@ const Dashboard = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       store.dispatch(setCurentPage("Dashboard"));
-      // console.log(globalState);
+      console.log("log Dashboard globalState", globalState);
+
+      if (currentUser !== globalState.uid) {
+        handleGetListOrder();
+        setCurrentUser(globalState.uid);
+      }
+
       BackHandler.addEventListener("hardwareBackPress", () =>
         handleBackButton()
       );
+
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", () =>
           handleBackButton()
