@@ -18,6 +18,8 @@ import {
   set,
   query,
   push,
+  get,
+  update,
 } from "firebase/database";
 
 import IconCheck from "../../assets/icon/check-white.png";
@@ -95,7 +97,7 @@ const CheckOut = ({ route, navigation }) => {
           });
 
           setDataOrder(resultDatabase[0].data);
-          console.log(resultDatabase[0].data);
+          console.log("log checkout result database", resultDatabase[0].data);
           // console.log(snapshot.val()[key]);
 
           return resultDatabase;
@@ -184,9 +186,9 @@ const CheckOut = ({ route, navigation }) => {
     }
   };
 
-  const handleSendPayment = () => {
-    handleCreateNotificationToAdmin();
-  };
+  // const handleSendPayment = () => {
+  //   handleCreateNotificationToAdmin();
+  // };
 
   const handleCreateNotificationToAdmin = () => {
     var idUser = globalState.uid;
@@ -209,197 +211,317 @@ const CheckOut = ({ route, navigation }) => {
     });
   };
 
+  const handleCancelBooking = async (userID) => {
+    const db = getDatabase();
+
+    const getPrimaryKey = () => {
+      return new Promise((resolve) => {
+        const idPesanan = dataOrder.OrderId;
+
+        const db = getDatabase();
+        const DetailOrder = query(
+          ref(db, "order"),
+          orderByChild("OrderId"),
+          equalTo(idPesanan)
+        );
+
+        get(DetailOrder).then((snapshot) => {
+          Object.keys(snapshot.val()).map((key) => {
+            // console.log("get key order", key);
+            resolve(key);
+            return key;
+          });
+        });
+      });
+    };
+
+    const PrimaryKeyOrder = await getPrimaryKey();
+    console.log("PrimaryKeyOrder", PrimaryKeyOrder);
+    // A post entry.
+    const postData = "Batal";
+
+    const updates = {};
+    // updates['/posts/' + newPostKey] = postData;
+    updates["order/" + PrimaryKeyOrder + "/Status"] = "Batal";
+
+    return update(ref(db), updates)
+      .then(() => {
+        // Data saved successfully!
+        console.log("Data saved successfully!");
+      })
+      .catch((error) => {
+        // The write failed...
+      });
+  };
+
   return (
-    <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
-      <View style={styles.containerPaymentStatus}>
-        <View
-          style={[
-            styles.lineStatusPayment,
-            {
-              backgroundColor: "#007BFF",
-              left: "15%",
-            },
-          ]}
-        />
-        {paymentStatus ? (
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ backgroundColor: "#FEF7EF" }}>
+        <View style={styles.containerPaymentStatus}>
           <View
             style={[
               styles.lineStatusPayment,
               {
                 backgroundColor: "#007BFF",
-                left: "50%",
+                left: "15%",
               },
             ]}
           />
-        ) : (
-          <View
-            style={[
-              styles.lineStatusPayment,
-              {
-                backgroundColor: "rgba(217, 217, 217, 0.7)",
-                left: "50%",
-              },
-            ]}
-          />
-        )}
-
-        <View style={styles.containerCrycleStatusPayment}>
-          <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
-          <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
           {paymentStatus ? (
-            <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
+            <View
+              style={[
+                styles.lineStatusPayment,
+                {
+                  backgroundColor: "#007BFF",
+                  left: "50%",
+                },
+              ]}
+            />
           ) : (
             <View
               style={[
-                styles.crycle,
-                { backgroundColor: "rgba(217, 217, 217, 0.7)" },
+                styles.lineStatusPayment,
+                {
+                  backgroundColor: "rgba(217, 217, 217, 0.7)",
+                  left: "50%",
+                },
               ]}
             />
           )}
-        </View>
 
-        <View style={styles.containerIconCheck}>
-          <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-          {paymentStatus ? (
-            <>
-              <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-              <Image source={IconCheck} style={{ width: 10, height: 10 }} />
-            </>
-          ) : null}
-        </View>
+          <View style={styles.containerCrycleStatusPayment}>
+            <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
+            <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
+            {paymentStatus ? (
+              <View style={[styles.crycle, { backgroundColor: "#007BFF" }]} />
+            ) : (
+              <View
+                style={[
+                  styles.crycle,
+                  { backgroundColor: "rgba(217, 217, 217, 0.7)" },
+                ]}
+              />
+            )}
+          </View>
 
-        <View style={styles.containerTextStatusPayment}>
-          <Text>Check Out</Text>
-          <Text>Payment</Text>
-          <Text>Completed</Text>
-        </View>
+          <View style={styles.containerIconCheck}>
+            <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+            {paymentStatus ? (
+              <>
+                <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+                <Image source={IconCheck} style={{ width: 10, height: 10 }} />
+              </>
+            ) : null}
+          </View>
 
-        <View style={[styles.containerDate, { marginTop: 25 }]}>
-          <Text
-            style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-          >
-            Transaction Date
-          </Text>
-          <Text
-            style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-          >
-            {dateOrder}
-            {/* - 23:59 WIB */}
-          </Text>
-        </View>
-        <View style={styles.containerDate}>
-          <Text
-            style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-          >
-            Due Date
-          </Text>
-          <Text
-            style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-          >
-            {dataOrder.JatuhTempo}
-            {/* - 23:59 WIB */}
-          </Text>
-        </View>
-      </View>
+          <View style={styles.containerTextStatusPayment}>
+            <Text>Check Out</Text>
+            <Text>Payment</Text>
+            <Text>Completed</Text>
+          </View>
 
-      <View style={styles.containerDetail}>
-        <Text style={styles.txtTitle}>Transaction Details</Text>
-        <View style={styles.containerItemDetail}>
-          <View style={{ flex: 1 }}>
+          <View style={[styles.containerDate, { marginTop: 25 }]}>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Package
+              Transaction Date
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              Room
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Price
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Duration
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Subtotal
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Check In
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Check Out
+              {dateOrder}
+              {/* - 23:59 WIB */}
             </Text>
           </View>
-          <View style={{ flex: 1, height: 100 }}>
+          <View style={styles.containerDate}>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              {dataOrder?.Paket}
+              Due Date
             </Text>
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              {/* Shared Office Desk  */}
-              {dataOrder?.Ruangan}
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Rp {subTotal}
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              {dataOrder?.JumlahPaket} {typeDuration}
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              Rp {dataOrder?.TotalPembayaran}
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              {dataOrder?.TanggalSewa}
-            </Text>
-            <Text
-              style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
-            >
-              {dataOrder?.TanggalSelesai}
+              {dataOrder.JatuhTempo}
+              {/* - 23:59 WIB */}
             </Text>
           </View>
         </View>
-      </View>
 
-      <View style={styles.containerPaymentMethod}>
-        <Text style={[styles.txtTitle, { width: "100%" }]}>Payment Method</Text>
-        <Image
-          source={require("../../assets/img/bca-bank-central-asia.png")}
-          style={styles.imgBCA}
-        />
-        <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
-        >
+        <View style={styles.containerDetail}>
+          <Text style={styles.txtTitle}>Transaction Details</Text>
+          <View style={styles.containerItemDetail}>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Package
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Room
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Price
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Duration
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Subtotal
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Check In
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Check Out
+              </Text>
+            </View>
+            <View style={{ flex: 1, height: 100 }}>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                {dataOrder?.Paket}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                {/* Shared Office Desk  */}
+                {dataOrder?.Ruangan}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Rp {subTotal}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                {dataOrder?.JumlahPaket} {typeDuration}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                Rp {dataOrder?.TotalPembayaran}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                {dataOrder?.TanggalSewa}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: 12,
+                  fontWeight: "400",
+                }}
+              >
+                {dataOrder?.TanggalSelesai}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containerPaymentMethod}>
+          <Text style={[styles.txtTitle, { width: "100%" }]}>
+            Payment Method
+          </Text>
           <Image
-            source={require("../../assets/icon/pngtree-email-vector-icon-png-image_355828.png")}
-            style={styles.imgMail}
+            source={require("../../assets/img/bca-bank-central-asia.png")}
+            style={styles.imgBCA}
           />
-          <Text>payment@kedasi.co.id</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 30,
+            }}
+          >
+            <Image
+              source={require("../../assets/icon/pngtree-email-vector-icon-png-image_355828.png")}
+              style={styles.imgMail}
+            />
+            <Text>payment@kedasi.co.id</Text>
+          </View>
         </View>
-      </View>
 
+        {dataOrder.Status === "Menunggu Pembayaran" ? (
+          <View style={styles.containerButton}>
+            <TouchableOpacity
+              style={[
+                styles.containerItemButton,
+                { backgroundColor: "#fc3030" },
+              ]}
+              onPress={() => handleCancelBooking()}
+            >
+              <Text style={styles.txtButton}>Cancel Booking</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </ScrollView>
       <View style={styles.containerButton}>
         <TouchableOpacity
           style={[styles.containerItemButton, { backgroundColor: "#4099f7" }]}
@@ -422,7 +544,7 @@ const CheckOut = ({ route, navigation }) => {
           </Text>
         </TouchableOpacity> */}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
