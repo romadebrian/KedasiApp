@@ -128,16 +128,17 @@ const DetaillRoom = ({ route, navigation }) => {
     var duration = route.params.duration;
     var room = route.params.room;
     var paymentStatus = "Menunggu Pembayaran";
-    var startDate = handleFormatingDate(route.params.pickDate);
-    var endDate = handleFormatingDate(route.params.endDate);
+    var dateTransaction = new Date();
+    // var startDate = handleFormatingDate(route.params.pickDate);
+    // var endDate = handleFormatingDate(route.params.endDate);
 
     console.log("Order Id: ", nextOrderId);
     console.log("Paket: ", paket);
     console.log("Jumlah Paket: ", duration);
     console.log("Nama Costumer: ", nameUser);
     console.log("Ruangan: ", room);
-    console.log("Tanggal Mulai: ", startDate);
-    console.log("Tanggal Selesai: ", endDate);
+    console.log("Tanggal Mulai: ", route.params.pickDate);
+    console.log("Tanggal Selesai: ", route.params.endDate);
     console.log("StatusPembayaran: ", paymentStatus);
     console.log("Total Pembayaran", totalPayment);
     console.log("Jatuh Tempo", dueDate);
@@ -152,8 +153,9 @@ const DetaillRoom = ({ route, navigation }) => {
       JumlahPaket: duration,
       NamaPemesan: nameUser,
       Ruangan: room,
-      TanggalSewa: startDate,
-      TanggalSelesai: endDate,
+      TanggalSewa: `${route.params.pickDate}`,
+      TanggalSelesai: `${route.params.endDate}`,
+      TanggalTransaksi: `${dateTransaction}`,
       Status: paymentStatus,
       TotalPembayaran: totalPayment,
       BuktiPembayaran: "",
@@ -170,8 +172,8 @@ const DetaillRoom = ({ route, navigation }) => {
           duration,
           nameUser,
           room,
-          startDate,
-          endDate,
+          route.params.pickDate,
+          route.params.endDate,
           paymentStatus,
           totalPayment,
           "",
@@ -184,6 +186,7 @@ const DetaillRoom = ({ route, navigation }) => {
       })
       .catch((error) => {
         // The write failed...
+        console.log("error", error);
         alert("Gagal Simpan");
       });
   };
@@ -315,7 +318,7 @@ const DetaillRoom = ({ route, navigation }) => {
   };
 
   const handleFormatingDate = (date) => {
-    // console.log("input date ", input);
+    console.log("input date ", date);
     // let date = route.params.pickDate;
 
     // var date = new Date(
