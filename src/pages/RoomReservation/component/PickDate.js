@@ -32,7 +32,7 @@ const PickDate = ({ route, navigation }) => {
   // const [avaliableRoom, setAvaliableRoom] = useState();
 
   useEffect(() => {
-    console.log(route);
+    // console.log(route);
     // console.log(selectedDate);
     // console.log("avaliableRoom", avaliableRoom);
 
@@ -138,24 +138,9 @@ const PickDate = ({ route, navigation }) => {
                 console.log("OrderID", ListOrder[i2]?.OrderId);
                 console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
                 console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
-                var bookingDate = ListOrder[i2].TanggalSewa;
-                var dueDate = ListOrder[i2].TanggalSelesai;
 
-                var d1 = bookingDate.split("-");
-                var d2 = dueDate.split("-");
-
-                var ConvertBookingDate = new Date(
-                  d1[2],
-                  parseInt(d1[1]) - 1,
-                  d1[0]
-                ); // -1 because months are from 0 to 11
-                var ConvertDueDate = new Date(
-                  d2[2],
-                  parseInt(d2[1]) - 1,
-                  d2[0]
-                );
-
-                // console.log(from);
+                var ConvertBookingDate = new Date(ListOrder[i2].TanggalSewa);
+                var ConvertDueDate = new Date(ListOrder[i2].TanggalSelesai);
 
                 // if Pick Date in inside booking start to booking end from Database order
                 var result1 =
@@ -166,9 +151,6 @@ const PickDate = ({ route, navigation }) => {
                 var result2 =
                   ConvertBookingDate >= selectedDate &&
                   ConvertBookingDate <= ResultDateAfterIncresed;
-
-                // var resultStart = check1 >= from && check1 <= to;
-                // var resultStart2 = from >= check1 && from <= check2;
 
                 console.log(result1);
                 console.log(result2);
