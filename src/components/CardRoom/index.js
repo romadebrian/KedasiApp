@@ -16,7 +16,7 @@ const CardRoom = (props) => {
   var nav = props.nav;
 
   useEffect(() => {
-    // console.log(props);
+    // console.log("props CardRoom", props);
     // console.log(props.dataBack.type);
     // console.log(props.dataBack.DataAvalRoom);
   });
