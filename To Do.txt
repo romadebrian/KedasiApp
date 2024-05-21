@@ -1,4 +1,4 @@
-tgl jatuh tempo, tgl sewa, tanggal selesai simpan di database tanpa di format
+perbaiki format waktu di list transaksi
 
 notifikasi gak sesuai ketika dari lock screen lalu ke aplikasi atau dari dapat, buka aplikasi dulu baru buka notifikasi
 
