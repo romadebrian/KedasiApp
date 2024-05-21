@@ -109,12 +109,13 @@ const Dashboard = ({ navigation }) => {
     return ListOrder;
   };
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    handleGetListOrder().then(() => setRefreshing(false));
-    // setTimeout(() => {
-    //   setRefreshing(false);
-    // }, 2000);
+    await handleGetListOrder().then((res) => {
+      if (res) {
+        setRefreshing(false);
+      }
+    });
   }, []);
 
   return (
