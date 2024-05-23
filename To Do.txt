@@ -1,11 +1,3 @@
-notifikasi gak sesuai ketika dari lock screen lalu ke aplikasi atau dari dapat, buka aplikasi dulu baru buka notifikasi
-
-=== notifikasi config ===
-CheckOut
-Chat
-Notification
-
-
 === Pembayaran lewat email dan menggunakan email yang sama dengan akun yang di pakai ====
 di detail transaksi jika sudah bayar tombol upload payment hilang
 
