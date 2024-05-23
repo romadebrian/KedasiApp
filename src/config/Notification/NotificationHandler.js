@@ -11,12 +11,13 @@ class NotificationHandler {
     // console.log("Result onNotification", notification.data.OrderID);
 
     if (typeof this._onNotification === "function") {
+      console.log("on notification = function");
       this._onNotification(notification);
     }
 
-    if (notification.tag != null) {
-      console.log("Di Klik", notification.data);
+    console.log("Notifikasi Tag Null", notification);
 
+    if (notification.userInteraction === true) {
       if (notification.data.Action === "CheckOut") {
         this.Nav.navigate("CheckOut", { orderID: notification.data.OrderID });
       } else if (notification.data.Action === "Chat") {
@@ -26,18 +27,18 @@ class NotificationHandler {
       }
 
       PushNotification.cancelAllLocalNotifications();
-
-      // notification.Navigation.navigate("Profile", {
-      //   screen: "Settings",
-      //   params: { user: "jane" },
-      //   user: {
-      //     id: "jane",
-      //     firstName: "Jane",
-      //     lastName: "Done",
-      //     age: 25,
-      //   },
-      // });
     }
+
+    // notification.Navigation.navigate("Profile", {
+    //   screen: "Settings",
+    //   params: { user: "jane" },
+    //   user: {
+    //     id: "jane",
+    //     firstName: "Jane",
+    //     lastName: "Done",
+    //     age: 25,
+    //   },
+    // });
   }
 
   onRegister(token) {
