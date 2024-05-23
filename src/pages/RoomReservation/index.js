@@ -33,24 +33,24 @@ const RoomReservation = ({ navigation }) => {
     { key: "monthly", title: "Monthly" },
   ]);
 
-  useEffect(() => {
-    const backAction = () => {
-      navigation.navigate("Dashboard");
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);
+  // useEffect(() => {}, []);
 
   useFocusEffect(
     useCallback(() => {
       // console.log(navigation);
       store.dispatch(setCurentPage("Room Reservation"));
+
+      const backAction = () => {
+        navigation.navigate("Dashboard");
+        return true;
+      };
+
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+
+      return () => backHandler.remove();
     })
   );
 
