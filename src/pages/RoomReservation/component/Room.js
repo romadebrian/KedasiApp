@@ -81,6 +81,7 @@ const Room = ({ route, navigation }) => {
       {route.params.DataAvalRoom.map((data) => {
         const dataDetail = dataRoom.find(({ id }) => id === data);
         console.log(dataDetail);
+        console.log("Data list Avaliable Room", data);
         return (
           <CardRoom
             key={data}
@@ -95,7 +96,7 @@ const Room = ({ route, navigation }) => {
               DataAvalRoom: route.params.DataAvalRoom,
               type: route.params.type,
               duration: route.params.duration,
-              pickDate: route.params.pickDate,
+              pickDate: route.params.selectedDate,
               endDate: route.params.endDate,
             }}
           />

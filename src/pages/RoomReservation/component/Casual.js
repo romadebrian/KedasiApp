@@ -12,8 +12,9 @@ import IconCheck from "../../../assets/icon/check-solid.png";
 
 const Casual = ({ nav }) => {
   useEffect(() => {
-    console.log("Log casual", nav);
+    // console.log("Log casual", nav);
   });
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

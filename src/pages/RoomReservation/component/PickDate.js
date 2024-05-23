@@ -26,14 +26,14 @@ import IconSearch from "../../../assets/icon/iconsearch.png";
 import { async } from "@firebase/util";
 
 const PickDate = ({ route, navigation }) => {
-  const [pickDate, setPickDate] = useState(new Date());
+  const [selectedDate, setselectedDate] = useState(new Date());
   const [duration, setDuration] = useState("1");
   // const [endDate, setEndDate] = useState();
   // const [avaliableRoom, setAvaliableRoom] = useState();
 
   useEffect(() => {
-    console.log(route);
-    // console.log(pickDate);
+    // console.log(route);
+    // console.log(selectedDate);
     // console.log("avaliableRoom", avaliableRoom);
 
     const backAction = () => {
@@ -58,7 +58,7 @@ const PickDate = ({ route, navigation }) => {
         },
       ]);
     }
-    // else if (pickDate < new Date()) {
+    // else if (selectedDate < new Date()) {
     //   Alert.alert("Faill", "the date has passed", [{ text: "OK" }]);
     // }
     else {
@@ -68,7 +68,7 @@ const PickDate = ({ route, navigation }) => {
       //   "Fri Jul 1 2023 00:00:00 GMT+0700 (Western Indonesia Time)"
       // );
 
-      var PickerDate = new Date(pickDate);
+      var PickerDate = new Date(selectedDate);
 
       let totDuration = Number(duration); //convert string to number
       var EndOfDate = null;
@@ -93,11 +93,11 @@ const PickDate = ({ route, navigation }) => {
 
       //////////////////// Check one by one with looping////////////////////
       var i = 0;
-      var r = 6; // ROOM 005
+      var r = 6; // total room 005
       const avalRoom = [];
 
       do {
-        console.log("Ruangan", i);
+        console.log("============== Ruangan", i);
 
         //////////////////// Colect data from firebase ////////////////////
         var Room = `ROOM 00${i}`;
@@ -111,53 +111,46 @@ const PickDate = ({ route, navigation }) => {
 
         var ListOrder = [];
         await get(DetailOrder).then((snapshot) => {
-          // console.log(snapshot.exists());
+          console.log("snapshot.exists", snapshot.val());
           if (snapshot.exists()) {
             snapshot.forEach((childsnapshot) => {
-              ListOrder.push(childsnapshot.val());
+              if (
+                childsnapshot.val().Status !== "Batal" &&
+                childsnapshot.val().Status !== "Selesai"
+              ) {
+                // console.log("snapshot.forEach", childsnapshot.val().Status);
+                ListOrder.push(childsnapshot.val());
+              }
 
-              // console.log(ListOrder[0]);
-              // console.log(childsnapshot.val());
+              // console.log("snapshot.forEach", ListOrder);
+              // console.log("snapshot.forEach", childsnapshot.val().Status);
+            });
 
+            console.log("ListOrder", ListOrder);
+
+            if (ListOrder.length > 0) {
               ///// Check Status Avaliable /////
               var i2 = 0;
               var statusAvaliable = true;
               // console.log(ListOrder.length);
               do {
                 console.log("Order", i2);
-
+                console.log("OrderID", ListOrder[i2]?.OrderId);
                 console.log("TanggalSewa", ListOrder[i2].TanggalSewa);
                 console.log("TanggalSelesai", ListOrder[i2].TanggalSelesai);
-                var bookingDate = ListOrder[i2].TanggalSewa;
-                var dueDate = ListOrder[i2].TanggalSelesai;
 
-                var d1 = bookingDate.split("-");
-                var d2 = dueDate.split("-");
-
-                var ConvertBookingDate = new Date(
-                  d1[2],
-                  parseInt(d1[1]) - 1,
-                  d1[0]
-                ); // -1 because months are from 0 to 11
-                var ConvertDueDate = new Date(
-                  d2[2],
-                  parseInt(d2[1]) - 1,
-                  d2[0]
-                );
-
-                // console.log(from);
+                var ConvertBookingDate = new Date(ListOrder[i2].TanggalSewa);
+                var ConvertDueDate = new Date(ListOrder[i2].TanggalSelesai);
 
                 // if Pick Date in inside booking start to booking end from Database order
                 var result1 =
-                  pickDate >= ConvertBookingDate && pickDate <= ConvertDueDate;
+                  selectedDate >= ConvertBookingDate &&
+                  selectedDate <= ConvertDueDate;
 
                 // If Database Booking Date inside of pinck date start and end
                 var result2 =
-                  ConvertBookingDate >= pickDate &&
+                  ConvertBookingDate >= selectedDate &&
                   ConvertBookingDate <= ResultDateAfterIncresed;
-
-                // var resultStart = check1 >= from && check1 <= to;
-                // var resultStart2 = from >= check1 && from <= check2;
 
                 console.log(result1);
                 console.log(result2);
@@ -174,7 +167,7 @@ const PickDate = ({ route, navigation }) => {
 
               console.log("statusAvaliable", statusAvaliable);
               statusAvaliable ? avalRoom.push(Room) : null; // if status avaliable true, add this room for send to list room avaliable
-            });
+            }
           } else {
             // if no transaction found, room code will push in avaliable room immediately
             console.log("No transactions");
@@ -190,7 +183,7 @@ const PickDate = ({ route, navigation }) => {
       } while (i < r);
 
       console.log(avalRoom);
-      // setAvaliableRoom(avalRoom);
+      console.log("selectedDate", selectedDate);
 
       // console.log(avalRoom.length);
       if (avalRoom.length > 0) {
@@ -198,7 +191,7 @@ const PickDate = ({ route, navigation }) => {
           DataAvalRoom: avalRoom,
           type: route.params.type,
           duration: duration,
-          pickDate: pickDate,
+          selectedDate: selectedDate,
           endDate: EndOfDate,
         });
       } else {
@@ -218,8 +211,8 @@ const PickDate = ({ route, navigation }) => {
       }}
     >
       <DatePicker
-        date={pickDate}
-        onDateChange={setPickDate}
+        date={selectedDate}
+        onDateChange={setselectedDate}
         mode="date"
         style={{ backgroundColor: "white", height: 300, marginTop: 20 }}
       />

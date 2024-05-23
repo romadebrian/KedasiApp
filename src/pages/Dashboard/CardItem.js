@@ -1,13 +1,4 @@
-import {
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  BackHandler,
-  ToastAndroid,
-} from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   getDatabase,
@@ -15,7 +6,6 @@ import {
   onValue,
   orderByChild,
   equalTo,
-  get,
   query,
 } from "firebase/database";
 
@@ -70,7 +60,7 @@ const CardItem = ({ IDOrder, navigation }) => {
 
           setDataOrder(resultDatabase[0].data);
           result = resultDatabase[0].data;
-          //   console.log(resultDatabase[0].data);
+          // console.log(resultDatabase[0].data);
           // console.log(snapshot.val()[key]);
 
           return resultDatabase;
@@ -84,22 +74,28 @@ const CardItem = ({ IDOrder, navigation }) => {
   };
 
   const changeFormatDate = (dateData) => {
-    // var D = new Date(dateData).toLocaleDateString();
-    // console.log("log D", Date.parse(dateData));
+    // console.log("log D", dateData);
 
-    const arr = dateData.split("");
-    let totArr = arr.length;
+    // const arr = dateData.split("");
+    // let totArr = arr.length;
 
-    for (let i = 0; i < totArr; i++) {
-      // console.log(arr[i]);
-      if (arr[i] === "-") {
-        arr[i] = "/";
-      }
-    }
+    // for (let i = 0; i < totArr; i++) {
+    //   // console.log(arr[i]);
+    //   if (arr[i] === "-") {
+    //     arr[i] = "/";
+    //   }
+    // }
 
-    let joins = arr.join("");
+    // let joins = arr.join("");
 
-    // console.log("result", joins);
+    var date = new Date(dateData).getDate();
+    var month = new Date(dateData).getMonth();
+    var year = new Date(dateData).getFullYear();
+
+    var joins = date + "/" + month + "/" + year;
+
+    console.log("result joins", joins);
+    console.log(date);
     return joins;
   };
 

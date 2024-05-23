@@ -16,7 +16,10 @@ const CardItemNotification = (props) => {
 
     if (props.Action === "CheckOut") {
       handleSetWasRead();
-      props.navigation.navigate("CheckOut", { orderID: IDorder });
+      props.navigation.navigate("CheckOut", {
+        previous: "TransactionList",
+        orderID: IDorder,
+      });
     } else if (props.Action === "Chat") {
       handleSetWasRead();
       props.navigation.navigate("Message");

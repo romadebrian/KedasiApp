@@ -23,11 +23,11 @@ import {
 } from "firebase/database";
 
 import IconCheck from "../../assets/icon/check-white.png";
-import { async } from "@firebase/util";
 
 import store from "../../config/redux";
 import { setCurentPage } from "../../config/someGlobalData";
 import { useSelector } from "react-redux";
+import Moment from "moment";
 
 const CheckOut = ({ route, navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
@@ -36,12 +36,11 @@ const CheckOut = ({ route, navigation }) => {
   const [dataOrder, setDataOrder] = useState("");
   const [subTotal, setSubTotal] = useState();
   const [typeDuration, setTypeDuration] = useState();
-  const [dateOrder, setDateOrder] = useState();
   const [paymentStatus, setPaymentStatus] = useState(false);
 
   useEffect(() => {
     console.log("route", route);
-    // console.log(dataOrder);
+    console.log(dataOrder);
 
     if (!isLoad) {
       console.log("Didmount");
@@ -51,11 +50,14 @@ const CheckOut = ({ route, navigation }) => {
     }
 
     handlePriceAndDuration();
-    handleGetDateOrder();
     handlePaymentStatus();
 
     const backAction = () => {
-      navigation.navigate("Dashboard");
+      // console.log(route.params?.previous?;
+      // navigation.navigate("Dashboard");
+      route.params.previous
+        ? navigation.navigate(route.params.previous)
+        : navigation.navigate("Dashboard");
       return true;
     };
 
@@ -139,37 +141,29 @@ const CheckOut = ({ route, navigation }) => {
     console.log(paket);
   };
 
-  const handleGetDateOrder = () => {
-    if (dataOrder.JatuhTempo != null) {
-      var dueDate = handleUnFormat(dataOrder.JatuhTempo);
-      dueDate.setDate(dueDate.getDate() - 2);
-      // console.log("Order Date", dueDate);
-      var result = handleFormatingDate(dueDate);
-      setDateOrder(result);
-    }
+  const handleFormatingDateFull = (data) => {
+    // console.log(data);
+
+    Moment.locale("id");
+    const result = Moment(data).format("D MMMM YYYY, h:mm:ss a");
+
+    // const date = new Date(data).getDate();
+    // const month = new Date(data).getMonth();
+    // const year = new Date(data).getFullYear();
+
+    // const result = date + " " + month + " " + year + " " + time;
+
+    return result;
   };
 
-  const handleUnFormat = (date) => {
-    // console.log(dataOrder.JatuhTempo);
-    if (date != null) {
-      // var bookingDate = dataOrder.JatuhTempo;
-      var d1 = date.split("-");
-      var unconverConvertDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+  const handleFormatingDate = (data) => {
+    const date = new Date(data).getDate();
+    const month = new Date(data).getMonth();
+    const year = new Date(data).getFullYear();
 
-      // console.log("UnformatLog", ConvertBookingDate);
-      return unconverConvertDate;
-    }
-  };
+    const result = date + "-" + month + "-" + year;
 
-  const handleFormatingDate = (date) => {
-    let convertDate =
-      date.getDate() +
-      "-" +
-      parseInt(date.getMonth() + 1) +
-      "-" +
-      date.getFullYear();
-
-    return convertDate;
+    return result;
   };
 
   const handlePaymentStatus = () => {
@@ -329,8 +323,7 @@ const CheckOut = ({ route, navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              {dateOrder}
-              {/* - 23:59 WIB */}
+              {handleFormatingDateFull(dataOrder.TanggalTransaksi)}
             </Text>
           </View>
           <View style={styles.containerDate}>
@@ -342,8 +335,7 @@ const CheckOut = ({ route, navigation }) => {
             <Text
               style={{ fontFamily: "Poppins", fontSize: 12, fontWeight: "400" }}
             >
-              {dataOrder.JatuhTempo}
-              {/* - 23:59 WIB */}
+              {handleFormatingDateFull(dataOrder.JatuhTempo)}
             </Text>
           </View>
         </View>
@@ -470,7 +462,7 @@ const CheckOut = ({ route, navigation }) => {
                   fontWeight: "400",
                 }}
               >
-                {dataOrder?.TanggalSewa}
+                {handleFormatingDate(dataOrder.TanggalSewa)}
               </Text>
               <Text
                 style={{
@@ -479,7 +471,7 @@ const CheckOut = ({ route, navigation }) => {
                   fontWeight: "400",
                 }}
               >
-                {dataOrder?.TanggalSelesai}
+                {handleFormatingDate(dataOrder.TanggalSelesai)}
               </Text>
             </View>
           </View>

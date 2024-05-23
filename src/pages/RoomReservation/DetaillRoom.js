@@ -28,7 +28,24 @@ const DetaillRoom = ({ route, navigation }) => {
   const [nextOrderId, setNextOrderId] = useState("");
   const [paket, setPaket] = useState("");
   const [totalPayment, setTotalPayment] = useState("");
-  const [dueDate, setDueDate] = useState("");
+
+  var img =
+    detialTarget.img === "room0"
+      ? require("../../assets/img/room0.jpg")
+      : detialTarget.img === "room1"
+      ? require("../../assets/img/room1.jpg")
+      : detialTarget.img === "room2"
+      ? require(`../../assets/img/room2.jpg`)
+      : detialTarget.img === "room3"
+      ? require(`../../assets/img/room3.jpg`)
+      : detialTarget.img === "room4"
+      ? require(`../../assets/img/room4.jpg`)
+      : detialTarget.img === "room5"
+      ? require(`../../assets/img/room5.jpg`)
+      : null;
+
+  // var img = require(`../../assets/img/${detialTarget.img}.jpg`);
+  // const img = require(`../../assets/img/room1.jpg`);
 
   useEffect(() => {
     console.log(route.params.room);
@@ -43,7 +60,6 @@ const DetaillRoom = ({ route, navigation }) => {
       handleTypePaket();
 
       handleGetOrderID();
-      handleDueDate();
 
       // handleFormatingDate();
 
@@ -79,30 +95,6 @@ const DetaillRoom = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  // const img =
-  //   detialTarget.img === "room1"
-  //     ? require("../../assets/img/room1.jpg")
-  //     : detialTarget.img === "room2"
-  //     ? require("../../assets/img/room2.jpg")
-  //     : detialTarget.img === "room3"
-  //     ? require(`../../assets/img/room3.jpg`)
-  //     : null;
-
-  var img =
-    detialTarget.img === "room0"
-      ? require("../../assets/img/room0.jpg")
-      : detialTarget.img === "room1"
-      ? require("../../assets/img/room1.jpg")
-      : detialTarget.img === "room2"
-      ? require(`../../assets/img/room2.jpg`)
-      : detialTarget.img === "room3"
-      ? require(`../../assets/img/room3.jpg`)
-      : detialTarget.img === "room4"
-      ? require(`../../assets/img/room4.jpg`)
-      : detialTarget.img === "room5"
-      ? require(`../../assets/img/room5.jpg`)
-      : null;
-
   const handleBookingPress = () => {
     Alert.alert("Confirmation", "Are you sure you want to book a room?", [
       {
@@ -128,18 +120,21 @@ const DetaillRoom = ({ route, navigation }) => {
     var duration = route.params.duration;
     var room = route.params.room;
     var paymentStatus = "Menunggu Pembayaran";
-    var startDate = handleFormatingDate(route.params.pickDate);
-    var endDate = handleFormatingDate(route.params.endDate);
+
+    const dateTransaction = new Date();
+    const dueDate = new Date(dateTransaction);
+    dueDate.setDate(dateTransaction.getDate() + 2);
 
     console.log("Order Id: ", nextOrderId);
     console.log("Paket: ", paket);
     console.log("Jumlah Paket: ", duration);
     console.log("Nama Costumer: ", nameUser);
     console.log("Ruangan: ", room);
-    console.log("Tanggal Mulai: ", startDate);
-    console.log("Tanggal Selesai: ", endDate);
+    console.log("Tanggal Mulai: ", route.params.pickDate);
+    console.log("Tanggal Selesai: ", route.params.endDate);
     console.log("StatusPembayaran: ", paymentStatus);
     console.log("Total Pembayaran", totalPayment);
+    console.log("Tanggal Transaksi", dateTransaction);
     console.log("Jatuh Tempo", dueDate);
 
     const db = getDatabase();
@@ -152,12 +147,13 @@ const DetaillRoom = ({ route, navigation }) => {
       JumlahPaket: duration,
       NamaPemesan: nameUser,
       Ruangan: room,
-      TanggalSewa: startDate,
-      TanggalSelesai: endDate,
+      TanggalSewa: `${route.params.pickDate}`,
+      TanggalSelesai: `${route.params.endDate}`,
+      TanggalTransaksi: `${dateTransaction}`,
       Status: paymentStatus,
       TotalPembayaran: totalPayment,
       BuktiPembayaran: "",
-      JatuhTempo: dueDate,
+      JatuhTempo: `${dueDate}`,
     })
       .then(() => {
         // Data saved successfully!
@@ -170,11 +166,12 @@ const DetaillRoom = ({ route, navigation }) => {
           duration,
           nameUser,
           room,
-          startDate,
-          endDate,
+          route.params.pickDate,
+          route.params.endDate,
           paymentStatus,
           totalPayment,
           "",
+          dateTransaction,
           dueDate
         );
         handleCreateNotification();
@@ -184,6 +181,7 @@ const DetaillRoom = ({ route, navigation }) => {
       })
       .catch((error) => {
         // The write failed...
+        console.log("error", error);
         alert("Gagal Simpan");
       });
   };
@@ -295,43 +293,6 @@ const DetaillRoom = ({ route, navigation }) => {
 
     // can't call "totalPayment because useState"
     // return console.log("Total Payment", totalPayment);
-  };
-
-  const handleDueDate = () => {
-    var dateNow = new Date();
-
-    // add a day
-    dateNow.setDate(dateNow.getDate() + 2);
-
-    console.log("Due Date", dateNow);
-
-    // return new Promise((resolve) => {
-    //   resolve(dateNow);
-    // });
-
-    var result = handleFormatingDate(dateNow);
-
-    return setDueDate(result);
-  };
-
-  const handleFormatingDate = (date) => {
-    // console.log("input date ", input);
-    // let date = route.params.pickDate;
-
-    // var date = new Date(
-    //   "Wed Aug 24 2022 14:45:03 GMT+0700 (Western Indonesia Time)"
-    // );
-
-    let convertDate =
-      date.getDate() +
-      "-" +
-      parseInt(date.getMonth() + 1) +
-      "-" +
-      date.getFullYear();
-
-    // console.log("Result Formating ", convertDate);
-    // setConvertTglMulai(convertDate);
-    return convertDate;
   };
 
   const currencyFormating = (val) => {
