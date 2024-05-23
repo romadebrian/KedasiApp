@@ -53,7 +53,11 @@ const CheckOut = ({ route, navigation }) => {
     handlePaymentStatus();
 
     const backAction = () => {
-      navigation.navigate("Dashboard");
+      // console.log(route.params?.previous?;
+      // navigation.navigate("Dashboard");
+      route.params.previous
+        ? navigation.navigate(route.params.previous)
+        : navigation.navigate("Dashboard");
       return true;
     };
 

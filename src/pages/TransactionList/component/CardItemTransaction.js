@@ -100,7 +100,10 @@ const CardItemTransaction = (props) => {
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("CheckOut", { orderID: dataTansaction.OrderId })
+          navigation.navigate("CheckOut", {
+            previous: "TransactionList",
+            orderID: dataTansaction.OrderId,
+          })
         }
       >
         <Card
