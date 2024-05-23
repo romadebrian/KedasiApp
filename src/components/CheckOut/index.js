@@ -140,10 +140,8 @@ const CheckOut = ({ route, navigation }) => {
   const handleFormatingDateFull = (data) => {
     // console.log(data);
 
-    Moment.locale("en");
-    const timeZone = "Asia/Jakarta";
-    const time = new Date(data).toLocaleString("en-US", { timeZone });
-    const result = Moment(data).format("d MMM");
+    Moment.locale("id");
+    const result = Moment(data).format("D MMMM YYYY, h:mm:ss a");
 
     // const date = new Date(data).getDate();
     // const month = new Date(data).getMonth();
