@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, Card, Button, Icon } from "@rneui/themed";
 import {
@@ -13,9 +7,7 @@ import {
   onValue,
   orderByChild,
   equalTo,
-  get,
   query,
-  child,
 } from "firebase/database";
 
 const CardItemTransaction = (props) => {
@@ -78,28 +70,10 @@ const CardItemTransaction = (props) => {
 
     if (Status === "Active" || Status === "Selesai") {
       var date = dataDetail.TanggalSelesai;
-      var unconvert = handleUnFormat(date);
-      // var day = unconvert.getDate();
-      console.log(unconvert);
-      setDates(new Date(unconvert));
+      setDates(new Date(date));
     } else if (Status === "Menunggu Pembayaran" || Status === "Batal") {
       var date = dataDetail.JatuhTempo;
-      var unconvert = handleUnFormat(date);
-      // var day = unconvert.getDate();
-      console.log(unconvert);
-      setDates(new Date(unconvert));
-    }
-  };
-
-  const handleUnFormat = (date) => {
-    // console.log(dataOrder.JatuhTempo);
-    if (date != null) {
-      // var bookingDate = dataOrder.JatuhTempo;
-      var d1 = date.split("-");
-      var unconverConvertDate = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
-
-      // console.log("UnformatLog", ConvertBookingDate);
-      return unconverConvertDate;
+      setDates(new Date(date));
     }
   };
 
