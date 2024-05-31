@@ -6,15 +6,15 @@ My Thesis Project
 
 ### Login
 
-<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Login.jpg" />
+<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Login.jpg" width=300 height=533 />
 
 ### Register
 
-<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" />
+<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" width=300 height=533 />
 
 ### Dashboard
 
-<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Dashboard.jpg" />
+<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Dashboard.jpg" width=300 height=533s />
 
 ### Profile
 
