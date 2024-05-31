@@ -5,14 +5,14 @@ My Thesis Project
 # Screenshot
 
 <div>
-### Login
-
-<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Login.jpg" width=300 height=533 />
-
-### Register
-
-<img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" width=300 height=533 />
-
+  <span>
+    <h1>Login</h1>
+    <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Login.jpg" width=300 height=533 />
+  </span>
+  <span>
+    <h1>Register</h1>
+    <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" width=300 height=533 />
+  </span>
 </div>
 
 ### Dashboard
