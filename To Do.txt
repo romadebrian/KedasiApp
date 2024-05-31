@@ -1,7 +1,10 @@
 hide header and side nav. change to back previous 
-- [ ]  
+- [ ]  pick date
+- [ ]  list avaliable room
+- [ ]  detail room
 
-- [ ]  Pembayaran lewat email dan menggunakan email yang sama dengan akun yang di pakai di detail transaksi jika sudah bayar tombol upload payment hilang
+====  Pembayaran lewat email dan menggunakan email yang sama dengan akun yang di pakai 
+      di detail transaksi jika sudah bayar tombol upload payment hilang ====
 
 
 note :
