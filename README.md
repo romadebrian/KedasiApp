@@ -4,6 +4,7 @@ My Thesis Project
 
 # Screenshot
 
+<div>
 ### Login
 
 <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Login.jpg" width=300 height=533 />
@@ -11,6 +12,8 @@ My Thesis Project
 ### Register
 
 <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" width=300 height=533 />
+
+</div>
 
 ### Dashboard
 
