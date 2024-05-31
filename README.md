@@ -26,5 +26,5 @@ gradlew assembleRelease && gradlew bundleRelease
 
 android/app/build/outputs/apk/relese
 
-## tool
+## Tool
 react native, redux, firebase
