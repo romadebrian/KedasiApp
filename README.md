@@ -19,11 +19,12 @@ My Thesis Project
     <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Chat.jpg" width=300 height=600 />
 </div>
 
-
-
 # Create APK
 
 cd android (/android)
 gradlew assembleRelease && gradlew bundleRelease
 
 android/app/build/outputs/apk/relese
+
+## tool
+react native, redux, firebase
