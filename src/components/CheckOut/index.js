@@ -27,7 +27,8 @@ import IconCheck from "../../assets/icon/check-white.png";
 import store from "../../config/redux";
 import { setCurentPage } from "../../config/someGlobalData";
 import { useSelector } from "react-redux";
-import Moment from "moment";
+
+import { FormattingDateTime } from "../../config/formattingDateTime";
 
 const CheckOut = ({ route, navigation }) => {
   const globalState = useSelector((state) => state.dataPengguna);
@@ -144,14 +145,60 @@ const CheckOut = ({ route, navigation }) => {
   const handleFormatingDateFull = (data) => {
     // console.log(data);
 
-    Moment.locale("id");
-    const result = Moment(data).format("D MMMM YYYY, h:mm:ss a");
+    // Moment.locale("id");
+    // const result = Moment(data).format("D MMMM YYYY, h:mm:ss a");
 
     // const date = new Date(data).getDate();
     // const month = new Date(data).getMonth();
     // const year = new Date(data).getFullYear();
+    // const time = new Date(data).toTimeString();
 
-    // const result = date + " " + month + " " + year + " " + time;
+    // const result = date + " " + month + " " + year + " ";
+
+    const date = new Date(data);
+
+    var strArray = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    var d = date.getDate();
+    var m = strArray[date.getMonth()];
+    var y = date.getFullYear();
+
+    function addZero(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
+
+    let jam = addZero(date.getHours());
+    let menit = addZero(date.getMinutes());
+    let detik = addZero(date.getSeconds());
+    let time = jam + ":" + menit + ":" + detik;
+    let ampm = jam >= 12 ? "pm" : "am";
+
+    const result =
+      "" +
+      (d <= 9 ? "0" + d : d) +
+      " " +
+      m +
+      " " +
+      y +
+      ", " +
+      time +
+      " " +
+      ampm;
 
     return result;
   };
@@ -184,26 +231,26 @@ const CheckOut = ({ route, navigation }) => {
   //   handleCreateNotificationToAdmin();
   // };
 
-  const handleCreateNotificationToAdmin = () => {
-    var idUser = globalState.uid;
-    var DateTimeNow = FormattingDateTime(new Date());
+  // const handleCreateNotificationToAdmin = () => {
+  //   var idUser = globalState.uid;
+  //   var DateTimeNow = FormattingDateTime(new Date());
 
-    // console.log(DateTimeNow);
+  //   // console.log(DateTimeNow);
 
-    const db = getDatabase();
-    const addNotification = ref(db, `notifikasi`);
-    const newNotificationRef = push(addNotification);
+  //   const db = getDatabase();
+  //   const addNotification = ref(db, `notifikasi`);
+  //   const newNotificationRef = push(addNotification);
 
-    set(newNotificationRef, {
-      Aksi: "Chat",
-      Isi: "Anda mendapat pesan baru",
-      Judul: "Pesan Baru",
-      Status: "Unread",
-      Target: idUser,
-      Meta_Data: idUser,
-      Date: DateTimeNow,
-    });
-  };
+  //   set(newNotificationRef, {
+  //     Aksi: "Chat",
+  //     Isi: "Anda mendapat pesan baru",
+  //     Judul: "Pesan Baru",
+  //     Status: "Unread",
+  //     Target: idUser,
+  //     Meta_Data: idUser,
+  //     Date: DateTimeNow,
+  //   });
+  // };
 
   const handleCancelBooking = async (userID) => {
     const db = getDatabase();
