@@ -8,10 +8,11 @@ My Thesis Project
   <div>
     <h1>Login</h1>
     <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Login.jpg" width=300 height=533 />
+    <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" width=300 height=533 />
   </div>
   <div>
     <h1>Register</h1>
-    <img src="https://github.com/romadebrian/KedasiApp/blob/main/sreenshot/Register.jpg" width=300 height=533 />
+    
   </div>
 </div>
 
